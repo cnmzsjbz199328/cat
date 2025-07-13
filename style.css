@@ -322,6 +322,8 @@ textarea#input:focus {
 #slideshow { 
   display: flex; 
   flex-direction: row; 
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 /* 添加一些散落的装饰元素 */
