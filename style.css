@@ -71,7 +71,7 @@
 body { 
   font-family: 'Space Mono', monospace; 
   padding: 20px; 
-  background-color: #f8f9fa; 
+  background-color: #ffffff; 
   color: #343a40; 
   line-height: 1.6; 
 }
@@ -435,6 +435,13 @@ position: relative;
   height: 320px; 
   width: 320px; 
   object-fit: contain; 
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+/* 图片黑白滤镜效果 */
+.slide:hover img {
+  filter: grayscale(0%);
 }
 
 #error { 
@@ -565,7 +572,7 @@ position: relative;
   position: relative;
 }
 
-/* 响应式设计 */
+/* 移动端适配 */
 @media (max-width: 768px) {
   .header-controls {
     flex-direction: column;

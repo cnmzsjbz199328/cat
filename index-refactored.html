@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Explain Things with Lots of Tiny Animals</title>
+    <title>Explain Things with Lots of Tiny Animals (Refactored)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Kalam:wght@300;400;700&family=Caveat:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=ZCOOL+XiaoWei&family=Long+Cang&family=Ma+Shan+Zheng&family=Nanum+Pen+Script&family=Gaegu&family=Noto+Sans+JP:wght@400;700&family=Kosugi+Maru&family=Zen+Kurenaido&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@300;400&display=swap">
@@ -16,6 +16,8 @@
       }
     }
   </script>
+  <!-- html2canvas for downloading slides -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
@@ -90,6 +92,7 @@
 
     <script src="translations.js"></script>
     <!-- 组件文件 -->
+    <script src="components/DownloadUtils.js"></script>
     <script src="components/LanguageManager.js"></script>
     <script src="components/ErrorHandler.js"></script>
     <script src="components/ImageUploadManager.js"></script>
