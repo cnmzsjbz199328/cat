@@ -1,0 +1,636 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Kalam:wght@300;400;700&family=Caveat:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=ZCOOL+XiaoWei&family=Long+Cang&family=Ma+Shan+Zheng&family=Nanum+Pen+Script&family=Gaegu&family=Noto+Sans+JP:wght@400;700&family=Kosugi+Maru&family=Zen+Kurenaido&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@300;400&display=swap');
+
+/* 多语言字体定义 - 龙藏体优先版本 */
+:root {
+  --font-handwriting-en: 'Caveat', 'Kalam', 'Indie Flower', cursive;
+  --font-handwriting-zh: 'Long Cang', 'ZCOOL XiaoWei', 'STYuanti', '华文圆体', 'STCaiyun', '华文彩云', 'KaiTi', cursive;
+  --font-handwriting-ja: 'Zen Kurenaido', 'Kosugi Maru', 'Noto Sans JP', 'Yu Gothic', '游ゴシック', cursive;
+  --font-handwriting-ko: 'Nanum Pen Script', 'Gaegu', 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', cursive;
+  --font-mono: 'Space Mono', monospace;
+}
+
+/* 语言特定的字体类 - 增强版 */
+.font-handwriting-en {
+  font-family: 'Caveat', 'Kalam', 'Indie Flower', cursive;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.font-handwriting-zh {
+  font-family: 'Long Cang', 'ZCOOL XiaoWei', 'STYuanti', '华文圆体', 'STCaiyun', '华文彩云', 'KaiTi', cursive;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.font-handwriting-ja {
+  font-family: 'Zen Kurenaido', 'Kosugi Maru', 'Noto Sans JP', 'Yu Gothic', '游ゴシック', 'Hiragino Sans', cursive;
+  font-weight: 400;
+  letter-spacing: 0.8px;
+}
+
+.font-handwriting-ko {
+  font-family: 'Nanum Pen Script', 'Gaegu', 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', cursive;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+/* 强制字体应用 - 如果Google Fonts不工作 */
+.font-handwriting-zh div,
+.font-handwriting-zh {
+  font-family: 'Long Cang', 'ZCOOL XiaoWei', 'STYuanti', '华文圆体', 'STCaiyun', '华文彩云', 'KaiTi', cursive !important;
+  font-weight: 300;
+  font-style: italic;
+  transform: rotate(-0.2deg);
+  letter-spacing: 2px;
+}
+
+.font-handwriting-ko div,
+.font-handwriting-ko {
+  font-family: 'Nanum Pen Script', 'Gaegu', 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', cursive !important;
+  font-style: italic;
+  transform: rotate(0.2deg);
+}
+
+.font-handwriting-ja div,
+.font-handwriting-ja {
+  font-family: 'Zen Kurenaido', 'Kosugi Maru', 'Noto Sans JP', 'Yu Gothic', '游ゴシック', cursive !important;
+  font-style: italic;
+}
+
+.font-handwriting-en div,
+.font-handwriting-en {
+  font-family: 'Caveat', 'Kalam', 'Indie Flower', cursive !important;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+body { 
+  font-family: 'Space Mono', monospace; 
+  padding: 20px; 
+  background-color: #f8f9fa; 
+  color: #343a40; 
+  line-height: 1.6; 
+}
+
+.container { 
+  max-width: 1200px; 
+  margin: 20px auto; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 20px; 
+}
+
+h1 { 
+  margin-bottom: 20px; 
+  color: #212529; 
+  text-align: center; 
+}
+
+.header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.language-selector {
+  display: flex;
+  gap: 8px;
+}
+
+.language-btn {
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #495057;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.language-btn:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.language-btn.active {
+  background-color: #1c7ed6;
+  color: #fff;
+  border-color: #1c7ed6;
+}
+
+.input-area { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+  margin-top: 20px; 
+  padding-top: 20px; 
+  border-top: 1px solid #dee2e6; 
+}
+
+#examples { 
+  list-style: none; 
+  padding: 0; 
+  cursor: pointer; 
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content: center; 
+  gap: 10px; 
+}
+
+#examples li { 
+  padding: 10px 15px; 
+  border: 1px solid #dee2e6; 
+  border-radius: 20px; 
+  background-color: #fff; 
+  transition: background-color 0.2s, border-color 0.2s; 
+  font-size: 14px; 
+}
+
+#examples li:hover { 
+  background-color: #e9ecef; 
+  border-color: #adb5bd; 
+}
+
+.prompt-box { 
+  display: flex; 
+  gap: 15px; 
+  align-items: flex-start; 
+  border: 1px solid #ced4da; 
+  border-radius: 8px; 
+  padding: 10px; 
+  background-color: #fff; 
+  transition: border-color 0.2s, box-shadow 0.2s; 
+}
+
+.prompt-box:focus-within { 
+  outline: none; 
+  border-color: #1c7ed6; 
+  box-shadow: 0 0 0 3px rgba(28, 126, 214, 0.2); 
+}
+
+#image-upload-area { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 8px; 
+}
+
+.upload-label { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  width: 90px; 
+  height: 90px; 
+  border: 2px dashed #ced4da; 
+  border-radius: 6px; 
+  cursor: pointer; 
+  color: #495057; 
+  transition: all 0.2s; 
+  font-size: 12px; 
+  text-align: center; 
+}
+
+.upload-label:hover { 
+  background-color: #f1f3f5; 
+  border-color: #adb5bd; 
+}
+
+.upload-label svg { 
+  margin-bottom: 4px; 
+}
+
+#image-preview { 
+  position: relative; 
+  width: 90px; 
+  height: 90px; 
+}
+
+#image-preview img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  border-radius: 6px; 
+}
+
+#remove-image { 
+  position: absolute; 
+  top: -5px; 
+  right: -5px; 
+  width: 22px; 
+  height: 22px; 
+  border-radius: 50%; 
+  border: 1px solid #fff; 
+  background-color: #000; 
+  color: #fff; 
+  font-size: 16px; 
+  line-height: 20px; 
+  text-align: center; 
+  cursor: pointer; 
+  opacity: 0.8; 
+  transition: opacity 0.2s; 
+}
+
+#remove-image:hover { 
+  opacity: 1; 
+}
+
+textarea#input { 
+  width: 100%; 
+  border: none; 
+  border-radius: 8px; 
+  font-family: 'Space Mono', monospace; 
+  height: 90px; 
+  resize: none; 
+  background-color: transparent; 
+  color: #343a40; 
+  font-size: 16px; 
+  padding: 5px; 
+  padding-right: 60px; /* 为发送按钮留出空间 */
+}
+
+textarea#input:focus { 
+  outline: none; 
+  box-shadow: none; 
+}
+
+/* 输入容器和发送按钮 */
+.input-container {
+  position: relative;
+  flex: 1;
+}
+
+.send-btn {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1c7ed6, #339af0);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(28, 126, 214, 0.3);
+  font-size: 14px;
+  gap: 4px;
+}
+
+.send-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1971c2, #2b8ce4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(28, 126, 214, 0.4);
+}
+
+.send-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(28, 126, 214, 0.3);
+}
+
+.send-btn:disabled {
+  background: linear-gradient(135deg, #adb5bd, #ced4da);
+  cursor: not-allowed;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.send-btn .send-text {
+  display: none; /* 默认隐藏文字，只在移动端显示 */
+}
+
+.send-btn .loading-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#slideshow { 
+  display: flex; 
+  flex-direction: row; 
+}
+
+/* 添加一些散落的装饰元素 */
+#slideshow::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  width: 8px;
+  height: 8px;
+  background: #ffd43b;
+  border-radius: 50%;
+  box-shadow: 
+    25px 15px 0 #ff6b6b,
+    50px 5px 0 #4ecdc4,
+    75px 20px 0 #45b7d1,
+    100px 10px 0 #f9ca24;
+}
+
+#slideshow[hidden] { 
+  display: none; 
+}
+
+.slide { 
+  padding: 10px; 
+  scroll-snap-align: center; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  min-width: 400px; 
+position: relative;
+}
+
+/* 交替旋转 */
+.slide:nth-child(even) {
+  transform: rotate(0.5deg);
+}
+
+/* 增加纸张质感和纹理 */
+.slide::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(
+      45deg,
+      transparent 48%,
+      rgba(255, 255, 255, 0.1) 49%,
+      rgba(255, 255, 255, 0.1) 51%,
+      transparent 52%
+    );
+  pointer-events: none;
+  border-radius: 12px;
+  opacity: 0.6;
+}
+
+.slide div { 
+  font-size: 17px; 
+  text-align: center; 
+  color: #2c3e50; 
+  line-height: 1.6; 
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    0 0 1px rgba(0, 0, 0, 0.05); 
+  position: relative;
+  z-index: 1;
+  max-width: 320px;
+  word-wrap: break-word;
+}
+
+/* 针对不同语言的字体大小和样式调整 */
+.font-handwriting-en .slide div {
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.3px;
+  color: #2c3e50;
+}
+
+.font-handwriting-zh .slide div {
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 2px;
+  color: #2c3e50;
+  font-style: italic;
+}
+
+.font-handwriting-ja .slide div {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.8px;
+  color: #2c3e50;
+}
+
+.font-handwriting-ko .slide div {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  color: #2c3e50;
+}
+
+.slide img { 
+  height: 320px; 
+  width: 320px; 
+  object-fit: contain; 
+}
+
+#error { 
+  font-weight: bold; 
+  padding: 15px 20px; 
+  background-color: #ffe7e7; 
+  border-radius: 8px; 
+  border-left: 4px solid #d61c1c; 
+  margin-bottom: 20px; 
+}
+
+.controls-row { 
+  display: flex; 
+  gap: 15px; 
+  align-items: center; 
+  margin-bottom: 10px; 
+  flex-wrap: wrap; 
+}
+
+.control-group { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 5px; 
+}
+
+.control-group label { 
+  font-size: 14px; 
+  color: #495057; 
+  font-weight: 500; 
+}
+
+.control-group select { 
+  padding: 8px 12px; 
+  border: 1px solid #ced4da; 
+  border-radius: 6px; 
+  background-color: #fff; 
+  color: #495057; 
+  font-family: 'Space Mono', monospace; 
+  font-size: 14px; 
+  cursor: pointer; 
+  transition: border-color 0.2s; 
+}
+
+.control-group select:focus { 
+  outline: none; 
+  border-color: #1c7ed6; 
+  box-shadow: 0 0 0 3px rgba(28, 126, 214, 0.1); 
+}
+
+.welcome-message {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* 上传进度状态 */
+.upload-label.uploading {
+  background-color: #e3f2fd;
+  border-color: #2196f3;
+  animation: uploadPulse 1.5s ease-in-out infinite;
+}
+
+.upload-label.uploading::after {
+  content: "处理中...";
+  position: absolute;
+  bottom: 5px;
+  font-size: 10px;
+  color: #2196f3;
+}
+
+@keyframes uploadPulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* 错误消息样式增强 */
+#error {
+  font-weight: bold;
+  padding: 15px 20px;
+  background-color: #ffe7e7;
+  border-radius: 8px;
+  border-left: 4px solid #d61c1c;
+  margin-bottom: 20px;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 图片预览增强 */
+#image-preview {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s;
+}
+
+#image-preview:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* 文件输入区域增强 */
+#image-upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .header-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .slide {
+    min-width: 320px;
+    padding: 20px;
+  }
+  
+  .slide img {
+    height: 250px;
+    width: 250px;
+  }
+  
+  /* 移动端字体大小调整 */
+  .font-handwriting-en .slide div {
+    font-size: 22px;
+    line-height: 1.5;
+  }
+  
+  .font-handwriting-zh .slide div {
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  
+  .font-handwriting-ja .slide div {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  
+  .font-handwriting-ko .slide div {
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  
+  /* 移动端发送按钮调整 */
+  .send-btn {
+    width: auto;
+    min-width: 48px;
+    padding: 8px 16px;
+    border-radius: 24px;
+  }
+  
+  .send-btn .send-text {
+    display: inline; /* 移动端显示文字 */
+  }
+  
+  .send-btn .send-icon,
+  .send-btn .loading-icon {
+    display: none; /* 移动端隐藏图标 */
+  }
+  
+  textarea#input {
+    padding-right: 100px; /* 为带文字的按钮留出更多空间 */
+  }
+  
+  #slideshow {
+    padding: 20px 10px;
+    gap: 20px;
+  }
+}

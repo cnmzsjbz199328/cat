@@ -1,0 +1,69 @@
+/* 备用字体方案 - 如果Google Fonts中文字体不工作 */
+
+/* 更可靠的中文手写字体 - 龙藏体优先 */
+.font-handwriting-zh-backup {
+    font-family: 'Long Cang', 'ZCOOL XiaoWei', 'STKaiti', 'KaiTi', 'SimKai', '楷体', '华文行楷', 'STXinwei', '华文新魏', cursive;
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #2c3e50;
+    /* 添加一些CSS效果模拟手写感 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    font-style: italic;
+}
+
+/* 更可靠的韩文手写字体 */
+.font-handwriting-ko-backup {
+    font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Dotum', '돋움', cursive;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #2c3e50;
+    /* 添加一些CSS效果模拟手写感 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    font-style: italic;
+}
+
+/* 更可靠的日文手写字体 */
+.font-handwriting-ja-backup {
+    font-family: 'Yu Gothic', '游ゴシック', 'Hiragino Sans', 'ヒラギノ角ゴ Pro W3', 'MS PGothic', cursive;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.8px;
+    color: #2c3e50;
+    /* 添加一些CSS效果模拟手写感 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    font-style: italic;
+}
+
+/* 增强的英文手写字体 */
+.font-handwriting-en-backup {
+    font-family: 'Brush Script MT', 'Lucida Handwriting', 'Apple Chancery', 'Zapf Chancery', cursive;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    color: #2c3e50;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 如果系统没有这些字体，使用CSS3效果模拟手写 */
+@supports not (font-family: 'Long Cang') {
+    .font-handwriting-zh {
+        font-family: 'ZCOOL XiaoWei', 'STKaiti', 'KaiTi', 'SimKai', '楷体', '华文行楷', cursive;
+        transform: rotate(-0.2deg);
+        letter-spacing: 2px;
+        font-style: italic;
+        font-weight: 300;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+}
+
+@supports not (font-family: 'Nanum Pen Script') {
+    .font-handwriting-ko {
+        font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', cursive;
+        transform: rotate(0.2deg);
+        letter-spacing: 1.5px;
+        font-style: italic;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+}
