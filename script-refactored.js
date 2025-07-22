@@ -22,7 +22,6 @@ class AnimalStoryApp {
       numImagesSelect: document.getElementById('num-images'),
       animalTypeSelect: document.getElementById('animal-type'),
       title: document.querySelector('h1'),
-      uploadLabel: document.querySelector('.upload-label span'),
       numImagesLabel: document.querySelector('label[for="num-images"]'),
       animalTypeLabel: document.querySelector('label[for="animal-type"]'),
       languageBtns: document.querySelectorAll('.language-btn'),

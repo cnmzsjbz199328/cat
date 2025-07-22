@@ -58,7 +58,6 @@ class UIManager {
   updateLabels(t) {
     this.app.elements.numImagesLabel.textContent = t.numImagesLabel;
     this.app.elements.animalTypeLabel.textContent = t.animalTypeLabel;
-    this.app.elements.uploadLabel.textContent = t.uploadImageText;
     this.app.elements.input.placeholder = t.inputPlaceholder;
     this.app.elements.sendText.textContent = t.sendButtonText;
   }
