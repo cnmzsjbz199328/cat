@@ -11,7 +11,7 @@ const translations = {
     uploadImageText: "上传图片",
     inputPlaceholder: "在这里输入您的主题并按回车键...",
     sendButtonText: "发送",
-    sendingText: "发送中...",
+    sendingText: "生成中...",
     welcomeMessage: "选择动物类型和图片数量，然后输入主题并按回车键，或选择上面的示例！",
     generatingMessage: "正在生成包含很多小{animal}的故事...",
     animals: {
@@ -48,7 +48,7 @@ const translations = {
     uploadImageText: "Upload Image",
     inputPlaceholder: "Type your topic here and press Enter...",
     sendButtonText: "Send",
-    sendingText: "Sending...",
+    sendingText: "Generating...",
     welcomeMessage: "Choose animal type and number of images, then type a topic and press Enter, or pick an example above!",
     generatingMessage: "Generating story with lots of tiny {animal}s...",
     animals: {
@@ -85,7 +85,7 @@ const translations = {
     uploadImageText: "画像をアップロード",
     inputPlaceholder: "ここにトピックを入力してEnterキーを押してください...",
     sendButtonText: "送信",
-    sendingText: "送信中...",
+    sendingText: "生成中...",
     welcomeMessage: "動物の種類と画像数を選択し、トピックを入力してEnterキーを押すか、上の例を選択してください！",
     generatingMessage: "たくさんの小さな{animal}を含むストーリーを生成中...",
     animals: {
@@ -122,7 +122,7 @@ const translations = {
     uploadImageText: "이미지 업로드",
     inputPlaceholder: "여기에 주제를 입력하고 엔터를 누르세요...",
     sendButtonText: "전송",
-    sendingText: "전송 중...",
+    sendingText: "생성 중...",
     welcomeMessage: "동물 종류와 이미지 수를 선택한 후 주제를 입력하고 엔터를 누르거나 위의 예시를 선택하세요!",
     generatingMessage: "많은 작은 {animal}가 포함된 이야기를 생성 중...",
     animals: {
