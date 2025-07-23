@@ -163,7 +163,6 @@ h1 {
 .prompt-box { 
   display: flex; 
   flex-direction: column-reverse; /* 使输入区在上方，预览区在下方 */
-  gap: 15px; 
   border: 1px solid #ced4da; 
   border-radius: 8px; 
   padding: 15px; 
@@ -188,9 +187,7 @@ h1 {
   align-items: center; 
   gap: 8px; 
   background: #f8f9fa; 
-  border: 1px solid #e9ecef; 
   border-radius: 6px; 
-  padding: 8px 16px; 
   cursor: pointer; 
   color: #495057; 
   font-size: 14px; 
