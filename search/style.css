@@ -675,6 +675,55 @@ h1 {
   }
 }
 
+/* 消息历史样式 */
+.message {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.message-user {
+  background-color: #f8f9fa;
+  border-left-color: #28a745;
+}
+
+.message-assistant {
+  background-color: #ffffff;
+  border-left-color: #007bff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+  color: #6c757d;
+}
+
+.message-role {
+  font-weight: 600;
+  color: #495057;
+}
+
+.message-time {
+  font-size: 0.8em;
+}
+
+.message-content {
+  line-height: 1.6;
+}
+
+.message-image {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: block;
+}
+
 /* 欢迎消息 */
 .welcome-message {
   text-align: center;

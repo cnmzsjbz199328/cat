@@ -51,8 +51,11 @@ class UIManager {
     output.innerHTML = `<div class="welcome-message">${t.welcomeMessage}</div>`;
   }
 
-  isImageGenerationEnabled() {
-    return document.getElementById('generate-images').checked;
+  shouldGenerateImages() {
+    const checkbox = document.getElementById('generate-images');
+    const checked = checkbox && checkbox.checked;
+    console.log('[UIManager] shouldGenerateImages checked:', checked);
+    return checked;
   }
 
   processMarkdown(text) {
@@ -109,6 +112,12 @@ class UIManager {
 
   clearInput() {
     document.getElementById('input').value = '';
+  }
+
+  clearOutput() {
+    const output = document.getElementById('output');
+    output.innerHTML = '';
+    output.classList.remove('welcome', 'loading');
   }
 
   focusInput() {

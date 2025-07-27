@@ -150,7 +150,7 @@ class SearchApp {
       requestBody.session_id = sessionId;
     }
 
-    const response = await fetch(`${baseURL}/api/generate-story`, {
+    const response = await fetch(`${baseURL}/api/generate-picture`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -560,7 +560,7 @@ class DataExportManager {
 const STORY_API_CONFIG = {
   baseURL: 'YOUR_STORY_API_BASE_URL',
   endpoints: {
-    generateStory: '/api/generate-story',
+    generateStory: '/api/generate-picture',
     generateText: '/api/generate-text'
   },
   timeout: 60000, // 故事生成可能需要更长时间

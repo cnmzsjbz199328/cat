@@ -3,7 +3,12 @@ class ContentRenderer {
     this.app = app;
   }
 
-  showContent(result, apiType = 'gemini') {
+  init() {
+    // 初始化内容渲染器
+    console.log('ContentRenderer initialized');
+  }
+
+  showContent(result, apiType = 'analysis') {
     const output = document.getElementById('output');
     const slideshow = document.getElementById('slideshow');
     
@@ -12,12 +17,20 @@ class ContentRenderer {
     output.style.display = 'block';
     output.classList.remove('welcome', 'loading');
     
-    if (apiType === 'story' && result.imageUrl) {
-      // 故事+图片的特殊渲染
-      output.innerHTML = this.renderStoryWithImage(result.content, result.imageUrl);
+    // 处理不同的结果格式
+    let content, imageUrl;
+    if (typeof result === 'object') {
+      content = result.content || result;
+      imageUrl = result.imageUrl;
     } else {
-      // 普通Markdown渲染 - 确保内容是字符串
-      let content = typeof result === 'object' && result.content ? result.content : result;
+      content = result;
+    }
+    
+    if (imageUrl) {
+      // 有图片的渲染（图文模式）
+      output.innerHTML = this.renderStoryWithImage(content, imageUrl);
+    } else {
+      // 普通Markdown渲染
       if (typeof content !== 'string') {
         content = content ? String(content) : '无可显示的内容';
       }
@@ -26,6 +39,73 @@ class ContentRenderer {
     
     // 滚动到结果区域
     output.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // 显示完整的会话历史
+  showSessionHistory(session) {
+    const output = document.getElementById('output');
+    if (!output || !session) return;
+
+    // 清空当前内容
+    output.innerHTML = '';
+    output.classList.remove('welcome', 'loading');
+
+    // 为每条消息创建元素
+    session.messages.forEach((message, index) => {
+      const messageElement = this.createMessageElement(message, index);
+      output.appendChild(messageElement);
+    });
+
+    // 滚动到底部
+    output.scrollTop = output.scrollHeight;
+  }
+
+  // 创建单条消息的DOM元素
+  createMessageElement(message, index) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message message-${message.type}`;
+    messageDiv.setAttribute('data-message-id', message.id);
+
+    if (message.type === 'user') {
+      // 用户消息
+      messageDiv.innerHTML = `
+        <div class="message-header">
+          <span class="message-role">用户</span>
+          <span class="message-time">${this.formatTime(message.timestamp)}</span>
+        </div>
+        <div class="message-content">
+          ${message.imageData ? `<img src="${message.imageData.base64}" alt="用户上传的图片" class="message-image">` : ''}
+          <p>${this.escapeHtml(message.content)}</p>
+        </div>
+      `;
+    } else {
+      // 助手消息
+      messageDiv.innerHTML = `
+        <div class="message-header">
+          <span class="message-role">助手</span>
+          <span class="message-time">${this.formatTime(message.timestamp)}</span>
+        </div>
+        <div class="message-content">
+          ${this.app.uiManager.processMarkdown(message.content)}
+        </div>
+      `;
+    }
+
+    return messageDiv;
+  }
+
+  formatTime(timestamp) {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString('zh-CN', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  }
+
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   renderStoryWithImage(storyMarkdown, imageUrl) {

@@ -20,7 +20,8 @@ const translations = {
     sessionList: "会话列表",
     sessionEmpty: "暂无会话",
     errorMessages: {
-      invalidFileType: "仅支持 PNG 或 JPEG 图片格式",
+      invalidFileType: "支持 JPEG、PNG、WEBP、HEIC 格式的图片",
+      gifNotSupported: "不支持 GIF 动图，AI 模型只会处理第一帧",
       fileTooLarge: "图片过大，最大支持 4MB",
       imageProcessFailed: "图片处理失败，请重试",
       noInput: "请输入文本或上传图片"
@@ -52,7 +53,8 @@ const translations = {
     sessionList: "Session List", 
     sessionEmpty: "No sessions yet",
     errorMessages: {
-      invalidFileType: "Only PNG or JPEG image formats are supported",
+      invalidFileType: "Supports JPEG, PNG, WEBP, HEIC image formats",
+      gifNotSupported: "GIF animations not supported, AI model will only process the first frame",
       fileTooLarge: "Image too large, maximum 4MB supported",
       imageProcessFailed: "Image processing failed, please try again",
       noInput: "Please enter text or upload an image"
@@ -76,7 +78,8 @@ const translations = {
     welcomeMessage: "任意のコンテンツを入力してインテリジェント分析を行うか、画像をアップロードして認識と説明を取得してください！",
     generatingMessage: "インテリジェント分析とコンテンツ生成を実行中...",
     errorMessages: {
-      invalidFileType: "PNG または JPEG 画像フォーマットのみサポートされています",
+      invalidFileType: "JPEG、PNG、WEBP、HEIC画像フォーマットをサポートしています",
+      gifNotSupported: "GIFアニメーションはサポートされていません。AIモデルは最初のフレームのみを処理します",
       fileTooLarge: "画像が大きすぎます。最大4MBまでサポートされています",
       imageProcessFailed: "画像処理に失敗しました。もう一度お試しください",
       noInput: "テキストを入力するか画像をアップロードしてください"
@@ -100,7 +103,8 @@ const translations = {
     welcomeMessage: "지능형 분석을 위해 콘텐츠를 입력하거나 이미지를 업로드하여 인식 및 설명을 받으세요!",
     generatingMessage: "지능형 분석 및 콘텐츠 생성을 수행 중...",
     errorMessages: {
-      invalidFileType: "PNG 또는 JPEG 이미지 형식만 지원됩니다",
+      invalidFileType: "JPEG, PNG, WEBP, HEIC 이미지 형식을 지원합니다",
+      gifNotSupported: "GIF 애니메이션은 지원되지 않습니다. AI 모델은 첫 번째 프레임만 처리합니다",
       fileTooLarge: "이미지가 너무 큽니다. 최대 4MB까지 지원됩니다",
       imageProcessFailed: "이미지 처리에 실패했습니다. 다시 시도해주세요",
       noInput: "텍스트를 입력하거나 이미지를 업로드해주세요"

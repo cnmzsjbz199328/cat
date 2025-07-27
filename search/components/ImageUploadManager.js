@@ -41,9 +41,24 @@ class ImageUploadManager {
   handleFileSelect(file) {
     if (!file) return;
 
-    // 检查文件类型
-    if (!file.type.match(/image\/(png|jpeg|jpg)/)) {
+    // 检查文件类型 - 支持Google Gemini推荐的格式
+    const supportedTypes = [
+      'image/jpeg',
+      'image/jpg', 
+      'image/png',
+      'image/webp',
+      'image/heic',
+      'image/heif'
+    ];
+    
+    if (!supportedTypes.includes(file.type)) {
       this.app.errorHandler.handleImageError('invalidFileType');
+      return;
+    }
+
+    // 特别检查GIF格式并给出警告
+    if (file.type === 'image/gif') {
+      this.app.errorHandler.handleImageError('gifNotSupported');
       return;
     }
 
@@ -61,17 +76,20 @@ class ImageUploadManager {
     
     reader.onload = (e) => {
       try {
-        // 匹配主项目的图片数据格式
+        const dataUrl = e.target.result;
+        // 安全移除data URI前缀，确保获得纯净的Base64字符串
+        const base64Data = this.extractBase64(dataUrl);
+        if (!base64Data) {
+          throw new Error('Invalid Base64 data');
+        }
+        // 只保留API需要的图片对象格式
         this.uploadedImage = {
-          file: file,
-          dataUrl: e.target.result,
-          base64: e.target.result.split(',')[1],
-          mime_type: file.type, // 匹配后端API格式
-          data: e.target.result.split(',')[1] // 匹配后端API格式
+          mime_type: file.type,
+          data: base64Data
         };
-        
-        this.showPreview(e.target.result);
+        this.showPreview(dataUrl);
       } catch (error) {
+        console.error('Image processing error:', error);
         this.app.errorHandler.handleImageError('imageProcessFailed');
       }
     };
@@ -81,6 +99,35 @@ class ImageUploadManager {
     };
 
     reader.readAsDataURL(file);
+  }
+
+  // 安全提取Base64数据，移除data URI前缀
+  extractBase64(dataUrl) {
+    try {
+      // 检查是否为有效的data URI
+      if (!dataUrl.startsWith('data:')) {
+        return null;
+      }
+      
+      // 查找逗号位置，Base64数据在逗号之后
+      const commaIndex = dataUrl.indexOf(',');
+      if (commaIndex === -1) {
+        return null;
+      }
+      
+      // 提取纯净的Base64字符串（移除data:image/...;base64,前缀）
+      const base64String = dataUrl.substring(commaIndex + 1);
+      
+      // 验证Base64字符串不为空
+      if (!base64String || base64String.length === 0) {
+        return null;
+      }
+      
+      return base64String;
+    } catch (error) {
+      console.error('Base64 extraction error:', error);
+      return null;
+    }
   }
 
   showPreview(dataUrl) {

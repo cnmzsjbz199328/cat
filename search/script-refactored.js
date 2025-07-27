@@ -64,41 +64,51 @@ class SearchApp {
       // 获取输入数据
       const textInput = this.uiManager.getInputValue();
       const imageData = this.imageUploadManager.getUploadedImage();
-
-      // 获取当前会话ID，如果没有则传递null让API创建新会话
-      let sessionId = this.sessionManager.getCurrentSessionId();
+      console.log('[handleSubmit] 输入内容:', textInput);
+      console.log('[handleSubmit] 图片数据:', imageData);
 
       // 显示加载状态
       this.uiManager.showLoading();
       this.uiManager.toggleSendButton(true);
       this.errorHandler.hideError();
 
-      // 使用API进行内容分析，传递现有的会话ID（如果有）
-      const result = await this.apiManager.analyzeContent(textInput, imageData, sessionId);
-
-      // 如果API返回了新的会话ID，使用它；否则创建本地会话
-      if (result.sessionId) {
-        // 使用API返回的会话ID
-        if (!sessionId || sessionId !== result.sessionId) {
-          // 创建或更新会话
-          const session = this.sessionManager.createSession();
-          this.sessionManager.setCurrentSessionId(result.sessionId);
-          sessionId = result.sessionId;
-        }
-      } else if (!sessionId) {
-        // 如果API没有返回会话ID，创建本地会话
+      // 获取或创建会话ID
+      let sessionId = this.sessionManager.getCurrentSessionId();
+      if (!sessionId) {
         const session = this.sessionManager.createSession();
         sessionId = session.id;
+        this.sessionManager.setCurrentSessionId(sessionId);
       }
 
-      // 添加用户消息到会话
+      // 立即添加用户消息到会话历史
       this.sessionManager.addMessage(sessionId, 'user', textInput, imageData, 'analysis');
+
+      // 检查是否勾选了"生成图片解释"
+      const shouldGenerateImages = this.uiManager.shouldGenerateImages();
+      console.log('[handleSubmit] shouldGenerateImages:', shouldGenerateImages);
+      let result;
+
+      if (shouldGenerateImages) {
+        // 勾选了图片解释，使用generate-picture端点（生成文本+图片）
+        console.log('[handleSubmit] 调用 generateImageStory');
+        result = await this.apiManager.generateImageStory(textInput, imageData, true, sessionId);
+      } else {
+        // 未勾选图片解释，使用generate-text端点（仅生成文本）
+        console.log('[handleSubmit] 调用 analyzeContent');
+        result = await this.apiManager.analyzeContent(textInput, imageData, sessionId);
+      }
+
+      // 如果API返回了新的会话ID，更新本地会话ID
+      if (result.sessionId && result.sessionId !== sessionId) {
+        this.sessionManager.setCurrentSessionId(result.sessionId);
+        sessionId = result.sessionId;
+      }
 
       // 添加助手回复到会话
       this.sessionManager.addMessage(sessionId, 'assistant', result.content, null, 'analysis');
 
-      // 显示结果
-      this.contentRenderer.showContent(result.content, 'analysis');
+      // 显示结果，传递完整result对象，便于渲染图片
+      this.contentRenderer.showContent(result, 'analysis');
 
       // 清理输入（可选）
       // this.uiManager.clearInput();

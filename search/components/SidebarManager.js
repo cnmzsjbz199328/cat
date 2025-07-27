@@ -10,6 +10,25 @@ class SidebarManager {
     // 创建侧边栏HTML结构
     this.createSidebarHTML();
     
+    // 绑定事件
+    this.bindEvents();
+    
+    // 恢复侧边栏状态
+    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (isCollapsed) {
+      this.isCollapsed = true;
+      const sidebar = document.getElementById('sidebar');
+      const container = document.querySelector('.container');
+      const toggleBtn = document.getElementById('toggle-sidebar-btn');
+      
+      if (sidebar && container && toggleBtn) {
+        sidebar.classList.add('collapsed');
+        container.style.gridTemplateColumns = '60px 1fr';
+        toggleBtn.innerHTML = '▶';
+        toggleBtn.title = '展开侧边栏';
+      }
+    }
+    
     // 初始渲染会话列表
     this.updateSessionList();
   }
@@ -113,17 +132,23 @@ class SidebarManager {
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
     const sidebar = document.getElementById('sidebar');
+    const container = document.querySelector('.container');
     const toggleBtn = document.getElementById('toggle-sidebar-btn');
     
     if (this.isCollapsed) {
       sidebar.classList.add('collapsed');
+      container.style.gridTemplateColumns = '60px 1fr';
       toggleBtn.innerHTML = '▶';
       toggleBtn.title = '展开侧边栏';
     } else {
       sidebar.classList.remove('collapsed');
+      container.style.gridTemplateColumns = '280px 1fr';
       toggleBtn.innerHTML = '◀';
       toggleBtn.title = '收起侧边栏';
     }
+    
+    // 保存状态到localStorage
+    localStorage.setItem('sidebarCollapsed', this.isCollapsed.toString());
   }
 
   updateSessionList() {
@@ -274,6 +299,15 @@ class SidebarManager {
 
   switchToSession(sessionId) {
     this.app.sessionManager.setCurrentSessionId(sessionId);
+    
+    // 显示该会话的历史记录
+    const session = this.app.sessionManager.getSession(sessionId);
+    if (session && this.app.contentRenderer) {
+      this.app.contentRenderer.showSessionHistory(session);
+    }
+    
+    // 更新UI状态
+    this.updateSessionList();
   }
 
   renameSession(sessionId) {

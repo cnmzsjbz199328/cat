@@ -100,6 +100,11 @@ class SessionManager {
       this.app.sidebarManager.updateSessionList();
     }
     
+    // 如果是当前会话，更新内容显示
+    if (sessionId === this.currentSessionId && this.app.contentRenderer) {
+      this.app.contentRenderer.showSessionHistory(session);
+    }
+    
     return message;
   }
 

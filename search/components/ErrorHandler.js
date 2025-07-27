@@ -49,6 +49,9 @@ class ErrorHandler {
       case 'invalidFileType':
         errorMessage = t.errorMessages.invalidFileType;
         break;
+      case 'gifNotSupported':
+        errorMessage = t.errorMessages.gifNotSupported;
+        break;
       case 'fileTooLarge':
         errorMessage = t.errorMessages.fileTooLarge;
         break;
