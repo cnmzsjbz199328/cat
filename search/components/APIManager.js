@@ -1,30 +1,31 @@
 class APIManager {
   constructor(app) {
     this.app = app;
-    this.host = "https://catbackend.tj15982183241.workers.dev";
+    this.host = "https://search.tj15982183241.workers.dev";
   }
 
-  async analyzeContent(prompt, imageData = null) {
+  async analyzeContent(prompt, imageData = null, sessionId = null) {
     const currentLang = this.app.languageManager.getCurrentLanguage();
     
-    // 构建请求体 - 适配search项目的通用分析需求
+    // 根据API文档构建请求体
     const body = {
       prompt: prompt,
-      language: currentLang,
-      analysis_type: 'general', // 通用分析类型
-      output_format: 'text' // 文本输出格式
+      language: currentLang
     };
 
-    // 如果有图片，添加图片数据
+    // 如果有会话ID，添加到请求体
+    if (sessionId) {
+      body.session_id = sessionId;
+    }
+
+    // 如果有图片，添加图片数据（Base64格式，不包含前缀）
     if (imageData) {
-      body.image = {
-        mime_type: imageData.file.type,
-        data: imageData.base64
-      };
+      body.image = imageData.base64.split(',')[1]; // 移除data:image前缀
     }
 
     try {
-      const res = await fetch(`${this.host}/api/analyze-content`, {
+      // 使用generate-text端点进行内容生成
+      const res = await fetch(`${this.host}/api/generate-text`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -39,34 +40,38 @@ class APIManager {
         throw new Error(data.error || 'Analysis failed');
       }
       
-      return data.data.content || data.data;
+      // 返回包含内容和会话ID的结果
+      return {
+        content: data.data.story_markdown || '无法获取分析结果',
+        sessionId: data.session_id
+      };
       
     } catch (error) {
-      // 如果新的分析接口不存在，降级使用原有的故事生成接口
-      console.warn('Analysis API not available, falling back to story generation:', error);
-      return await this.fallbackToStoryGeneration(prompt, imageData, currentLang);
+      // 如果generate-text接口失败，降级使用generate-story接口
+      console.warn('Generate-text API failed, falling back to generate-story:', error);
+      return await this.fallbackToStoryGeneration(prompt, imageData, currentLang, sessionId);
     }
   }
 
-  async fallbackToStoryGeneration(prompt, imageData, language) {
-    // 降级方案：使用原有的故事生成接口进行通用分析
+  async fallbackToStoryGeneration(prompt, imageData, language, sessionId = null) {
+    // 降级方案：使用generate-story接口
     const body = {
-      prompt: prompt, // 直接使用原始prompt，不添加额外前缀
-      num_images: 1, // 最少图片数量
-      animal: 'cat', // 保持默认
+      prompt: prompt,
       language: language
     };
 
+    // 如果有会话ID，添加到请求体
+    if (sessionId) {
+      body.session_id = sessionId;
+    }
+
     if (imageData) {
-      // 根据原后端期望的格式发送图片数据
-      body.image = {
-        mime_type: imageData.file.type,
-        data: imageData.base64
-      };
+      // 根据API文档，图片应该是Base64字符串（不包含前缀）
+      body.image = imageData.base64.split(',')[1];
     }
 
     try {
-      const res = await fetch(`${this.host}/api/generate-story`, {
+      const res = await fetch(`${this.host}/api/generate-picture`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -81,21 +86,10 @@ class APIManager {
         throw new Error(data.error || 'Analysis failed');
       }
       
-      // 处理原后端返回的分步故事格式
-      if (data.data && Array.isArray(data.data)) {
-        // 提取所有句子内容组成完整分析结果
-        const analysisText = data.data.map(step => step.sentence).join('\n\n');
-        return {
-          content: analysisText,
-          steps: data.data, // 保留原始分步数据
-          hasImages: data.data.some(step => step.image_url)
-        };
-      }
-      
+      // 返回包含内容和会话ID的结果
       return {
-        content: '分析完成，但未能获取结果内容。',
-        steps: [],
-        hasImages: false
+        content: data.data.story_markdown || '分析完成，但未能获取结果内容。',
+        sessionId: data.session_id
       };
       
     } catch (error) {
@@ -104,24 +98,19 @@ class APIManager {
   }
 
   async generateImageStory(prompt, imageData, generateImages, animalType = 'cat', numImages = 2) {
-    // 图文解释模式，直接调用原有的故事生成接口
+    // 图文解释模式，调用generate-story接口
     const body = {
       prompt: prompt,
-      num_images: generateImages ? parseInt(numImages) : 0,
-      animal: animalType,
       language: this.app.languageManager.getCurrentLanguage()
     };
 
     if (imageData) {
-      // 根据原后端期望的格式发送图片数据
-      body.image = {
-        mime_type: imageData.file.type,
-        data: imageData.base64
-      };
+      // 根据API文档，图片应该是Base64字符串（不包含前缀）
+      body.image = imageData.base64.split(',')[1];
     }
 
     try {
-      const res = await fetch(`${this.host}/api/generate-story`, {
+      const res = await fetch(`${this.host}/api/generate-picture`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -136,10 +125,13 @@ class APIManager {
         throw new Error(data.error || 'Story generation failed');
       }
       
-      // 返回原后端的分步数据格式
+      // 返回符合API文档的数据格式
       return {
         success: true,
-        data: data.data // 这是分步故事数组
+        data: {
+          story_markdown: data.data.story_markdown,
+          image_url: data.data.image_url
+        }
       };
       
     } catch (error) {

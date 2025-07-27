@@ -20,15 +20,16 @@
 
 <body>
     <div class="container">
-        <div class="header-controls">
-            <h1>智能内容分析工具</h1>
-            <div class="language-selector">
-                <button class="language-btn" data-lang="zh">中文</button>
-                <button class="language-btn" data-lang="en">English</button>
-                <button class="language-btn" data-lang="ja">日本語</button>
-                <button class="language-btn" data-lang="ko">한국어</button>
+        <div class="main-content">
+            <div class="header-controls">
+                <h1>智能内容分析工具</h1>
+                <div class="language-selector">
+                    <button class="language-btn" data-lang="zh">中文</button>
+                    <button class="language-btn" data-lang="en">English</button>
+                    <button class="language-btn" data-lang="ja">日本語</button>
+                    <button class="language-btn" data-lang="ko">한국어</button>
+                </div>
             </div>
-        </div>
         <div class="input-area">
             <ul id="examples">
                 <!-- Examples will be populated by JavaScript -->
@@ -76,10 +77,14 @@
         <div id="output"></div>
         <div id="slideshow" hidden></div>
         <div id="error" hidden></div>
+        </div>
     </div>
 
     <script src="translations.js"></script>
     <!-- 组件文件 -->
+    <script src="components/SessionManager.js"></script>
+    <script src="components/SidebarManager.js"></script>
+    <script src="components/ContentRenderer.js"></script>
     <script src="components/LanguageManager.js"></script>
     <script src="components/ErrorHandler.js"></script>
     <script src="components/ImageUploadManager.js"></script>

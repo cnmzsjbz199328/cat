@@ -56,6 +56,11 @@ class UIManager {
   }
 
   processMarkdown(text) {
+    // 确保text是字符串类型
+    if (typeof text !== 'string') {
+      text = text ? String(text) : '';
+    }
+    
     return text
       // Headers
       .replace(/^### (.*$)/gim, '<h3>$1</h3>')

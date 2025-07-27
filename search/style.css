@@ -25,11 +25,209 @@ body {
 }
 
 .container { 
-  max-width: 1000px; 
+  max-width: 1200px; 
   margin: 20px auto; 
-  display: flex; 
-  flex-direction: column; 
-  gap: 20px; 
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: 
+    "sidebar main";
+  gap: 0;
+  min-height: calc(100vh - 40px);
+}
+
+.main-content {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 20px;
+  min-width: 0;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+  grid-area: sidebar;
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #dee2e6;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+
+.sidebar-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #495057;
+  margin: 0;
+}
+
+.sidebar.collapsed .sidebar-header h3 {
+  display: none;
+}
+
+.sidebar-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: #f8f9fa;
+  color: #495057;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+  background: #e9ecef;
+  color: #1c7ed6;
+}
+
+.sidebar-search {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.sidebar.collapsed .sidebar-search {
+  display: none;
+}
+
+#session-search {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+}
+
+#session-search:focus {
+  outline: none;
+  border-color: #1c7ed6;
+  box-shadow: 0 0 0 2px rgba(28, 126, 214, 0.1);
+}
+
+.session-list-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.session-list {
+  padding: 0 8px;
+}
+
+.session-item {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  position: relative;
+}
+
+.session-item:hover {
+  background: #e9ecef;
+}
+
+.session-item.active {
+  background: #1c7ed6;
+  color: #fff;
+}
+
+.session-item.active:hover {
+  background: #1971c2;
+}
+
+.session-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.session-meta {
+  font-size: 12px;
+  opacity: 0.7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar.collapsed .session-title,
+.sidebar.collapsed .session-meta {
+  display: none;
+}
+
+.sidebar.collapsed .session-item {
+  width: 40px;
+  height: 40px;
+  margin: 4px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.sidebar.collapsed .session-item::before {
+  content: "💬";
+  font-size: 18px;
+}
+
+.session-actions {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  gap: 4px;
+}
+
+.session-item:hover .session-actions {
+  display: flex;
+}
+
+.session-action-btn {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.1);
+  color: inherit;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.session-action-btn:hover {
+  background: rgba(0,0,0,0.2);
 }
 
 /* 头部控制区域 */
@@ -488,6 +686,36 @@ h1 {
 
 /* 移动端适配 */
 @media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "main";
+    margin: 10px;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  
+  .sidebar.collapsed {
+    width: 280px;
+  }
+  
+  .main-content {
+    padding: 0 10px;
+  }
+  
   .header-controls {
     flex-direction: column;
     align-items: stretch;
@@ -544,6 +772,44 @@ h1 {
   .slide img {
     height: 250px;
     width: 250px;
+  }
+  
+  /* 移动端侧边栏控制按钮 */
+  .mobile-sidebar-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: #1c7ed6;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .mobile-sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
   }
 }
 

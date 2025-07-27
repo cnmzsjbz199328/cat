@@ -1,6 +1,7 @@
 class SearchApp {
   constructor() {
     this.initializeComponents();
+    this.initializeSessionComponents();
     this.bindEvents();
     this.init();
   }
@@ -13,6 +14,14 @@ class SearchApp {
     this.slideRenderer = new SlideRenderer(this);
     this.apiManager = new APIManager(this);
     this.uiManager = new UIManager(this);
+  }
+
+  initializeSessionComponents() {
+    // 初始化会话管理相关组件
+    this.sessionManager = new SessionManager(this);
+    this.sidebarManager = new SidebarManager(this);
+    this.contentRenderer = new ContentRenderer(this);
+    this.dataExportManager = null; // 将在阶段三实现
   }
 
   bindEvents() {
@@ -55,31 +64,41 @@ class SearchApp {
       // 获取输入数据
       const textInput = this.uiManager.getInputValue();
       const imageData = this.imageUploadManager.getUploadedImage();
-      const generateImages = document.getElementById('generate-images').checked;
+
+      // 获取当前会话ID，如果没有则传递null让API创建新会话
+      let sessionId = this.sessionManager.getCurrentSessionId();
 
       // 显示加载状态
       this.uiManager.showLoading();
       this.uiManager.toggleSendButton(true);
       this.errorHandler.hideError();
 
-      if (generateImages) {
-        // 如果勾选了生成图片，使用图文解释模式
-        const slides = await this.apiManager.generateImageStory(
-          textInput, 
-          'cat', // 默认使用猫咪
-          3, // 默认3张图片
-          this.languageManager.getCurrentLanguage()
-        );
-        
-        // 使用幻灯片渲染
-        this.slideRenderer.renderSlides(slides);
-      } else {
-        // 否则使用纯文本分析
-        const result = await this.apiManager.analyzeContent(textInput, imageData);
-        
-        // 显示文本结果
-        this.uiManager.showOutput(result, true);
+      // 使用API进行内容分析，传递现有的会话ID（如果有）
+      const result = await this.apiManager.analyzeContent(textInput, imageData, sessionId);
+
+      // 如果API返回了新的会话ID，使用它；否则创建本地会话
+      if (result.sessionId) {
+        // 使用API返回的会话ID
+        if (!sessionId || sessionId !== result.sessionId) {
+          // 创建或更新会话
+          const session = this.sessionManager.createSession();
+          this.sessionManager.setCurrentSessionId(result.sessionId);
+          sessionId = result.sessionId;
+        }
+      } else if (!sessionId) {
+        // 如果API没有返回会话ID，创建本地会话
+        const session = this.sessionManager.createSession();
+        sessionId = session.id;
       }
+
+      // 添加用户消息到会话
+      this.sessionManager.addMessage(sessionId, 'user', textInput, imageData, 'analysis');
+
+      // 添加助手回复到会话
+      this.sessionManager.addMessage(sessionId, 'assistant', result.content, null, 'analysis');
+
+      // 显示结果
+      this.contentRenderer.showContent(result.content, 'analysis');
 
       // 清理输入（可选）
       // this.uiManager.clearInput();
@@ -121,6 +140,9 @@ class SearchApp {
   init() {
     // 初始化语言管理器
     this.languageManager.init();
+    
+    // 初始化内容渲染器
+    this.contentRenderer.init();
     
     // 显示欢迎消息
     this.uiManager.showWelcomeMessage();

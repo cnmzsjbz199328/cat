@@ -15,6 +15,10 @@ const translations = {
     generateImagesOption: "生成图片解释",
     welcomeMessage: "输入任何内容进行智能分析，或上传图片进行识别和解释！",
     generatingMessage: "正在进行智能分析和内容生成...",
+    // 会话管理相关翻译
+    newSession: "新会话",
+    sessionList: "会话列表",
+    sessionEmpty: "暂无会话",
     errorMessages: {
       invalidFileType: "仅支持 PNG 或 JPEG 图片格式",
       fileTooLarge: "图片过大，最大支持 4MB",
@@ -39,6 +43,14 @@ const translations = {
     generateImagesOption: "Generate Visual Explanation",
     welcomeMessage: "Enter any content for intelligent analysis, or upload an image for recognition and explanation!",
     generatingMessage: "Performing intelligent analysis and content generation...",
+    // Session management translations
+    newSession: "New Session",
+    sessionList: "Session List", 
+    sessionEmpty: "No sessions yet",
+    // Session management translations
+    newSession: "New Session",
+    sessionList: "Session List", 
+    sessionEmpty: "No sessions yet",
     errorMessages: {
       invalidFileType: "Only PNG or JPEG image formats are supported",
       fileTooLarge: "Image too large, maximum 4MB supported",
