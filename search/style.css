@@ -529,6 +529,21 @@ h1 {
 }
 
 /* 输出区域样式 */
+.story-image {
+  width: auto; /* 让父容器宽度自适应 */
+  max-width: 100%; /* 不超过父级宽度 */
+  margin-bottom: 20px;
+}
+
+.story-image img {
+  display: block;
+  max-width: 100%; /* 图片最大宽度不超过父容器 */
+  height: auto; /* 保持比例 */
+  max-height: 400px; /* 可选，限制最大高度 */
+  object-fit: contain; /* 保证图片完整显示 */
+  border-radius: 12px;
+}
+
 #output {
   min-height: 200px;
   background: #fff;

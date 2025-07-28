@@ -80,19 +80,21 @@
         </div>
     </div>
 
-    <script src="translations.js"></script>
+    <script src="translations.js?v=20250728"></script>
     <!-- 组件文件 -->
-    <script src="components/SessionManager.js"></script>
-    <script src="components/SidebarManager.js"></script>
-    <script src="components/ContentRenderer.js"></script>
-    <script src="components/LanguageManager.js"></script>
-    <script src="components/ErrorHandler.js"></script>
-    <script src="components/ImageUploadManager.js"></script>
-    <script src="components/SlideRenderer.js"></script>
-    <script src="components/APIManager.js"></script>
-    <script src="components/UIManager.js"></script>
+    <script src="components/SessionManager.js?t=<?=Date.now()?>"></script>
+    <script src="components/SidebarManager.js?t=<?=Date.now()?>"></script>
+    <script src="components/ContentRenderer.js?t=<?=Date.now()?>"></script>
+    <script src="components/LanguageManager.js?t=<?=Date.now()?>"></script>
+    <script src="components/ErrorHandler.js?t=<?=Date.now()?>"></script>
+    <script src="components/ImageUploadManager.js?t=<?=Date.now()?>"></script>
+    <script src="components/SlideRenderer.js?t=<?=Date.now()?>"></script>
+    <script src="components/APIManager.js?t=<?=Date.now()?>"></script>
+    <script src="components/UIManager.js?t=<?=Date.now()?>"></script>
     <!-- 重构后的主文件 -->
-    <script src="script-refactored.js"></script>
+    <script src="script-refactored.js?t=<?=Date.now()?>"></script>
+
+    
 </body>
 
 </html>
