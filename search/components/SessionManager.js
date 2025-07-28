@@ -31,9 +31,9 @@ class SessionManager {
 
   // 创建新会话
   createSession(title = null) {
-    const sessionId = this.generateSessionId();
+    // 新会话初始id为null，后端返回后再填充
     const session = {
-      id: sessionId,
+      id: null,
       title: title || this.generateSessionTitle(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -41,21 +41,19 @@ class SessionManager {
       metadata: {
         language: this.app.languageManager.getCurrentLanguage(),
         messageCount: 0,
-        apiUsed: [], // 记录使用过的API类型
-        hasStoryContent: false, // 是否包含故事内容
-        hasImageContent: false  // 是否包含图片内容
+        apiUsed: [],
+        hasStoryContent: false,
+        hasImageContent: false
       }
     };
-    
-    this.sessions[sessionId] = session;
-    this.currentSessionId = sessionId;
+    // 用时间戳+随机数做临时key，防止冲突
+    const tempKey = `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    this.sessions[tempKey] = session;
+    this.currentSessionId = tempKey;
     this.saveSession(session);
-    
-    // 更新侧边栏显示
     if (this.app.sidebarManager) {
       this.app.sidebarManager.updateSessionList();
     }
-    
     return session;
   }
 
@@ -107,6 +105,59 @@ class SessionManager {
     
     return message;
   }
+  addMessage(sessionId, type, content, imageData = null, apiType = 'gemini') {
+    // 获取会话
+    let session = this.sessions[sessionId];
+    if (!session) {
+      // 尝试从localStorage恢复
+      session = this.loadSession(sessionId);
+      if (!session) {
+        console.warn(`Session ${sessionId} not found`);
+        return null;
+      }
+      this.sessions[sessionId] = session;
+    }
+
+    const message = {
+      id: this.generateMessageId(),
+      type: type, // 'user' | 'assistant'
+      content: content,
+      imageData: imageData,
+      apiType: apiType, // 'gemini' | 'story'
+      timestamp: new Date().toISOString()
+    };
+
+    session.messages.push(message);
+    session.updatedAt = new Date().toISOString();
+    session.metadata.messageCount = session.messages.length;
+
+    // 更新元数据
+    if (!session.metadata.apiUsed.includes(apiType)) {
+      session.metadata.apiUsed.push(apiType);
+    }
+    if (apiType === 'story') {
+      session.metadata.hasStoryContent = true;
+    }
+    if (imageData) {
+      session.metadata.hasImageContent = true;
+    }
+
+    // 存储到localStorage
+    this.saveSession(session);
+    localStorage.setItem('sessions', JSON.stringify(this.sessions));
+
+    // 更新侧边栏显示
+    if (this.app.sidebarManager) {
+      this.app.sidebarManager.updateSessionList();
+    }
+
+    // 如果是当前会话，更新内容显示
+    if (sessionId === this.currentSessionId && this.app.contentRenderer) {
+      this.app.contentRenderer.showSessionHistory(session);
+    }
+
+    return message;
+  }
 
   // 获取当前会话ID
   getCurrentSessionId() {
@@ -117,14 +168,23 @@ class SessionManager {
   setCurrentSessionId(sessionId) {
     if (this.sessions[sessionId]) {
       this.currentSessionId = sessionId;
-      
-      // 更新侧边栏活跃状态
       if (this.app.sidebarManager) {
         this.app.sidebarManager.updateActiveSession(sessionId);
       }
-      
-      // 恢复会话内容
       this.restoreSessionContent(sessionId);
+    }
+  }
+
+  // 更新会话ID（首次API返回后调用）
+  updateSessionId(oldKey, newSessionId) {
+    if (this.sessions[oldKey]) {
+      this.sessions[newSessionId] = this.sessions[oldKey];
+      this.sessions[newSessionId].id = newSessionId;
+      delete this.sessions[oldKey];
+      if (this.currentSessionId === oldKey) {
+        this.currentSessionId = newSessionId;
+      }
+      this.saveSessions();
     }
   }
 
@@ -205,6 +265,23 @@ class SessionManager {
       console.error('Failed to load sessions:', error);
       return {};
     }
+  }
+  loadSessions() {
+    try {
+      const data = localStorage.getItem('sessions');
+      if (data) {
+        return JSON.parse(data);
+      }
+    } catch (e) {
+      console.error('Failed to load sessions from localStorage', e);
+    }
+    return {};
+  }
+
+  // 加载单个会话
+  loadSession(sessionId) {
+    const sessions = this.loadSessions();
+    return sessions[sessionId] || null;
   }
 
   // 保存单个会话
