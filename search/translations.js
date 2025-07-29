@@ -2,18 +2,16 @@ const translations = {
   zh: {
     title: "智能内容分析工具",
     examples: [
-      "分析这段文字的主要观点",
-      "总结这篇文章的核心内容", 
-      "解释量子物理学的基本概念",
-      "为这个主题创作一个故事",
-      "基于这张图片创建内容"
+      "推荐最值得阅读的十部悬疑小说",
+      "95号混凝土拌意大利面好吃吗", 
+      "解释量子物理学的基本概念"
     ],
     uploadImageText: "上传图片",
     inputPlaceholder: "输入您想要分析或解释的内容...",
     sendButtonText: "分析",
     thinkingText: "思考中...",
     generateImagesOption: "生成图片解释",
-    welcomeMessage: "输入任何内容进行智能分析，或上传图片进行识别和解释！",
+    welcomeMessage: "我要不断前进，哪怕赌上你的未来！再给我100块",
     generatingMessage: "正在进行智能分析和内容生成...",
     // 会话管理相关翻译
     newSession: "新会话",
@@ -31,18 +29,16 @@ const translations = {
   en: {
     title: "Smart Content Analysis Tool",
     examples: [
-      "Analyze the main points of this text",
-      "Summarize the core content of this article",
-      "Explain basic concepts of quantum physics", 
-      "Create a story about this topic",
-      "Generate content based on this image"
+      "Recommend the top ten suspense novels to read",
+      "Is No. 95 concrete pasta delicious?",
+      "Explain the basic concepts of quantum physics"
     ],
     uploadImageText: "Upload Image",
     inputPlaceholder: "Enter content you want to analyze or explain...",
     sendButtonText: "Analyze",
     thinkingText: "Thinking...",
     generateImagesOption: "Generate Visual Explanation",
-    welcomeMessage: "Enter any content for intelligent analysis, or upload an image for recognition and explanation!",
+    welcomeMessage: "I will keep moving forward, even if it means betting your future! Give me another 100 bucks.",
     generatingMessage: "Performing intelligent analysis and content generation...",
     // Session management translations
     newSession: "New Session",
@@ -64,18 +60,16 @@ const translations = {
   ja: {
     title: "スマートコンテンツ分析ツール",
     examples: [
-      "このテキストの主なポイントを分析",
-      "この記事の核心内容を要約",
-      "量子物理学の基本概念を説明",
-      "このトピックについてストーリーを作成",
-      "この画像に基づいてコンテンツを生成"
+      "おすすめのサスペンス小説トップ10",
+      "95番コンクリートパスタは美味しいですか？",
+      "量子物理学の基本概念を説明"
     ],
     uploadImageText: "画像をアップロード",
     inputPlaceholder: "分析または説明したいコンテンツを入力...",
     sendButtonText: "分析",
     thinkingText: "考え中...",
     generateImagesOption: "画像説明を生成",
-    welcomeMessage: "任意のコンテンツを入力してインテリジェント分析を行うか、画像をアップロードして認識と説明を取得してください！",
+    welcomeMessage: "私は前進し続けます、たとえあなたの未来を賭けることになっても！もう100ドルください。",
     generatingMessage: "インテリジェント分析とコンテンツ生成を実行中...",
     errorMessages: {
       invalidFileType: "JPEG、PNG、WEBP、HEIC画像フォーマットをサポートしています",
@@ -89,18 +83,16 @@ const translations = {
   ko: {
     title: "스마트 콘텐츠 분석 도구",
     examples: [
-      "이 텍스트의 주요 포인트 분석",
-      "이 기사의 핵심 내용 요약",
-      "양자물리학의 기본 개념 설명", 
-      "이 주제에 대한 이야기 창작",
-      "이 이미지를 기반으로 콘텐츠 생성"
+      "추천할 만한 서스펜스 소설 10편",
+      "95번 콘크리트 파스타는 맛있나요?",
+      "양자 물리학의 기본 개념 설명"
     ],
     uploadImageText: "이미지 업로드",
     inputPlaceholder: "분석하거나 설명하고 싶은 내용을 입력하세요...",
     sendButtonText: "분석",
     thinkingText: "생각 중...",
     generateImagesOption: "이미지 설명 생성",
-    welcomeMessage: "지능형 분석을 위해 콘텐츠를 입력하거나 이미지를 업로드하여 인식 및 설명을 받으세요!",
+    welcomeMessage: "나는 계속 나아갈 것이다, 네 미래를 걸고서라도! 100달러 더 줘.",
     generatingMessage: "지능형 분석 및 콘텐츠 생성을 수행 중...",
     errorMessages: {
       invalidFileType: "JPEG, PNG, WEBP, HEIC 이미지 형식을 지원합니다",

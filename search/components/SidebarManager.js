@@ -35,12 +35,7 @@ class SidebarManager {
 
   createSidebarHTML() {
     const container = document.querySelector('.container');
-    
-    // 修改容器布局
-    container.style.display = 'grid';
-    container.style.gridTemplateColumns = 'auto 1fr';
-    container.style.gridTemplateAreas = '"header header" "sidebar main"';
-    
+
     // 创建侧边栏元素
     const sidebar = document.createElement('div');
     sidebar.id = 'sidebar';

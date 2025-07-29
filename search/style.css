@@ -26,7 +26,7 @@ body {
 
 .container { 
   max-width: 1200px; 
-  margin: 20px auto; 
+  margin: 0px auto; 
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-areas: 
@@ -312,18 +312,12 @@ h1 {
 .prompt-box { 
   display: flex; 
   flex-direction: column-reverse;
-  border: 2px solid #ced4da; 
-  border-radius: 12px; 
-  padding: 20px; 
-  background-color: #fff; 
-  transition: border-color 0.2s, box-shadow 0.2s; 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .prompt-box:focus-within { 
   outline: none; 
   border-color: #1c7ed6; 
-  box-shadow: 0 0 0 3px rgba(28, 126, 214, 0.15); 
+  box-shadow: none; 
 }
 
 .input-container {
@@ -333,12 +327,8 @@ h1 {
 
 #input {
   width: 100%;
-  border: 1px solid #e9ecef;
   border-radius: 8px;
   padding: 16px 70px 16px 16px;
-  font-size: 16px;
-  line-height: 1.5;
-  min-height: 120px;
   resize: vertical;
   font-family: inherit;
   background: #f8f9fa;
@@ -356,8 +346,8 @@ h1 {
   position: absolute;
   right: 12px;
   bottom: 12px;
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   border: none;
   border-radius: 50%;
   background: linear-gradient(135deg, #1c7ed6, #339af0);
@@ -399,8 +389,6 @@ h1 {
   display: flex; 
   align-items: center; 
   gap: 15px; 
-  padding-top: 15px;
-  border-top: 1px solid #e9ecef;
   flex-wrap: wrap;
 }
 
