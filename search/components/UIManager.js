@@ -24,20 +24,16 @@ class UIManager {
   }
 
   showLoading() {
-    const output = document.getElementById('output');
-    const slideshow = document.getElementById('slideshow');
-    const t = this.app.languageManager.getTranslations();
-    
-    slideshow.hidden = true;
-    output.style.display = 'block';
-    output.classList.add('loading');
-    output.classList.remove('welcome');
-    output.innerHTML = `<div class="loading-message">📊 ${t.generatingMessage}</div>`;
+    this.toggleSendButton(true);
   }
 
   hideLoading() {
+    this.toggleSendButton(false);
+  }
+
+  scrollToBottom() {
     const output = document.getElementById('output');
-    output.classList.remove('loading');
+    output.scrollTop = output.scrollHeight;
   }
 
   clearOutput() {

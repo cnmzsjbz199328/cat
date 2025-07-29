@@ -76,7 +76,6 @@ class ContentRenderer {
       // 用户消息
       messageDiv.innerHTML = `
         <div class="message-header">
-          <span class="message-role">用户</span>
           <span class="message-time">${this.formatTime(message.timestamp)}</span>
         </div>
         <div class="message-content">
@@ -104,7 +103,6 @@ let assistantContent = '';
       }
       messageDiv.innerHTML = `
         <div class="message-header">
-          <span class="message-role">助手</span>
           <span class="message-time">${this.formatTime(message.timestamp)}</span>
         </div>
         <div class="message-content">
@@ -196,7 +194,6 @@ let assistantContent = '';
     return `
       <div class="message user-message">
         <div class="message-header">
-          <span class="message-role">👤 用户</span>
           <span class="message-time">${timestamp}</span>
         </div>
         <div class="message-content">
@@ -233,7 +230,6 @@ let assistantContent = '';
     return `
       <div class="message assistant-message">
         <div class="message-header">
-          <span class="message-role">${apiIcon} ${apiName}</span>
           <span class="message-time">${timestamp}</span>
         </div>
         <div class="message-content">
@@ -248,6 +244,36 @@ let assistantContent = '';
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+  }
+
+  appendMessage(message) {
+    const output = document.getElementById('output');
+    const messageElement = this.createMessageElement(message);
+    output.appendChild(messageElement);
+    this.app.uiManager.scrollToBottom();
+  }
+
+  showAssistantLoadingPlaceholder() {
+    const output = document.getElementById('output');
+    const placeholder = document.createElement('div');
+    placeholder.id = 'loading-placeholder';
+    placeholder.className = 'message assistant-message loading-placeholder';
+    placeholder.innerHTML = `
+      <div class="message-content">
+        <div class="loading-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    `;
+    output.appendChild(placeholder);
+    this.app.uiManager.scrollToBottom();
+  }
+
+  removeAssistantLoadingPlaceholder() {
+    const placeholder = document.getElementById('loading-placeholder');
+    if (placeholder) {
+      placeholder.remove();
+    }
   }
 
   // 显示加载状态（会话专用）
