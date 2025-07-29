@@ -79,6 +79,11 @@ class SearchApp {
         currentSession = this.sessionManager.createSession();
         sessionKey = this.sessionManager.getCurrentSessionId();
         console.log('[handleSubmit] 新建会话:', sessionKey);
+        
+        // 触发侧边栏更新（因为createSession不再自动更新）
+        if (this.sidebarManager) {
+          this.sidebarManager.updateSessionList();
+        }
       } else {
         console.log('[handleSubmit] 使用现有会话:', sessionKey);
       }

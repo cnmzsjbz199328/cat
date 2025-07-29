@@ -50,69 +50,25 @@ class SessionManager {
     const tempKey = `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     this.sessions[tempKey] = session;
     this.currentSessionId = tempKey;
-    this.saveSession(session);
-    if (this.app.sidebarManager) {
-      this.app.sidebarManager.updateSessionList();
-    }
+    
+    // 统一使用 saveSessions 保存整个会话对象
+    this.saveSessions();
+    
+    console.log('[SessionManager] 会话已创建，tempKey:', tempKey);
     return session;
   }
 
   // 添加消息到会话
   addMessage(sessionId, type, content, imageData = null, apiType = 'gemini') {
-    const session = this.sessions[sessionId];
-    if (!session) {
-      console.warn(`Session ${sessionId} not found`);
-      return null;
-    }
-
-    const message = {
-      id: this.generateMessageId(),
-      type: type, // 'user' | 'assistant'
-      content: content,
-      imageData: imageData,
-      apiType: apiType, // 'gemini' | 'story'
-      timestamp: new Date().toISOString()
-    };
-
-    session.messages.push(message);
-    session.updatedAt = new Date().toISOString();
-    session.metadata.messageCount = session.messages.length;
+    console.log('[SessionManager] addMessage 开始', { sessionId, type, contentLength: content?.length });
     
-    // 更新元数据
-    if (!session.metadata.apiUsed.includes(apiType)) {
-      session.metadata.apiUsed.push(apiType);
-    }
-    
-    if (apiType === 'story') {
-      session.metadata.hasStoryContent = true;
-    }
-    
-    if (imageData) {
-      session.metadata.hasImageContent = true;
-    }
-    
-    this.saveSession(session);
-    
-    // 更新侧边栏显示
-    if (this.app.sidebarManager) {
-      this.app.sidebarManager.updateSessionList();
-    }
-    
-    // 如果是当前会话，更新内容显示
-    if (sessionId === this.currentSessionId && this.app.contentRenderer) {
-      this.app.contentRenderer.showSessionHistory(session);
-    }
-    
-    return message;
-  }
-  addMessage(sessionId, type, content, imageData = null, apiType = 'gemini') {
     // 获取会话
     let session = this.sessions[sessionId];
     if (!session) {
       // 尝试从localStorage恢复
       session = this.loadSession(sessionId);
       if (!session) {
-        console.warn(`Session ${sessionId} not found`);
+        console.warn(`[SessionManager] Session ${sessionId} not found`);
         return null;
       }
       this.sessions[sessionId] = session;
@@ -142,20 +98,17 @@ class SessionManager {
       session.metadata.hasImageContent = true;
     }
 
-    // 存储到localStorage
-    this.saveSession(session);
-    localStorage.setItem('sessions', JSON.stringify(this.sessions));
+    // 统一使用 saveSessions 保存整个会话对象
+    this.saveSessions();
 
-    // 更新侧边栏显示
+    console.log('[SessionManager] 消息已保存，准备更新侧边栏');
+
+    // 更新侧边栏显示（统一调用一次）
     if (this.app.sidebarManager) {
       this.app.sidebarManager.updateSessionList();
     }
 
-    // 如果是当前会话，更新内容显示
-    if (sessionId === this.currentSessionId && this.app.contentRenderer) {
-      this.app.contentRenderer.showSessionHistory(session);
-    }
-
+    console.log('[SessionManager] addMessage 完成');
     return message;
   }
 
@@ -177,14 +130,24 @@ class SessionManager {
 
   // 更新会话ID（首次API返回后调用）
   updateSessionId(oldKey, newSessionId) {
+    console.log('[SessionManager] updateSessionId 开始', { oldKey, newSessionId });
+    
     if (this.sessions[oldKey]) {
       this.sessions[newSessionId] = this.sessions[oldKey];
       this.sessions[newSessionId].id = newSessionId;
       delete this.sessions[oldKey];
+      
       if (this.currentSessionId === oldKey) {
         this.currentSessionId = newSessionId;
       }
+      
       this.saveSessions();
+      console.log('[SessionManager] 会话ID已更新并保存');
+      
+      // 只更新一次侧边栏
+      if (this.app.sidebarManager) {
+        this.app.sidebarManager.updateSessionList();
+      }
     }
   }
 
@@ -247,7 +210,9 @@ class SessionManager {
     if (session) {
       session.title = newTitle;
       session.updatedAt = new Date().toISOString();
-      this.saveSession(session);
+      
+      // 统一使用 saveSessions 保存整个会话对象
+      this.saveSessions();
       
       // 更新侧边栏显示
       if (this.app.sidebarManager) {
@@ -266,28 +231,11 @@ class SessionManager {
       return {};
     }
   }
-  loadSessions() {
-    try {
-      const data = localStorage.getItem('sessions');
-      if (data) {
-        return JSON.parse(data);
-      }
-    } catch (e) {
-      console.error('Failed to load sessions from localStorage', e);
-    }
-    return {};
-  }
 
   // 加载单个会话
   loadSession(sessionId) {
     const sessions = this.loadSessions();
     return sessions[sessionId] || null;
-  }
-
-  // 保存单个会话
-  saveSession(session) {
-    this.sessions[session.id] = session;
-    this.saveSessions();
   }
 
   // 保存所有会话到LocalStorage

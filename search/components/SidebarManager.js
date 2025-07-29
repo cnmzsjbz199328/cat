@@ -1,12 +1,17 @@
 class SidebarManager {
   constructor(app) {
+    console.log('[SidebarManager] 构造函数开始', { app: !!app });
     this.app = app;
     this.isCollapsed = false;
+    this.eventsbound = false;
+    console.log('[SidebarManager] 开始调用 initializeSidebar');
     this.initializeSidebar();
-    this.bindEvents();
+    console.log('[SidebarManager] 构造函数完成');
+    // bindEvents已在initializeSidebar中调用，不需要重复
   }
 
   initializeSidebar() {
+    console.log('[SidebarManager] initializeSidebar 开始');
     // 创建侧边栏HTML结构
     this.createSidebarHTML();
     
@@ -15,6 +20,7 @@ class SidebarManager {
     
     // 恢复侧边栏状态
     const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    console.log('[SidebarManager] 侧边栏状态恢复:', { isCollapsed });
     if (isCollapsed) {
       this.isCollapsed = true;
       const sidebar = document.getElementById('sidebar');
@@ -31,11 +37,25 @@ class SidebarManager {
     
     // 初始渲染会话列表
     this.updateSessionList();
+    console.log('[SidebarManager] initializeSidebar 完成');
   }
 
   createSidebarHTML() {
+    console.log('[SidebarManager] createSidebarHTML 开始');
     const container = document.querySelector('.container');
+    if (!container) {
+      console.error('[SidebarManager] 找不到 .container 元素');
+      return;
+    }
 
+    // 防止重复创建：如果已存在sidebar，直接返回
+    const existingSidebar = document.getElementById('sidebar');
+    if (existingSidebar) {
+      console.log('[SidebarManager] Sidebar 已存在，跳过创建');
+      return;
+    }
+
+    console.log('[SidebarManager] 开始创建新的 sidebar 元素');
     // 创建侧边栏元素
     const sidebar = document.createElement('div');
     sidebar.id = 'sidebar';
@@ -77,38 +97,92 @@ class SidebarManager {
     if (mainContent) {
       mainContent.style.gridArea = 'main';
     }
+
+    console.log('[SidebarManager] Sidebar 创建并插入成功');
   }
 
   bindEvents() {
+    console.log('[SidebarManager] bindEvents 开始', { eventsbound: this.eventsbound });
+    // 防止重复绑定事件
+    if (this.eventsbound) {
+      console.log('[SidebarManager] 事件已绑定，跳过');
+      return;
+    }
+
     // 新建会话按钮
-    document.getElementById('new-session-btn')?.addEventListener('click', () => {
-      this.createNewSession();
-    });
+    const newSessionBtn = document.getElementById('new-session-btn');
+    if (newSessionBtn) {
+      newSessionBtn.addEventListener('click', () => {
+        console.log('[SidebarManager] 新建会话按钮点击');
+        this.createNewSession();
+      });
+      console.log('[SidebarManager] 新建会话按钮事件绑定成功');
+    } else {
+      console.warn('[SidebarManager] 找不到新建会话按钮');
+    }
 
     // 切换侧边栏按钮
-    document.getElementById('toggle-sidebar-btn')?.addEventListener('click', () => {
-      this.toggleSidebar();
-    });
+    const toggleBtn = document.getElementById('toggle-sidebar-btn');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        console.log('[SidebarManager] 切换侧边栏按钮点击');
+        this.toggleSidebar();
+      });
+      console.log('[SidebarManager] 切换侧边栏按钮事件绑定成功');
+    } else {
+      console.warn('[SidebarManager] 找不到切换侧边栏按钮');
+    }
 
     // 搜索会话
-    document.getElementById('session-search')?.addEventListener('input', (e) => {
-      this.filterSessions(e.target.value);
-    });
+    const searchInput = document.getElementById('session-search');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        console.log('[SidebarManager] 搜索输入:', e.target.value);
+        this.filterSessions(e.target.value);
+      });
+      console.log('[SidebarManager] 搜索输入框事件绑定成功');
+    } else {
+      console.warn('[SidebarManager] 找不到搜索输入框');
+    }
 
     // 导出所有数据
-    document.getElementById('export-all-btn')?.addEventListener('click', () => {
-      this.exportAllSessions();
-    });
+    const exportBtn = document.getElementById('export-all-btn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', () => {
+        console.log('[SidebarManager] 导出全部按钮点击');
+        this.exportAllSessions();
+      });
+      console.log('[SidebarManager] 导出全部按钮事件绑定成功');
+    } else {
+      console.warn('[SidebarManager] 找不到导出全部按钮');
+    }
 
     // 清理存储
-    document.getElementById('clear-sessions-btn')?.addEventListener('click', () => {
-      this.clearAllSessions();
-    });
+    const clearBtn = document.getElementById('clear-sessions-btn');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        console.log('[SidebarManager] 清理存储按钮点击');
+        this.clearAllSessions();
+      });
+      console.log('[SidebarManager] 清理存储按钮事件绑定成功');
+    } else {
+      console.warn('[SidebarManager] 找不到清理存储按钮');
+    }
 
     // 会话列表点击事件（事件委托）
-    document.getElementById('session-list')?.addEventListener('click', (e) => {
-      this.handleSessionListClick(e);
-    });
+    const sessionList = document.getElementById('session-list');
+    if (sessionList) {
+      sessionList.addEventListener('click', (e) => {
+        console.log('[SidebarManager] 会话列表点击事件');
+        this.handleSessionListClick(e);
+      });
+      console.log('[SidebarManager] 会话列表事件绑定成功');
+    } else {
+      console.warn('[SidebarManager] 找不到会话列表');
+    }
+
+    this.eventsbound = true;
+    console.log('[SidebarManager] 所有事件绑定完成');
   }
 
   createNewSession() {
@@ -120,6 +194,9 @@ class SidebarManager {
     
     // 聚焦输入框
     this.app.uiManager.focusInput();
+    
+    // 手动更新侧边栏UI（因为createSession不再自动更新）
+    this.updateSessionList();
     
     console.log('Created new session:', session.id);
   }
@@ -147,10 +224,15 @@ class SidebarManager {
   }
 
   updateSessionList() {
+    console.log('[SidebarManager] updateSessionList 开始');
     const sessionListElement = document.getElementById('session-list');
-    if (!sessionListElement) return;
+    if (!sessionListElement) {
+      console.error('[SidebarManager] 找不到 session-list 元素');
+      return;
+    }
 
     const sessions = this.app.sessionManager.getSessions();
+    console.log('[SidebarManager] 获取到会话数据:', { sessionCount: sessions.length });
     const sortedSessions = this.sortSessionsByDate(sessions);
     
     if (sortedSessions.length === 0) {
@@ -160,12 +242,14 @@ class SidebarManager {
           <p class="empty-hint">点击 ➕ 创建新会话</p>
         </div>
       `;
+      console.log('[SidebarManager] 显示空会话状态');
       return;
     }
 
     sessionListElement.innerHTML = sortedSessions
       .map(session => this.renderSessionItem(session))
       .join('');
+    console.log('[SidebarManager] 会话列表渲染完成，共', sortedSessions.length, '个会话');
   }
 
   renderSessionItem(session) {
