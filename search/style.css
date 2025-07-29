@@ -25,7 +25,6 @@ body {
 }
 
 .container { 
-  max-width: 1200px; 
   margin: 0px auto; 
   display: grid;
   grid-template-columns: auto 1fr;
@@ -39,8 +38,7 @@ body {
   grid-area: main;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 0 20px;
+  padding: 0 10px;
   min-width: 0;
 }
 
@@ -533,15 +531,13 @@ h1 {
 }
 
 #output {
-  min-height: 200px;
+  max-height: 550px;
   background: #fff;
-  border: 1px solid #e9ecef;
-  border-radius: 12px;
-  padding: 30px;
+  padding: 20px;
   margin-top: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   font-size: 16px;
   line-height: 1.7;
+  overflow-y: auto;
 }
 
 #output.loading {
@@ -554,7 +550,7 @@ h1 {
 
 #output h2 {
   color: #1c7ed6;
-  margin-bottom: 20px;
+  margin: 10px 0 10px 0;
   font-size: 24px;
 }
 
@@ -564,17 +560,11 @@ h1 {
   font-size: 18px;
 }
 
-#output p {
-  margin-bottom: 15px;
-  color: #343a40;
-}
-
 #output ul, #output ol {
-  margin: 15px 0 15px 25px;
+  margin: 0 0 0 25px;
 }
 
 #output li {
-  margin-bottom: 8px;
   color: #343a40;
 }
 
