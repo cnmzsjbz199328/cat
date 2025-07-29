@@ -119,8 +119,24 @@ class SearchApp {
         console.log('[handleSubmit] 会话ID已同步为后端:', apiSessionId);
       }
 
-      // 添加助手回复到会话（用最新的会话ID）
-      this.sessionManager.addMessage(renderSessionKey, 'assistant', result.content, result.imageUrl ? { base64: result.imageUrl } : null, 'analysis');
+      // 添加助手回复到会话（用最新的会话ID），content 字段为对象，兼容图片和文本
+      let assistantContent = result.content;
+      let assistantImageUrl = result.imageUrl;
+      // 兼容 story_markdown/image_url 结构
+      if (result.story_markdown && result.image_url) {
+        assistantContent = {
+          content: result.story_markdown,
+          imageUrl: result.image_url
+        };
+        assistantImageUrl = undefined;
+      } else if (typeof result.content === 'string' && result.imageUrl) {
+        assistantContent = {
+          content: result.content,
+          imageUrl: result.imageUrl
+        };
+        assistantImageUrl = undefined;
+      }
+      this.sessionManager.addMessage(renderSessionKey, 'assistant', assistantContent, assistantImageUrl, 'story');
 
       // 自动刷新会话历史，显示所有消息（包括助手回复）
       const session = this.sessionManager.sessions[renderSessionKey];

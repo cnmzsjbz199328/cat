@@ -17,15 +17,21 @@ class ContentRenderer {
     output.style.display = 'block';
     output.classList.remove('welcome', 'loading');
     
-    // 处理不同的结果格式
+    // 处理不同的结果格式，兼容 story_markdown/image_url 结构
     let content, imageUrl;
     if (typeof result === 'object') {
-      content = result.content || result;
-      imageUrl = result.imageUrl;
+      // 兼容 story_markdown/image_url 结构
+      if (result.story_markdown && result.image_url) {
+        content = result.story_markdown;
+        imageUrl = result.image_url;
+      } else {
+        content = result.content || result;
+        imageUrl = result.imageUrl;
+      }
     } else {
       content = result;
     }
-    
+
     if (imageUrl) {
       // 有图片的渲染（图文模式）
       output.innerHTML = this.renderStoryWithImage(content, imageUrl);
@@ -79,14 +85,30 @@ class ContentRenderer {
         </div>
       `;
     } else {
-      // 助手消息
+let assistantContent = '';
+      // 检查 message.content 是否为对象且有 imageUrl 字段
+      if (
+        (message.apiType === 'story' && message.content && typeof message.content === 'object' && message.content.imageUrl)
+        || (message.imageUrl) // 兼容旧结构
+      ) {
+        // 兼容两种结构
+        const storyContent = message.content && typeof message.content === 'object' ? message.content.content || message.content : message.content;
+        const imageUrl = message.content && typeof message.content === 'object' ? message.content.imageUrl : message.imageUrl;
+        assistantContent = this.renderStoryWithImage(storyContent, imageUrl);
+      } else {
+        assistantContent = this.app.uiManager.processMarkdown(
+          typeof message.content === 'object' && message.content.content
+            ? message.content.content
+            : message.content
+        );
+      }
       messageDiv.innerHTML = `
         <div class="message-header">
           <span class="message-role">助手</span>
           <span class="message-time">${this.formatTime(message.timestamp)}</span>
         </div>
         <div class="message-content">
-          ${this.app.uiManager.processMarkdown(message.content)}
+          ${assistantContent}
         </div>
       `;
     }
