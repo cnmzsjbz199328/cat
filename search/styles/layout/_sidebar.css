@@ -42,6 +42,12 @@ margin: 10px;
   display: none;
 }
 
+.sidebar.collapsed .sidebar-search,
+.sidebar.collapsed .session-list-container,
+.sidebar.collapsed .sidebar-footer {
+    display: none;
+}
+
 .sidebar-controls {
   display: flex;
   gap: 8px;
