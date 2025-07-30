@@ -1,0 +1,14 @@
+/* 基础样式 */
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+body { 
+  font-family: 'Space Mono', monospace; 
+  padding: 20px; 
+  background-color: #ffffff; 
+  color: #343a40; 
+  line-height: 1.6; 
+}

@@ -1,0 +1,46 @@
+/* 保留幻灯片样式以支持图文模式 */
+#slideshow { 
+  display: flex; 
+  flex-direction: row; 
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.slide { 
+  padding: 20px; 
+  scroll-snap-align: center; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  min-width: 400px; 
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid #e9ecef;
+}
+
+.slide img { 
+  height: 320px; 
+  width: 320px; 
+  object-fit: contain; 
+  border-radius: 8px;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.slide:hover img {
+  filter: grayscale(0%);
+}
+
+.slide div { 
+  font-size: 18px; 
+  text-align: center; 
+  color: #2c3e50; 
+  line-height: 1.6; 
+  margin-top: 15px;
+  max-width: 320px;
+  word-wrap: break-word;
+}

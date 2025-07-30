@@ -1,0 +1,84 @@
+/* 输出区域样式 */
+.story-image {
+  width: auto; /* 让父容器宽度自适应 */
+  max-width: 100%; /* 不超过父级宽度 */
+  margin-bottom: 20px;
+}
+
+.story-image img {
+  display: block;
+  max-width: 100%; /* 图片最大宽度不超过父容器 */
+  height: auto; /* 保持比例 */
+  max-height: 400px; /* 可选，限制最大高度 */
+  object-fit: contain; /* 保证图片完整显示 */
+  border-radius: 12px;
+}
+
+#output {
+  max-height: 550px;
+  background: #fff;
+  padding: 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-y: auto;
+}
+
+#output.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
+#output h2 {
+  color: #1c7ed6;
+  margin: 10px 0 10px 0;
+  font-size: 24px;
+}
+
+#output h3 {
+  color: #495057;
+  margin: 20px 0 10px 0;
+  font-size: 18px;
+}
+
+#output ul, #output ol {
+  margin: 0 0 0 25px;
+}
+
+#output li {
+  color: #343a40;
+}
+
+#output blockquote {
+  border-left: 4px solid #1c7ed6;
+  padding-left: 20px;
+  margin: 20px 0;
+  font-style: italic;
+  color: #6c757d;
+}
+
+#output code {
+  background: #f8f9fa;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  color: #e83e8c;
+}
+
+#output pre {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 15px 0;
+}
+
+#output pre code {
+  background: none;
+  padding: 0;
+  color: #343a40;
+}

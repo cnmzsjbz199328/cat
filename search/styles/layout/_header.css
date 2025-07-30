@@ -1,0 +1,15 @@
+/* 头部控制区域 */
+.header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+h1 { 
+  color: #212529; 
+  font-size: 28px;
+  font-weight: 600;
+}

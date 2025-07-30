@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Kalam:wght@300;400;700&family=Caveat:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=ZCOOL+XiaoWei&family=Long+Cang&family=Ma+Shan+Zheng&family=Nanum+Pen+Script&family=Gaegu&family=Noto+Sans+JP:wght@400;700&family=Kosugi+Maru&family=Zen+Kurenaido&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@300;400&display=swap');
+
+/* 多语言字体定义 */
+:root {
+  --font-handwriting-en: 'Caveat', 'Kalam', 'Indie Flower', cursive;
+  --font-handwriting-zh: 'Long Cang', 'ZCOOL XiaoWei', 'STYuanti', '华文圆体', cursive;
+  --font-handwriting-ja: 'Zen Kurenaido', 'Kosugi Maru', 'Noto Sans JP', cursive;
+  --font-handwriting-ko: 'Nanum Pen Script', 'Gaegu', 'Noto Sans KR', cursive;
+  --font-mono: 'Space Mono', monospace;
+}

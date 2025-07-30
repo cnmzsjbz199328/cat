@@ -1,0 +1,17 @@
+.container { 
+  margin: 0px auto; 
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: 
+    "sidebar main";
+  gap: 0;
+  min-height: calc(100vh - 40px);
+}
+
+.main-content {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  min-width: 0;
+}

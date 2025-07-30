@@ -1,0 +1,71 @@
+.control-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: #f8f9fa;
+  color: #495057;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+  background: #e9ecef;
+  color: #1c7ed6;
+}
+
+.send-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1c7ed6, #339af0);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(28, 126, 214, 0.3);
+}
+
+.send-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1971c2, #2b8ce4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(28, 126, 214, 0.4);
+}
+
+.send-btn:disabled {
+  background: linear-gradient(135deg, #adb5bd, #ced4da);
+  cursor: not-allowed;
+}
+
+.send-btn .send-text {
+  display: none;
+}
+
+.send-btn .loading-icon {
+  animation: spin 1s linear infinite;
+}
+
+.retry-btn {
+  margin-top: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #1c7ed6;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.retry-btn:hover {
+  background: #1971c2;
+}
