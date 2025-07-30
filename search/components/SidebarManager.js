@@ -12,30 +12,19 @@ class SidebarManager {
 
   initializeSidebar() {
     console.log('[SidebarManager] initializeSidebar 开始');
-    // 创建侧边栏HTML结构
     this.createSidebarHTML();
-    
-    // 绑定事件
     this.bindEvents();
-    
-    // 恢复侧边栏状态
-    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-    console.log('[SidebarManager] 侧边栏状态恢复:', { isCollapsed });
-    if (isCollapsed) {
-      this.isCollapsed = true;
-      const sidebar = document.getElementById('sidebar');
-      const container = document.querySelector('.container');
-      const toggleBtn = document.getElementById('toggle-sidebar-btn');
-      
-      if (sidebar && container && toggleBtn) {
-        sidebar.classList.add('collapsed');
-        container.style.gridTemplateColumns = '60px 1fr';
-        toggleBtn.innerHTML = '▶';
-        toggleBtn.title = '展开侧边栏';
+
+    if (window.innerWidth <= 768) {
+      this.setupMobileSidebar();
+    } else {
+      const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+      if (isCollapsed) {
+        this.isCollapsed = true;
+        this.applyCollapsedState(true);
       }
     }
-    
-    // 初始渲染会话列表
+
     this.updateSessionList();
     console.log('[SidebarManager] initializeSidebar 完成');
   }
@@ -202,25 +191,57 @@ class SidebarManager {
   }
 
   toggleSidebar() {
+    if (window.innerWidth <= 768) {
+        this.toggleMobileSidebar();
+        return;
+    }
     this.isCollapsed = !this.isCollapsed;
+    this.applyCollapsedState(this.isCollapsed);
+    localStorage.setItem('sidebarCollapsed', this.isCollapsed.toString());
+  }
+
+  applyCollapsedState(isCollapsed) {
     const sidebar = document.getElementById('sidebar');
     const container = document.querySelector('.container');
     const toggleBtn = document.getElementById('toggle-sidebar-btn');
-    
-    if (this.isCollapsed) {
-      sidebar.classList.add('collapsed');
-      container.style.gridTemplateColumns = '60px 1fr';
-      toggleBtn.innerHTML = '▶';
-      toggleBtn.title = '展开侧边栏';
+
+    if (isCollapsed) {
+        sidebar.classList.add('collapsed');
+        container.style.gridTemplateColumns = '60px 1fr';
+        toggleBtn.innerHTML = '▶';
+        toggleBtn.title = '展开侧边栏';
     } else {
-      sidebar.classList.remove('collapsed');
-      container.style.gridTemplateColumns = '280px 1fr';
-      toggleBtn.innerHTML = '◀';
-      toggleBtn.title = '收起侧边栏';
+        sidebar.classList.remove('collapsed');
+        container.style.gridTemplateColumns = '280px 1fr';
+        toggleBtn.innerHTML = '◀';
+        toggleBtn.title = '收起侧边栏';
     }
-    
-    // 保存状态到localStorage
-    localStorage.setItem('sidebarCollapsed', this.isCollapsed.toString());
+  }
+
+  setupMobileSidebar() {
+    const mobileToggle = document.createElement('button');
+    mobileToggle.className = 'mobile-sidebar-toggle';
+    mobileToggle.innerHTML = '☰';
+    document.body.appendChild(mobileToggle);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'mobile-sidebar-overlay';
+    document.body.appendChild(overlay);
+
+    mobileToggle.addEventListener('click', () => this.toggleMobileSidebar(true));
+    overlay.addEventListener('click', () => this.toggleMobileSidebar(false));
+  }
+
+  toggleMobileSidebar(isOpen) {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.mobile-sidebar-overlay');
+    if (isOpen) {
+        sidebar.classList.add('mobile-open');
+        overlay.classList.add('active');
+    } else {
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
+    }
   }
 
   updateSessionList() {
