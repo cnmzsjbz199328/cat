@@ -1,0 +1,18 @@
+:root {
+    --bg-color: #FDF8E8; /* 米白画纸 */
+    --card-bg-color: #FFFFFF;
+    --primary-color: #7B9A8E; /* 森林绿 */
+    --text-color: #5A524C; /* 深棕色 */
+    --input-bg-color: #F9F6F0; /* 输入框背景 */
+    --border-color: #D8D0C1; /* 柔和边框色 */
+    --shadow-color: rgba(90, 82, 76, 0.15);
+    --success-color: #D4EDDA; /* 成功提示背景 */
+    --success-text: #155724; /* 成功提示文字 */
+    --error-color: #F8D7DA; /* 错误提示背景 */
+    --error-text: #721c24; /* 错误提示文字 */
+    --loading-color: #D1ECF1; /* 加载提示背景 */
+    --loading-text: #0c5460; /* 加载提示文字 */
+
+    --font-heading: 'Caveat', cursive;
+    --font-body: 'Noto Sans SC', sans-serif;
+}

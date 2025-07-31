@@ -1,0 +1,17 @@
+@import url('variables.css');
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+.container {
+  background: var(--card-bg-color);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  position: relative;
+}
+.main-content {
+  background: transparent;
+}

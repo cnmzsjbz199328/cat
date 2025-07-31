@@ -25,6 +25,7 @@
   justify-content: space-between;
   align-items: center;
   background: #fff;
+  position: relative; /* Establish stacking context */
 }
 
 .sidebar-header h3 {
@@ -32,6 +33,7 @@
   font-weight: 600;
   color: #495057;
   margin: 0;
+  z-index: 1; /* Lower z-index for title */
 }
 
 .sidebar-footer{
@@ -51,6 +53,8 @@ margin: 10px;
 .sidebar-controls {
   display: flex;
   gap: 8px;
+  position: relative; /* Allow z-index to work */
+  z-index: 2; /* Higher z-index for controls/button */
 }
 
 .sidebar-search {

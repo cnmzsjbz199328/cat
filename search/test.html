@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI故事生成器API测试</title>
+    <title>AI故事生成器API测试 - 吉卜力风格</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Noto+Sans+SC:wght@300;400;500&display=swap');
+
+        :root {
+            --bg-color: #FDF8E8; /* 米白画纸 */
+            --card-bg-color: #FFFFFF;
+            --primary-color: #7B9A8E; /* 森林绿 */
+            --text-color: #5A524C; /* 深棕色 */
+            --input-bg-color: #F9F6F0; /* 输入框背景 */
+            --border-color: #D8D0C1; /* 柔和边框色 */
+            --shadow-color: rgba(90, 82, 76, 0.15);
+            --success-color: #D4EDDA; /* 成功提示背景 */
+            --success-text: #155724; /* 成功提示文字 */
+            --error-color: #F8D7DA; /* 错误提示背景 */
+            --error-text: #721c24; /* 错误提示文字 */
+            --loading-color: #D1ECF1; /* 加载提示背景 */
+            --loading-text: #0c5460; /* 加载提示文字 */
+
+            --font-heading: 'Caveat', cursive;
+            --font-body: 'Noto Sans SC', sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,59 +33,103 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
+            font-family: var(--font-body);
+            background: var(--bg-color);
             padding: 20px;
+            color: var(--text-color);
+            /* Subtle paper texture */
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cpattern id='dot-texture' patternUnits='userSpaceOnUse' width='5' height='5'%3E%3Ccircle cx='2.5' cy='2.5' r='0.5' fill='%23000' fill-opacity='0.01'/%3E%3C/pattern%3E%3Crect width='100%25' height='100%25' fill='url(%23dot-texture)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
         }
 
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background: white;
-            border-radius: 8px;
+            background: var(--card-bg-color);
+            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            position: relative; /* For corner decorations */
+            overflow: hidden;
+        }
+
+        /* Corner decorations */
+        .corner-decoration {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .top-left {
+            top: -10px;
+            left: -10px;
+            transform: rotate(0deg);
+        }
+        .bottom-right {
+            bottom: -10px;
+            right: -10px;
+            transform: rotate(180deg);
         }
 
         h1 {
+            font-family: var(--font-heading);
             text-align: center;
-            color: #333;
+            color: var(--primary-color);
             margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
         }
 
         .section {
             margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            background: var(--input-bg-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .section h2 {
-            color: #666;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 700;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 1.05rem;
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--card-bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(123, 154, 142, 0.2);
         }
 
         textarea {
-            height: 80px;
+            height: 100px;
             resize: vertical;
         }
 
@@ -73,92 +138,109 @@
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 4px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 14px;
-            margin-right: 10px;
+            font-size: 1rem;
+            margin-right: 15px;
             margin-bottom: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .btn-primary {
-            background: #007bff;
+            background: var(--primary-color);
             color: white;
+        }
+
+        .btn-primary:hover {
+            background: #6a8a7c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .btn-secondary {
-            background: #6c757d;
-            color: white;
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background: #c7bfae;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .message {
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
             display: none;
+            font-size: 0.95rem;
+            font-weight: 500;
         }
 
         .success {
-            background: #d4edda;
-            color: #155724;
+            background: var(--success-color);
+            color: var(--success-text);
             border: 1px solid #c3e6cb;
         }
 
         .error {
-            background: #f8d7da;
-            color: #721c24;
+            background: var(--error-color);
+            color: var(--error-text);
             border: 1px solid #f5c6cb;
         }
 
         .loading {
-            background: #d1ecf1;
-            color: #0c5460;
+            background: var(--loading-color);
+            color: var(--loading-text);
             border: 1px solid #bee5eb;
         }
 
         .response {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 4px;
+            margin-top: 25px;
+            padding: 20px;
+            background: var(--input-bg-color);
+            border-radius: 15px;
             display: none;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .json-output {
             background: #2d3748;
             color: #e2e8f0;
             padding: 15px;
-            border-radius: 4px;
+            border-radius: 8px;
             font-family: monospace;
-            font-size: 12px;
+            font-size: 0.85rem;
             white-space: pre-wrap;
             word-break: break-word;
             max-height: 400px;
             overflow-y: auto;
+            border: 1px solid #4a5568;
         }
 
         .story-output {
-            background: white;
+            background: var(--card-bg-color);
             padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             margin: 10px 0;
             max-height: 400px;
             overflow-y: auto;
+            line-height: 1.7;
         }
 
-        .image-preview {
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-
-        .generated-image {
+        .image-preview, .generated-image {
             max-width: 100%;
-            border-radius: 4px;
-            margin: 10px 0;
+            height: auto;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .spinner {
@@ -166,7 +248,7 @@
             width: 20px;
             height: 20px;
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #007bff;
+            border-top: 3px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 10px;
@@ -179,18 +261,26 @@
 
         .tabs {
             display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
         }
 
         .tab {
-            padding: 10px 20px;
+            padding: 12px 25px;
             cursor: pointer;
             border-bottom: 2px solid transparent;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: var(--input-bg-color);
         }
 
         .tab.active {
-            border-bottom-color: #007bff;
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
             font-weight: 600;
         }
 
@@ -201,10 +291,34 @@
         .tab-content.active {
             display: block;
         }
+
+        .decorative-divider {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .decorative-divider svg {
+            width: 100%;
+            max-width: 300px; /* Limit width for the divider */
+            height: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Corner decorations -->
+        <svg class="corner-decoration top-left" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 10 90 Q 30 70, 50 80 T 90 60" stroke="#7B9A8E" fill="none" stroke-width="2" stroke-linecap="round"/>
+            <path d="M 25 85 Q 20 75, 30 70 Q 40 75, 35 85 Z" fill="#7B9A8E" opacity="0.7"/>
+            <path d="M 40 75 Q 35 65, 45 60 Q 55 65, 50 75 Z" fill="#7B9A8E" opacity="0.7"/>
+            <path d="M 60 65 Q 55 55, 65 50 Q 75 55, 70 65 Z" fill="#7B9A8E" opacity="0.7"/>
+        </svg>
+         <svg class="corner-decoration bottom-right" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 10 90 Q 30 70, 50 80 T 90 60" stroke="#7B9A8E" fill="none" stroke-width="2" stroke-linecap="round"/>
+            <path d="M 25 85 Q 20 75, 30 70 Q 40 75, 35 85 Z" fill="#7B9A8E" opacity="0.7"/>
+            <path d="M 40 75 Q 35 65, 45 60 Q 55 65, 50 75 Z" fill="#7B9A8E" opacity="0.7"/>
+            <path d="M 60 65 Q 55 55, 65 50 Q 75 55, 70 65 Z" fill="#7B9A8E" opacity="0.7"/>
+        </svg>
+
         <h1>AI故事生成器API测试</h1>
         
         <!-- API端点选择 -->
@@ -212,6 +326,14 @@
             <div class="tabs">
                 <div class="tab active" onclick="switchEndpoint('picture')">生成故事+配图</div>
                 <div class="tab" onclick="switchEndpoint('text')">仅生成文本</div>
+            </div>
+
+            <div class="decorative-divider">
+                <svg width="100%" height="20" viewBox="0 0 100 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="0" y1="10" x2="40" y2="10" stroke="#D8D0C1" stroke-width="1"/>
+                    <path d="M 45 10 Q 47 5, 50 5 T 55 10 Q 53 15, 50 15 T 45 10 Z" fill="#7B9A8E" opacity="0.8"/>
+                    <line x1="60" y1="10" x2="100" y2="10" stroke="#D8D0C1" stroke-width="1"/>
+                </svg>
             </div>
 
             <!-- 生成故事+配图 -->
@@ -380,7 +502,6 @@
                 }
                 const base64String = dataUrl.substring(commaIndex + 1);
                 
-                // 验证base64格式
                 if (!/^[A-Za-z0-9+/]*={0,2}$/.test(base64String)) {
                     throw new Error('Invalid base64 format');
                 }
@@ -411,7 +532,6 @@
                 return;
             }
 
-            // 验证图片数据
             if (image && !image) {
                 showMessage('picture', '图片数据无效，请重新上传', 'error');
                 return;
@@ -456,7 +576,6 @@ if (image) {
                     showMessage('picture', '生成成功！', 'success');
                     displayPictureResponse(data);
                     
-                    // 更新会话ID
                     if (data.session_id) {
                         document.getElementById('session-picture').value = data.session_id;
                     }
@@ -486,7 +605,6 @@ if (image) {
                 return;
             }
 
-            // 验证图片数据
             if (image && !image) {
                 showMessage('text', '图片数据无效，请重新上传', 'error');
                 return;
@@ -495,7 +613,6 @@ if (image) {
             const requestBody = { language };
             if (prompt) requestBody.prompt = prompt;
             if (image) {
-                // 确保base64数据有效
                 if (typeof image !== 'string' || image.length === 0) {
                     showMessage('text', '图片数据格式错误，请重新上传', 'error');
                     return;
@@ -528,7 +645,6 @@ if (image) {
                     showMessage('text', '生成成功！', 'success');
                     displayTextResponse(data);
                     
-                    // 更新会话ID
                     if (data.session_id) {
                         document.getElementById('session-text').value = data.session_id;
                     }
@@ -607,9 +723,9 @@ if (image) {
                 .replace(/\n\n/g, '</p><p>')
                 .replace(/^(.+)$/gim, '<p>$1</p>')
                 .replace(/<p><h/g, '<h')
-                .replace(/<\/h([1-6])><\/p>/g, '</h$1>')
+                .replace(/<\/h([1-6])><\/p>/g, '<\/h$1>')
                 .replace(/<p><li>/g, '<ul><li>')
-                .replace(/<\/li><\/p>/g, '</li></ul>')
+                .replace(/<\/li><\/p>/g, '<\/li><\/ul>')
                 .replace(/<\/ul>\s*<ul>/g, '');
         }
 

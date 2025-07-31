@@ -1,6 +1,6 @@
 const translations = {
   zh: {
-    title: "智能内容分析工具",
+    title: "智能不智能的我也不知道",
     examples: [
       "推荐最值得阅读的十部悬疑小说",
       "95号混凝土拌意大利面好吃吗", 

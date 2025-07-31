@@ -1,0 +1,67 @@
+/* Component: Decorations */
+.corner-decoration {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 100; /* Increased z-index */
+    animation: wind-sway 15s ease-in-out infinite alternate;
+}
+.top-left {
+    top: -10px;
+    left: -10px;
+    transform-origin: 100% 100%; /* Pivot from bottom right */
+}
+.bottom-right {
+    bottom: -10px;
+    right: -10px;
+    transform: rotate(180deg); /* Keep original rotation */
+    transform-origin: 0% 0%; /* Pivot from top left */
+}
+
+.corner-decoration path {
+    stroke: var(--primary-color);
+    fill: var(--primary-color);
+}
+
+.corner-decoration circle {
+    fill: var(--primary-color);
+}
+
+.decorative-divider {
+    margin: 30px 0; /* More spacing */
+    text-align: center;
+}
+.decorative-divider svg {
+    width: 100%;
+    max-width: 450px; /* Larger divider */
+    height: 40px; /* Taller divider */
+}
+
+.decorative-divider line {
+    stroke: var(--border-color);
+}
+
+.decorative-divider path {
+    fill: var(--primary-color);
+    opacity: 0.8;
+}
+
+@keyframes wind-sway {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(2deg) scale(1.01); }
+    100% { transform: rotate(0deg) scale(1); }
+}
+
+
+/* Specific rotation for bottom-right to correct the sway */
+.bottom-right {
+    animation-name: wind-sway-br;
+}
+
+@keyframes wind-sway-br {
+    0% { transform: rotate(180deg) scale(1); }
+    50% { transform: rotate(182deg) scale(1.01); }
+    100% { transform: rotate(180deg) scale(1); }
+}
