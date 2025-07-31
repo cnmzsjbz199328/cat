@@ -159,7 +159,35 @@ class SearchApp {
     // 聚焦输入框
     this.uiManager.focusInput();
 
+    // 强制检查移动端设置
+    setTimeout(() => {
+      this.checkMobileSetup();
+    }, 500);
+
     console.log('Search App initialized successfully');
+  }
+
+  checkMobileSetup() {
+    const isMobile = window.innerWidth <= 768;
+    console.log('[SearchApp] 移动端检查:', {
+      screenWidth: window.innerWidth,
+      isMobile: isMobile
+    });
+
+    if (isMobile) {
+      const mobileToggle = document.querySelector('.mobile-sidebar-toggle');
+      const sidebar = document.getElementById('sidebar');
+      
+      console.log('[SearchApp] 移动端元素检查:', {
+        mobileToggle: mobileToggle ? '已找到' : '未找到',
+        sidebar: sidebar ? '已找到' : '未找到'
+      });
+
+      if (!mobileToggle && this.sidebarManager) {
+        console.log('[SearchApp] 强制重新设置移动端侧边栏');
+        this.sidebarManager.setupMobileSidebar();
+      }
+    }
   }
 }
 

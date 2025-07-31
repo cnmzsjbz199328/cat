@@ -24,7 +24,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
+  background: #f8f9fa;
   position: relative; /* Establish stacking context */
 }
 
