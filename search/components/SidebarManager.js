@@ -15,18 +15,52 @@ class SidebarManager {
     this.createSidebarHTML();
     this.bindEvents();
 
+    // 检查屏幕尺寸并设置相应模式
+    this.checkScreenSize();
+    
+    // 添加窗口大小变化监听器
+    window.addEventListener('resize', () => {
+      this.checkScreenSize();
+    });
+
+    this.updateSessionList();
+    console.log('[SidebarManager] initializeSidebar 完成');
+  }
+
+  checkScreenSize() {
     if (window.innerWidth <= 768) {
+      console.log('[SidebarManager] 检测到移动端屏幕，设置移动端侧边栏');
       this.setupMobileSidebar();
     } else {
+      console.log('[SidebarManager] 检测到桌面端屏幕，设置桌面端侧边栏');
+      this.removeMobileElements();
       const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
       if (isCollapsed) {
         this.isCollapsed = true;
         this.applyCollapsedState(true);
       }
     }
+  }
 
-    this.updateSessionList();
-    console.log('[SidebarManager] initializeSidebar 完成');
+  removeMobileElements() {
+    const mobileToggle = document.querySelector('.mobile-sidebar-toggle');
+    const mobileOverlay = document.querySelector('.mobile-sidebar-overlay');
+    
+    if (mobileToggle) {
+      mobileToggle.remove();
+      console.log('[SidebarManager] 移动端切换按钮已移除');
+    }
+    
+    if (mobileOverlay) {
+      mobileOverlay.remove();
+      console.log('[SidebarManager] 移动端遮罩层已移除');
+    }
+    
+    // 重置侧边栏状态
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) {
+      sidebar.classList.remove('mobile-open');
+    }
   }
 
   createSidebarHTML() {
@@ -219,28 +253,104 @@ class SidebarManager {
   }
 
   setupMobileSidebar() {
-    const mobileToggle = document.createElement('button');
-    mobileToggle.className = 'mobile-sidebar-toggle';
-    mobileToggle.innerHTML = '☰';
-    document.body.appendChild(mobileToggle);
+    console.log('[SidebarManager] setupMobileSidebar 开始');
+    
+    // 检查是否已经存在移动端按钮，防止重复创建
+    const existingToggle = document.querySelector('.mobile-sidebar-toggle');
+    const existingOverlay = document.querySelector('.mobile-sidebar-overlay');
+    
+    if (existingToggle && existingOverlay) {
+      console.log('[SidebarManager] 移动端元素已存在，跳过创建');
+      return;
+    }
 
-    const overlay = document.createElement('div');
-    overlay.className = 'mobile-sidebar-overlay';
-    document.body.appendChild(overlay);
+    // 创建移动端切换按钮
+    if (!existingToggle) {
+      const mobileToggle = document.createElement('button');
+      mobileToggle.className = 'mobile-sidebar-toggle';
+      mobileToggle.innerHTML = '☰';
+      mobileToggle.setAttribute('aria-label', '打开菜单');
+      mobileToggle.style.cssText = `
+        position: fixed !important;
+        top: 15px !important;
+        left: 15px !important;
+        width: 44px !important;
+        height: 44px !important;
+        background: #7B9A8E !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 50% !important;
+        z-index: 9999 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 18px !important;
+        cursor: pointer !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+      `;
+      document.body.appendChild(mobileToggle);
+      console.log('[SidebarManager] 移动端切换按钮已创建');
+      
+      mobileToggle.addEventListener('click', () => {
+        console.log('[SidebarManager] 移动端切换按钮被点击');
+        this.toggleMobileSidebar(true);
+      });
+    }
 
-    mobileToggle.addEventListener('click', () => this.toggleMobileSidebar(true));
-    overlay.addEventListener('click', () => this.toggleMobileSidebar(false));
+    // 创建遮罩层
+    if (!existingOverlay) {
+      const overlay = document.createElement('div');
+      overlay.className = 'mobile-sidebar-overlay';
+      document.body.appendChild(overlay);
+      console.log('[SidebarManager] 移动端遮罩层已创建');
+      
+      overlay.addEventListener('click', () => {
+        console.log('[SidebarManager] 遮罩层被点击，关闭侧边栏');
+        this.toggleMobileSidebar(false);
+      });
+    }
+    
+    console.log('[SidebarManager] setupMobileSidebar 完成');
+    
+    // 调试信息：检查元素是否正确创建
+    setTimeout(() => {
+      const toggleBtn = document.querySelector('.mobile-sidebar-toggle');
+      const overlay = document.querySelector('.mobile-sidebar-overlay');
+      console.log('[SidebarManager] 移动端元素检查:', {
+        toggleButton: toggleBtn ? '已创建' : '未找到',
+        overlay: overlay ? '已创建' : '未找到',
+        screenWidth: window.innerWidth,
+        isMobile: window.innerWidth <= 768
+      });
+    }, 100);
   }
 
   toggleMobileSidebar(isOpen) {
+    console.log('[SidebarManager] toggleMobileSidebar', { isOpen });
+    
     const sidebar = document.getElementById('sidebar');
     const overlay = document.querySelector('.mobile-sidebar-overlay');
+    
+    if (!sidebar) {
+      console.error('[SidebarManager] 找不到 sidebar 元素');
+      return;
+    }
+    
+    if (!overlay) {
+      console.error('[SidebarManager] 找不到 overlay 元素');
+      return;
+    }
+
     if (isOpen) {
         sidebar.classList.add('mobile-open');
         overlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+        console.log('[SidebarManager] 侧边栏已打开');
     } else {
         sidebar.classList.remove('mobile-open');
         overlay.classList.remove('active');
+        document.body.style.overflow = ''; // 恢复背景滚动
+        console.log('[SidebarManager] 侧边栏已关闭');
     }
   }
 

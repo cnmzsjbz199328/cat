@@ -1,6 +1,7 @@
 /* CSS Modules Entry Point */
 
 /* Base */
+@import "base/_variables.css";
 @import "base/_fonts.css";
 @import "base/_global.css";
 

@@ -17,19 +17,37 @@
 
 #examples li { 
   padding: 12px 20px; 
-  border: 1px solid #dee2e6; 
+  border: 1px solid var(--border-color); 
   border-radius: 25px; 
-  background-color: #fff; 
-  transition: all 0.2s; 
+  background-color: var(--card-bg-color); 
+  transition: all 0.3s ease; 
   font-size: 14px; 
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 添加微妙的渐变效果 */
+#examples li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(123, 154, 142, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+#examples li:hover::before {
+  left: 100%;
 }
 
 #examples li:hover { 
-  background-color: #e9ecef; 
-  border-color: #adb5bd; 
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  background-color: var(--input-bg-color); 
+  border-color: var(--primary-color); 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(123, 154, 142, 0.2);
 }
 
 /* 输入框区域 */
@@ -47,6 +65,28 @@
 .input-container {
   position: relative;
   width: 100%;
+}
+
+/* 添加装饰性边框元素 */
+.input-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    transparent 30%, 
+    var(--primary-color) 50%, 
+    transparent 70%);
+  border-radius: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.input-container:focus-within::before {
+  opacity: 0.15;
 }
 
 #input {

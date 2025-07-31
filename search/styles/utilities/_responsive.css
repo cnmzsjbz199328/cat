@@ -1,5 +1,11 @@
 /* 移动端适配 */
 @media (max-width: 768px) {
+  /* 防止水平滚动 */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
   body {
     padding: 0;
   }
@@ -10,10 +16,25 @@
     grid-template-columns: 1fr;
     grid-template-areas:
       "main";
+    gap: 0;
+    padding: 0;
+  }
+
+  /* 移动端禁用背景纹理装饰 */
+  .container::before {
+    display: none;
   }
 
   .main-content {
     padding: 15px;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  /* 移动端禁用主内容区域的边框装饰 */
+  .main-content::before {
+    display: none;
   }
 
   .sidebar {
@@ -29,6 +50,30 @@
 
   .sidebar.mobile-open {
     transform: translateX(0);
+  }
+
+  /* 移动端简化装饰元素 */
+  .floating-decorations {
+    display: block; /* 保持基本装饰 */
+  }
+
+  /* 移动端隐藏部分装饰以提升性能 */
+  .star,
+  .geometric-shape {
+    display: none;
+  }
+
+  /* 保留气泡但减少数量 */
+  .bubble:nth-child(n+4) {
+    display: none;
+  }
+
+  /* 移动端简化角落装饰 */
+  .floating-decorations::before,
+  .floating-decorations::after {
+    width: 40px;
+    height: 40px;
+    opacity: 0.2;
   }
 
   .header-controls {
@@ -75,6 +120,16 @@
     min-height: 100px;
   }
 
+  /* 移动端禁用输入容器装饰 */
+  .input-container::before {
+    display: none;
+  }
+
+  /* 移动端优化示例按钮 */
+  #examples li::before {
+    display: none;
+  }
+
   #output {
     padding: 15px;
   }
@@ -98,15 +153,22 @@
     height: 44px;
     border: none;
     border-radius: 50%;
-    background: #1c7ed6;
+    background: var(--primary-color);
     color: white;
     font-size: 18px;
     cursor: pointer;
     z-index: 1001;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    display: flex;
+    display: flex !important; /* 强制显示 */
     align-items: center;
     justify-content: center;
+    transition: all 0.2s ease;
+    opacity: 1; /* 确保可见 */
+  }
+
+  .mobile-sidebar-toggle:hover {
+    background: #5a7b70;
+    transform: scale(1.05);
   }
 
   .mobile-sidebar-overlay {
@@ -125,6 +187,35 @@
   .mobile-sidebar-overlay.active {
     opacity: 1;
     visibility: visible;
+  }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  /* 超小屏幕完全隐藏装饰 */
+  .floating-decorations {
+    display: none;
+  }
+
+  .mobile-sidebar-toggle {
+    width: 40px;
+    height: 40px;
+    top: 10px;
+    left: 10px;
+    font-size: 16px;
+  }
+
+  #examples li {
+    font-size: 12px;
+    padding: 8px 12px;
   }
 }
 
