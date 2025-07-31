@@ -16,3 +16,10 @@
     --font-heading: 'Caveat', cursive;
     --font-body: 'Noto Sans SC', sans-serif;
 }
+
+body {
+    background-color: var(--bg-color);
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAACVBMVEUAAAD///9ra2uHm/AhAAAAMElEQVR42u3OQQEAAAACIPs/tDNDBCgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+gTJJAAE8x+kSAAAAAElFTkSuQmCC');
+    color: var(--text-color);
+    font-family: var(--font-body);
+}

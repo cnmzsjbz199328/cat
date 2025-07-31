@@ -22,29 +22,31 @@
   position: absolute;
   right: 12px;
   bottom: 12px;
-  width: 36px;
-  height: 36px;
-  border: none;
+  width: 48px; /* Slightly larger */
+  height: 48px;
+  border: 1px solid var(--border-color);
   border-radius: 50%;
-  background: linear-gradient(135deg, #1c7ed6, #339af0);
-  color: white;
+  background-color: var(--primary-color);
+  color: #6e781c;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(28, 126, 214, 0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Softer transition */
+  box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .send-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #1971c2, #2b8ce4);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(28, 126, 214, 0.4);
+  background-color: #8fb0a4; /* Lighter green */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .send-btn:disabled {
-  background: linear-gradient(135deg, #adb5bd, #ced4da);
+  background-color: #b0c4b1; /* Desaturated green */
   cursor: not-allowed;
+  box-shadow: none;
+  transform: translateY(0);
 }
 
 .send-btn .send-text {

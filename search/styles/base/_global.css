@@ -5,10 +5,28 @@
   padding: 0; 
 }
 
-body { 
-  font-family: 'Space Mono', monospace; 
-  padding: 20px; 
-  background-color: #ffffff; 
-  color: #343a40; 
-  line-height: 1.6; 
+/* Global body styles are now defined in styles/base/_variables.css */
+body {
+  padding: 20px;
+  line-height: 1.6;
+}
+
+/* Custom Ghibli-style Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--input-bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  border: 2px solid var(--input-bg-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5a7b70; /* Darker green */
 }
