@@ -53,6 +53,9 @@ class SidebarManager {
             element.title = translations[key];
         }
     });
+
+    // 更新会话列表以反映语言变化
+    this.updateSessionList();
   }
 
   checkScreenSize() {
@@ -412,6 +415,7 @@ class SidebarManager {
     const lastMessage = session.messages[session.messages.length - 1];
     const preview = this.generatePreview(lastMessage);
     const isActive = session.id === this.app.sessionManager.getCurrentSessionId();
+    const t = this.app.languageManager.getTranslations();
     
     return `
       <div class="session-item ${isActive ? 'active' : ''}" 
@@ -422,7 +426,7 @@ class SidebarManager {
         </div>
         <div class="session-preview">${preview}</div>
         <div class="session-meta">
-          <span class="message-count">${session.metadata.messageCount} 条消息</span>
+          <span class="message-count">${session.metadata.messageCount} ${t.messagesCount}</span>
           <span class="last-updated">${this.formatDate(session.updatedAt)}</span>
         </div>
         <div class="session-actions">
@@ -443,7 +447,9 @@ class SidebarManager {
   }
 
   generatePreview(lastMessage) {
-    if (!lastMessage) return '新建会话';
+    const t = this.app.languageManager.getTranslations();
+    
+    if (!lastMessage) return t.newSessionTitle;
     
     let content = '';
     if (lastMessage.type === 'user') {
@@ -458,7 +464,7 @@ class SidebarManager {
     
     // 确保content是字符串类型
     if (typeof content !== 'string') {
-      content = content ? String(content) : '无内容';
+      content = content ? String(content) : t.newSessionTitle;
     }
     
     // 提取纯文本并截断
@@ -470,18 +476,28 @@ class SidebarManager {
     const date = new Date(dateString);
     const now = new Date();
     const diffInHours = (now - date) / (1000 * 60 * 60);
+    const t = this.app.languageManager.getTranslations();
+    const currentLang = this.app.languageManager.getCurrentLanguage();
     
     if (diffInHours < 1) {
-      return '刚刚';
+      return t.justNow;
     } else if (diffInHours < 24) {
-      return `${Math.floor(diffInHours)}小时前`;
+      return `${Math.floor(diffInHours)} ${t.hoursAgo}`;
     } else if (diffInHours < 48) {
-      return '昨天';
+      return t.yesterday;
     } else {
-      return date.toLocaleDateString('zh-CN', { 
-        month: 'numeric', 
-        day: 'numeric' 
-      });
+      // 根据语言选择不同的日期格式
+      if (currentLang === 'en') {
+        return date.toLocaleDateString('en-US', { 
+          month: 'numeric', 
+          day: 'numeric' 
+        });
+      } else {
+        return date.toLocaleDateString('zh-CN', { 
+          month: 'numeric', 
+          day: 'numeric' 
+        });
+      }
     }
   }
 

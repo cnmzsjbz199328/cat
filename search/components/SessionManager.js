@@ -15,18 +15,35 @@ class SessionManager {
     return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  // 生成会话标题
+  // 生成会话标题 - 支持多语言
   generateSessionTitle() {
+    const t = this.app.languageManager.getTranslations();
+    const currentLang = this.app.languageManager.getCurrentLanguage();
     const now = new Date();
-    const time = now.toLocaleTimeString('zh-CN', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
-    const date = now.toLocaleDateString('zh-CN', { 
-      month: 'numeric', 
-      day: 'numeric' 
-    });
-    return `会话 ${date} ${time}`;
+    
+    if (currentLang === 'en') {
+      const time = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false
+      });
+      const date = now.toLocaleDateString('en-US', { 
+        month: 'numeric', 
+        day: 'numeric' 
+      });
+      return `${t.sessionTitle} ${date} ${time}`;
+    } else {
+      // 默认中文格式
+      const time = now.toLocaleTimeString('zh-CN', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+      const date = now.toLocaleDateString('zh-CN', { 
+        month: 'numeric', 
+        day: 'numeric' 
+      });
+      return `${t.sessionTitle} ${date} ${time}`;
+    }
   }
 
   // 创建新会话

@@ -258,9 +258,12 @@ let assistantContent = '';
     const loadingIndicator = document.createElement('div');
     loadingIndicator.id = 'loading-indicator';
     loadingIndicator.className = 'loading-indicator';
+    
+    const t = this.app.languageManager.getTranslations();
+    
     loadingIndicator.innerHTML = `
       <div class="loading-spinner"></div>
-      <p>正在思考中...</p>
+      <p>${t.thinkingPlaceholder}</p>
     `;
     output.appendChild(loadingIndicator);
     this.app.uiManager.scrollToBottom();
