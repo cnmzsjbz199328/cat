@@ -87,7 +87,7 @@
   }
 
   #image-upload-area {
-    flex-direction: column;
+    flex-direction: row;
     align-items: stretch;
     gap: 10px;
   }

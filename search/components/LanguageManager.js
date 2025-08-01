@@ -61,6 +61,10 @@ class LanguageManager {
       output.innerHTML = `<div class="welcome-message">${t.welcomeMessage}</div>`;
       output.classList.add('welcome');
     }
+
+    if (this.app.sidebarManager) {
+        this.app.sidebarManager.updateLanguage(this.currentLanguage);
+    }
   }
 
   getTranslations() {

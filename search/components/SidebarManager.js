@@ -27,6 +27,34 @@ class SidebarManager {
     console.log('[SidebarManager] initializeSidebar 完成');
   }
 
+  updateLanguage(lang) {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+
+    const translations = this.app.languageManager.getTranslations();
+
+    sidebar.querySelectorAll('[data-lang-key]').forEach(element => {
+        const key = element.getAttribute('data-lang-key');
+        if (translations[key]) {
+            element.textContent = translations[key];
+        }
+    });
+
+    sidebar.querySelectorAll('[data-lang-key-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-lang-key-placeholder');
+        if (translations[key]) {
+            element.placeholder = translations[key];
+        }
+    });
+
+    sidebar.querySelectorAll('[data-lang-key-title]').forEach(element => {
+        const key = element.getAttribute('data-lang-key-title');
+        if (translations[key]) {
+            element.title = translations[key];
+        }
+    });
+  }
+
   checkScreenSize() {
     if (window.innerWidth <= 768) {
       console.log('[SidebarManager] 检测到移动端屏幕，设置移动端侧边栏');
@@ -85,19 +113,19 @@ class SidebarManager {
     sidebar.className = 'sidebar';
     sidebar.innerHTML = `
       <div class="sidebar-header">
-        <h3>会话管理</h3>
+        <h3 data-lang-key="sessionManagement">会话管理</h3>
         <div class="sidebar-controls">
-          <button id="new-session-btn" class="control-btn" title="新建会话">
+          <button id="new-session-btn" class="control-btn" title="新建会话" data-lang-key-title="newSessionTooltip">
             ➕
           </button>
-          <button id="toggle-sidebar-btn" class="control-btn" title="收起侧边栏">
+          <button id="toggle-sidebar-btn" class="control-btn" title="收起侧边栏" data-lang-key-title="collapseSidebarTooltip">
             ◀
           </button>
         </div>
       </div>
       
       <div class="sidebar-search">
-        <input type="text" id="session-search" placeholder="搜索会话..." />
+        <input type="text" id="session-search" placeholder="搜索会话..." data-lang-key-placeholder="searchPlaceholder" />
       </div>
       
       <div class="session-list-container">
@@ -107,8 +135,8 @@ class SidebarManager {
       </div>
       
       <div class="sidebar-footer">
-        <button id="export-all-btn" class="footer-btn">📤 导出数据</button>
-        <button id="clear-sessions-btn" class="footer-btn">🗑️ 清理存储</button>
+        <button id="export-all-btn" class="footer-btn" data-lang-key="exportAll">📤 导出数据</button>
+        <button id="clear-sessions-btn" class="footer-btn" data-lang-key="clearStorage">🗑️ 清理存储</button>
       </div>
     `;
 
