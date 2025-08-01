@@ -48,6 +48,9 @@ class SessionManager {
 
   // 创建新会话
   createSession(title = null) {
+    // 在创建新会话前，清理之前的空临时会话
+    this.cleanupEmptyTempSessions(null);
+    
     // 新会话初始id为null，后端返回后再填充
     const session = {
       id: null,
@@ -136,12 +139,56 @@ class SessionManager {
 
   // 设置当前会话ID
   setCurrentSessionId(sessionId) {
+    console.log('[SessionManager] setCurrentSessionId 开始', { 
+      sessionId, 
+      sessionExists: !!this.sessions[sessionId],
+      currentSessionId: this.currentSessionId
+    });
+    
     if (this.sessions[sessionId]) {
+      // 在切换到新会话前，检查并清理空的临时会话
+      this.cleanupEmptyTempSessions(sessionId);
+      
       this.currentSessionId = sessionId;
       if (this.app.sidebarManager) {
         this.app.sidebarManager.updateActiveSession(sessionId);
       }
       this.restoreSessionContent(sessionId);
+      console.log('[SessionManager] 会话切换成功:', sessionId);
+    } else {
+      console.warn('[SessionManager] 会话不存在:', sessionId);
+    }
+  }
+
+  // 清理空的临时会话（除了当前要切换到的会话）
+  cleanupEmptyTempSessions(excludeSessionId) {
+    const sessionsToDelete = [];
+    
+    Object.entries(this.sessions).forEach(([sessionId, session]) => {
+      // 跳过当前要切换到的会话
+      if (sessionId === excludeSessionId) return;
+      
+      // 只处理临时会话（以temp_开头且id为null）且没有消息的会话
+      if (sessionId.startsWith('temp_') && 
+          session.id === null && 
+          session.messages.length === 0) {
+        sessionsToDelete.push(sessionId);
+      }
+    });
+    
+    if (sessionsToDelete.length > 0) {
+      console.log('[SessionManager] 清理空的临时会话:', sessionsToDelete);
+      
+      sessionsToDelete.forEach(sessionId => {
+        delete this.sessions[sessionId];
+      });
+      
+      this.saveSessions();
+      
+      // 更新侧边栏显示
+      if (this.app.sidebarManager) {
+        this.app.sidebarManager.updateSessionList();
+      }
     }
   }
 
@@ -286,7 +333,19 @@ class SessionManager {
     const newSessions = {};
     
     sessionsToKeep.forEach(session => {
-      newSessions[session.id] = session;
+      // 对于有真实ID的会话，使用真实ID作为键
+      // 对于临时会话，需要找到原来的临时键
+      if (session.id) {
+        newSessions[session.id] = session;
+      } else {
+        // 找到这个session在原始sessions中的键
+        const originalKey = Object.keys(this.sessions).find(key => 
+          this.sessions[key] === session
+        );
+        if (originalKey) {
+          newSessions[originalKey] = session;
+        }
+      }
     });
 
     this.sessions = newSessions;
