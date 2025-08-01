@@ -1,7 +1,7 @@
 class APIManager {
   constructor(app) {
     this.app = app;
-    this.host = "https://search.tj15982183241.workers.dev";
+    this.host = "https://searchapi.badtom.xyz";
   }
 
   async analyzeContent(prompt, imageData = null, sessionId = null) {
