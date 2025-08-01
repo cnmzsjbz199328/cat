@@ -21,7 +21,7 @@ class SearchApp {
     this.sessionManager = new SessionManager(this);
     this.sidebarManager = new SidebarManager(this);
     this.contentRenderer = new ContentRenderer(this);
-    this.dataExportManager = null; // 将在阶段三实现
+    this.dataExportManager = new DataExportManager(this);
   }
 
   bindEvents() {

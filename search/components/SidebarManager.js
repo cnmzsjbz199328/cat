@@ -556,7 +556,7 @@ class SidebarManager {
 
   exportSession(sessionId) {
     if (this.app.dataExportManager) {
-      this.app.dataExportManager.exportSession(sessionId, 'json');
+      this.app.dataExportManager.exportSession(sessionId);
     } else {
       console.warn('DataExportManager not available');
     }
@@ -590,19 +590,7 @@ class SidebarManager {
 
   exportAllSessions() {
     if (this.app.dataExportManager) {
-      const sessions = this.app.sessionManager.getSessions();
-      const data = {
-        sessions: sessions,
-        exportedAt: new Date().toISOString(),
-        stats: this.app.sessionManager.getSessionStats(),
-        version: '1.0'
-      };
-      
-      this.app.dataExportManager.downloadFile(
-        JSON.stringify(data, null, 2),
-        `all_sessions_${new Date().toISOString().split('T')[0]}.json`,
-        'application/json'
-      );
+      this.app.dataExportManager.exportAllSessions();
     } else {
       console.warn('DataExportManager not available');
     }
