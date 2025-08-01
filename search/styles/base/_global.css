@@ -5,10 +5,125 @@
   padding: 0; 
 }
 
-/* Global body styles are now defined in styles/base/_variables.css */
+/* 默认使用中文手写字体 */
 body {
+  font-family: var(--font-handwriting-zh);
   padding: 20px;
+  background-color: #ffffff;
+  color: #343a40;
   line-height: 1.6;
+}
+
+/* 为不同语言动态切换字体 */
+body[data-lang="en"] {
+  font-family: var(--font-handwriting-en);
+}
+
+body[data-lang="zh"] {
+  font-family: var(--font-handwriting-zh);
+}
+
+body[data-lang="ja"] {
+  font-family: var(--font-handwriting-ja);
+}
+
+body[data-lang="ko"] {
+  font-family: var(--font-handwriting-ko);
+}
+
+/* 输出内容区域使用手写字体 */
+#output {
+  font-family: inherit;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+#output h2, #output h3 {
+  font-family: inherit;
+  font-weight: 600;
+}
+
+#output p {
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* 幻灯片内容使用手写字体 */
+.slide div {
+  font-family: inherit;
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* 示例按钮使用手写字体 */
+#examples li {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* 输入框保持等宽字体便于输入 */
+#input {
+  font-family: var(--font-mono);
+  font-size: 16px;
+}
+
+/* 控制按钮保持系统字体 */
+.language-btn, .send-btn, .upload-label {
+  font-family: var(--font-mono);
+}
+
+/* 侧边栏按钮使用手写字体 */
+.footer-btn {
+  font-family: inherit !important;
+  font-weight: 500;
+}
+
+/* 搜索框使用手写字体 */
+#session-search {
+  font-family: inherit !important;
+  font-size: 14px;
+}
+
+/* 标题使用手写字体 */
+h1 {
+  font-family: inherit !important;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+/* 侧边栏内容使用手写字体 */
+.sidebar {
+  font-family: inherit;
+}
+
+.sidebar h3 {
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.session-title {
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.session-preview {
+  font-family: inherit;
+  font-size: 14px;
+}
+
+/* 消息内容使用手写字体 */
+.message-content {
+  font-family: inherit;
+}
+
+/* 欢迎消息使用手写字体 */
+.welcome-message {
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 /* Custom Ghibli-style Scrollbar */

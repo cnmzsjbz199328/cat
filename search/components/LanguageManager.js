@@ -31,6 +31,9 @@ class LanguageManager {
   updateUI() {
     const t = this.getTranslations();
     
+    // 更新body的data-lang属性以切换字体
+    document.body.setAttribute('data-lang', this.currentLanguage);
+    
     // 更新标题
     document.querySelector('h1').textContent = t.title;
     
@@ -85,6 +88,8 @@ class LanguageManager {
 
   // 初始化
   init() {
+    // 设置初始的data-lang属性
+    document.body.setAttribute('data-lang', this.currentLanguage);
     this.updateActiveButton(this.currentLanguage);
     this.updateUI();
   }
