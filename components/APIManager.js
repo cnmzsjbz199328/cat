@@ -2,7 +2,7 @@
 class APIManager {
   constructor(app) {
     this.app = app;
-    this.host = "https://catbackend.tj15982183241.workers.dev";
+    this.host = "https://animalapi.badtom.xyz";
   }
 
   // 提交请求

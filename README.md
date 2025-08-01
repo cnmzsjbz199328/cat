@@ -1,71 +1,109 @@
-# 动物故事生成器 / Animal Story Generator
+# Tiny Animals Explanation Tool 🐾
 
-一个多语言支持的网页应用，使用可爱的小动物来解释各种概念和主题。
+> *Explain anything using cute tiny animals as metaphors*
 
-## 功能特点
+A multilingual web application that uses adorable tiny animals to explain complex concepts and topics through engaging stories and illustrations.
 
-- 🌍 **多语言支持**: 中文、英文、日文、韩文
-- 🎨 **多语言字体**: 每种语言都有对应的可爱手写体
-  - 英文: Indie Flower (经典手写体)
-  - 中文: 马善政体、站酷快乐体 (中式手写)
-  - 日文: Klee One (日式手写体)
-  - 韩文: Noto Sans KR (现代圆润体)
-- 🐱 **多种动物**: 猫咪、兔子、狗狗、小鸟、熊猫、狐狸
-- 🖼️ **自定义图片数量**: 1-5张图片
-- 📸 **智能图片处理**: 
-  - 支持 PNG/JPEG 格式上传
-  - 自动格式检查与转换
-  - 4MB 大小限制
-  - 实时错误提示
-  - Gemini API 兼容格式
-- 📱 **响应式设计**: 支持移动端和桌面端
-- 💾 **智能记忆**: 自动保存用户语言偏好
-- 🎨 **优质体验**: 上传进度、动画效果、错误反馈
+## ✨ Features
 
-## 文件结构
+- 🌍 **Multilingual Support**: English, Chinese, Japanese, Korean
+- 🎨 **Handwriting Fonts**: Unique handwritten fonts for each language
+  - English: Indie Flower, Caveat (Casual handwriting)
+  - Chinese: Ma Shan Zheng, Long Cang (Chinese calligraphy)
+  - Japanese: Zen Kurenaido, Kosugi Maru (Japanese handwriting)
+  - Korean: Nanum Pen Script, Gaegu (Korean handwriting)
+- 🐱 **Multiple Animals**: Cats, rabbits, dogs, birds, pandas, foxes
+- 🖼️ **Custom Image Count**: Generate 1-10 illustrations per story
+- 📸 **Smart Image Processing**: 
+  - PNG/JPEG format support
+  - Automatic format validation
+  - 4MB size limit
+  - Real-time error feedback
+  - Gemini API compatible format
+- 📱 **Responsive Design**: Mobile and desktop optimized
+- 💾 **Smart Memory**: Auto-save user language preferences
+- 🎨 **Quality Experience**: Upload progress, animations, error handling
+- 🔧 **Dual Architecture**: 
+  - Main tool for animal story generation
+  - Search tool for general content analysis
+
+## 🗂️ Project Structure
 
 ```
 cat/
-├── index.html                           # 主HTML文件
-├── style.css                            # 样式文件
-├── script.js                            # 主要JavaScript逻辑
-├── translations.js                      # 多语言翻译文件
-├── README.md                            # 项目说明文档
-├── IMAGE_UPLOAD_IMPLEMENTATION.md       # 图片上传实现详细说明
-├── SEND_BUTTON_IMPLEMENTATION.md        # 发送按钮功能说明
-├── MULTILINGUAL_API_INTEGRATION.md     # 多语言API集成说明
-└── MULTILINGUAL_FONTS.md               # 多语言字体适配说明
+├── 📁 Main Application (Animal Story Generator)
+│   ├── index.html                           # Main HTML file
+│   ├── style.css                            # Main stylesheet
+│   ├── script.js                            # Core JavaScript logic
+│   ├── translations.js                      # Multilingual translations
+│   └── components/                          # Modular components
+│       ├── APIManager.js                    # API communication
+│       ├── ImageUploadManager.js            # Image handling
+│       ├── LanguageManager.js               # Language switching
+│       └── UIManager.js                     # UI state management
+├── 📁 search/ (Content Analysis Tool)
+│   ├── index.html                           # Analysis tool interface
+│   ├── style.css                            # Analysis tool styles
+│   ├── script-refactored.js                # Analysis logic
+│   ├── translations.js                     # Analysis tool translations
+│   └── components/                          # Analysis components
+│       ├── APIManager.js                    # Analysis API calls
+│       ├── ErrorHandler.js                 # Error management
+│       ├── SlideRenderer.js                # Content rendering
+│       └── ... (other components)
+├── 📄 Documentation
+│   ├── README.md                            # This file
+│   ├── README_ZH.md                         # Chinese documentation
+│   ├── PROJECT_DOCUMENTATION.md             # Technical documentation
+│   ├── DEPLOYMENT.md                        # Deployment guide
+│   └── search/
+│       ├── API_DOCUMENTATION.md             # API reference
+│       ├── ARCHITECTURE.md                  # Architecture guide
+│       └── PROJECT_COMPARISON.md            # Tool comparison
+└── 🧪 Testing & Development
+    ├── layout-preview.html                  # Layout testing
+    ├── modern-design-preview.html           # Design preview
+    └── TESTING_SUMMARY.md                   # Test results
 ```
 
-## 使用方法
+## 🚀 Quick Start
 
-1. **选择语言**: 点击右上角的语言按钮
-2. **选择配置**: 
-   - 选择要生成的图片数量 (1-5张)
-   - 选择动物类型 (猫、兔子、狗等)
-3. **输入内容**: 
-   - 在文本框中输入你想了解的主题
-   - 或者上传一张图片作为参考
-   - 或者点击示例问题
-4. **获取结果**: 按回车键或点击提交，查看生成的故事
+### Main Application (Animal Stories)
+1. **Select Language**: Click language buttons in the top-right
+2. **Configure Settings**: 
+   - Choose number of images (1-10)
+   - Select animal type (cat, rabbit, dog, etc.)
+3. **Input Content**: 
+   - Type your topic in the text box
+   - Or upload an image for analysis
+   - Or click example questions
+4. **Get Results**: Press Enter or click submit to generate your story
 
-## 技术特性
+### Search Tool (Content Analysis)
+1. **Navigate**: Open `search/index.html`
+2. **Choose Language**: Select your preferred interface language
+3. **Analysis Options**:
+   - Toggle image generation on/off
+   - Input text or upload images
+4. **Analyze**: Get professional content analysis results
 
-### 前端架构
-- **模块化设计**: CSS、JS、翻译文件分离
-- **面向对象编程**: 使用ES6类组织代码
-- **本地存储**: 记住用户语言偏好
-- **响应式布局**: 适配各种屏幕尺寸
-- **多语言API**: 前后端语言设置同步
+## 🛠️ Technical Features
 
-### API接口
-发送的请求格式（已优化为Gemini API兼容格式，支持多语言）：
+### Frontend Architecture
+- **Modular Design**: Separated CSS, JS, and translation files
+- **Object-Oriented**: ES6 classes for code organization
+- **Local Storage**: Remember user preferences
+- **Responsive Layout**: Adaptive to all screen sizes
+- **Multilingual API**: Frontend-backend language synchronization
+
+### API Integration
+Request format (Gemini API compatible with multilingual support):
 ```json
 {
-  "prompt": "什么是机器学习？",
+  "prompt": "What is machine learning?",
   "num_images": 2,
   "animal": "cat",
-  "language": "zh",
+  "language": "en",
   "image": {
     "mime_type": "image/png",
     "data": "base64_encoded_image_data"
@@ -73,49 +111,137 @@ cat/
 }
 ```
 
-**语言代码说明:**
-- `zh`: 中文回复
-- `en`: 英文回复  
-- `ja`: 日文回复
-- `ko`: 韩文回复
+**Language Codes:**
+- `zh`: Chinese responses
+- `en`: English responses  
+- `ja`: Japanese responses
+- `ko`: Korean responses
 
-### 图片处理特性
-- **格式支持**: PNG、JPEG 格式
-- **大小限制**: 最大 4MB
-- **自动转换**: 标准化 MIME 类型
-- **错误处理**: 实时验证与多语言错误提示
-- **进度反馈**: 上传处理进度动画
-- **预览功能**: 即时图片预览与移除
+### Image Processing Features
+- **Format Support**: PNG, JPEG formats
+- **Size Limit**: Maximum 4MB
+- **Auto Conversion**: Standardized MIME types
+- **Error Handling**: Real-time validation with multilingual error messages
+- **Progress Feedback**: Upload processing animations
+- **Preview Function**: Instant image preview and removal
 
-### 语言支持
-- **中文 (zh)**: 简体中文界面
-- **英文 (en)**: English interface  
-- **日文 (ja)**: 日本語インターフェース
-- **韩文 (ko)**: 한국어 인터페이스
+### Language Support
+- **Chinese (zh)**: 简体中文界面
+- **English (en)**: English interface  
+- **Japanese (ja)**: 日本語インターフェース
+- **Korean (ko)**: 한국어 인터페이스
 
-## 开发指南
+## 🔧 Development Guide
 
-### 添加新语言
-1. 在 `translations.js` 中添加新语言对象
-2. 在 `index.html` 中添加语言切换按钮
-3. 在 `style.css` 中调整语言按钮样式（如需要）
+### Adding New Languages
+1. Add new language object in `translations.js`
+2. Add language switch button in `index.html`
+3. Adjust language button styles in `style.css` (if needed)
+4. Update font families for the new language
 
-### 添加新动物
-1. 在 `translations.js` 中为每种语言添加动物名称
-2. 确保后端API支持新的动物类型
+### Adding New Animals
+1. Add animal names for each language in `translations.js`
+2. Ensure backend API supports the new animal type
+3. Update animal selection UI components
 
-### 自定义样式
-- 修改 `style.css` 中的颜色变量
-- 调整响应式断点
-- 修改字体和布局
+### Customizing Styles
+- Modify color variables in `style.css`
+- Adjust responsive breakpoints
+- Modify fonts and layouts
+- Customize handwriting font combinations
 
-## 浏览器兼容性
+### Component Development
+```javascript
+// Example: Creating a new component
+class NewComponent {
+  constructor(app) {
+    this.app = app;
+  }
+  
+  init() {
+    // Initialize component
+  }
+  
+  // Component methods...
+}
+```
+
+## 🌐 Deployment
+
+### Requirements
+- Static web hosting (GitHub Pages, Netlify, Vercel)
+- Modern web browser with ES6 support
+- Internet connection for Google Fonts and APIs
+
+### Quick Deploy
+1. Clone the repository
+2. Upload files to your hosting service
+3. Configure environment variables for API keys
+4. Access via your domain
+
+### Environment Setup
+```bash
+# Clone the repository
+git clone [repository-url]
+
+# Navigate to project
+cd cat
+
+# Serve locally (using any static server)
+python -m http.server 8000
+# or
+npx serve .
+```
+
+## 📊 Browser Compatibility
 
 - Chrome 60+
 - Firefox 55+
 - Safari 12+
 - Edge 79+
 
-## 许可证
+## 🤝 Contributing
 
-MIT License
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Development Standards
+- Use ES6+ features
+- Follow modular component architecture
+- Maintain multilingual support
+- Test across different browsers
+- Document new features
+
+## 📝 API Documentation
+
+For detailed API documentation, see:
+- [Main API Documentation](PROJECT_DOCUMENTATION.md)
+- [Search Tool API](search/API_DOCUMENTATION.md)
+- [Architecture Guide](search/ARCHITECTURE.md)
+
+## 🐛 Troubleshooting
+
+### Common Issues
+- **Image Upload Fails**: Check file format (PNG/JPEG) and size (<4MB)
+- **Language Not Switching**: Clear browser cache and localStorage
+- **Fonts Not Loading**: Check internet connection and Google Fonts availability
+- **API Errors**: Verify API keys and network connectivity
+
+For more troubleshooting, see [TESTING_SUMMARY.md](TESTING_SUMMARY.md)
+
+## 📄 License
+
+MIT License - see the [LICENSE](LICENSE) file for details
+
+## 🙏 Acknowledgments
+
+- Google Fonts for multilingual typography
+- Gemini API for AI content generation
+- Community contributors and testers
+
+---
+
+**Made with 🐾 and lots of tiny animals**
