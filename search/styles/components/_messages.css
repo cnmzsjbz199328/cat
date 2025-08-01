@@ -153,6 +153,7 @@
   margin-bottom: 20px;
   animation: fadeIn 0.3s ease-in;
   box-shadow: 0 2px 5px var(--shadow-color);
+  width: 98%;
 }
 
 .loading-spinner {
