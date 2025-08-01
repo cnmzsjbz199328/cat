@@ -2,7 +2,7 @@
 .message {
   padding: 16px;
   border-radius: 12px;
-  max-width: 95%;
+  max-width: 98%;
   box-shadow: 0 2px 5px var(--shadow-color);
   border: 1px solid var(--border-color);
   line-height: 1.7;

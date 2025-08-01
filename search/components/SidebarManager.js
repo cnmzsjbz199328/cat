@@ -272,10 +272,6 @@ class SidebarManager {
       mobileToggle.setAttribute('aria-label', '打开菜单');
       mobileToggle.style.cssText = `
         position: fixed !important;
-        top: 15px !important;
-        left: 15px !important;
-        width: 44px !important;
-        height: 44px !important;
         background: #7B9A8E !important;
         color: white !important;
         border: none !important;
