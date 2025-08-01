@@ -53,8 +53,33 @@
   display: none;
 }
 
+/* 完全禁用loading-icon */
 .send-btn .loading-icon {
-  animation: spin 1s linear infinite;
+  display: none !important;
+  animation: none !important;
+}
+
+/* 旋转动画关键帧 */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 发送按钮加载状态 - 不再显示旋转动画 */
+.send-btn.loading {
+  background-color: #b0c4b1;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.send-btn.loading:hover {
+  background-color: #b0c4b1;
+  transform: none;
+  box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .retry-btn {

@@ -67,6 +67,10 @@ class SearchApp {
     }
 
     const userMessage = this.sessionManager.addMessage(sessionKey, 'user', textInput, imageData);
+    
+    // 隐藏欢迎消息（如果存在）
+    this.uiManager.hideWelcomeMessage();
+    
     this.contentRenderer.appendMessage(userMessage);
     this.contentRenderer.showAssistantLoadingPlaceholder();
     this.uiManager.clearInput();
@@ -158,6 +162,9 @@ class SearchApp {
     
     // 聚焦输入框
     this.uiManager.focusInput();
+
+    // 确保发送按钮初始状态正确
+    this.uiManager.toggleSendButton(false);
 
     // 强制检查移动端设置
     setTimeout(() => {

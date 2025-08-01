@@ -255,24 +255,21 @@ let assistantContent = '';
 
   showAssistantLoadingPlaceholder() {
     const output = document.getElementById('output');
-    const placeholder = document.createElement('div');
-    placeholder.id = 'loading-placeholder';
-    placeholder.className = 'message assistant-message loading-placeholder';
-    placeholder.innerHTML = `
-      <div class="message-content">
-        <div class="loading-dots">
-          <span></span><span></span><span></span>
-        </div>
-      </div>
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.id = 'loading-indicator';
+    loadingIndicator.className = 'loading-indicator';
+    loadingIndicator.innerHTML = `
+      <div class="loading-spinner"></div>
+      <p>正在思考中...</p>
     `;
-    output.appendChild(placeholder);
+    output.appendChild(loadingIndicator);
     this.app.uiManager.scrollToBottom();
   }
 
   removeAssistantLoadingPlaceholder() {
-    const placeholder = document.getElementById('loading-placeholder');
-    if (placeholder) {
-      placeholder.remove();
+    const loadingIndicator = document.getElementById('loading-indicator');
+    if (loadingIndicator) {
+      loadingIndicator.remove();
     }
   }
 

@@ -4,7 +4,21 @@ class UIManager {
     this.isGenerating = false;
   }
 
-  showOutput(content, isMarkdown = true) {
+  toggleSendButton(isLoading) {
+    const sendBtn = document.getElementById('send-btn');
+    
+    sendBtn.disabled = isLoading;
+    
+    if (isLoading) {
+      sendBtn.classList.add('loading');
+      sendBtn.title = '处理中...';
+    } else {
+      sendBtn.classList.remove('loading');
+      sendBtn.title = '发送消息';
+    }
+  }
+
+  showContent(content, isMarkdown = true) {
     const output = document.getElementById('output');
     const slideshow = document.getElementById('slideshow');
     
@@ -45,6 +59,15 @@ class UIManager {
     output.style.display = 'block';
     output.classList.add('welcome');
     output.innerHTML = `<div class="welcome-message">${t.welcomeMessage}</div>`;
+  }
+
+  hideWelcomeMessage() {
+    const output = document.getElementById('output');
+    const welcomeMessage = output.querySelector('.welcome-message');
+    if (welcomeMessage) {
+      welcomeMessage.remove();
+      output.classList.remove('welcome');
+    }
   }
 
   shouldGenerateImages() {
@@ -92,11 +115,15 @@ class UIManager {
     sendBtn.disabled = isLoading;
     
     if (isLoading) {
+      sendBtn.classList.add('loading');
       sendIcon.style.display = 'none';
-      loadingIcon.style.display = 'block';
+      loadingIcon.style.display = 'inline-block';
+      sendBtn.title = '处理中...';
     } else {
-      sendIcon.style.display = 'block';
+      sendBtn.classList.remove('loading');
+      sendIcon.style.display = 'inline-block';
       loadingIcon.style.display = 'none';
+      sendBtn.title = '发送消息';
     }
     
     this.isGenerating = isLoading;
