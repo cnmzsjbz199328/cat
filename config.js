@@ -9,7 +9,7 @@ const APP_CONFIG = {
 
   // 搜索工具后端 API 地址
   SEARCH_API: {
-    HOST: 'https://searchapi.badtom.xyz',
+    HOST: 'https://searchapi.badtom.dpdns.org',
     GENERATE_TEXT: '/api/generate-text',
     GENERATE_PICTURE: '/api/generate-picture'
   },
