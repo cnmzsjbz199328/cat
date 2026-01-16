@@ -1,11 +1,11 @@
 // 应用程序主类
 class AnimalStoryApp {
   constructor() {
-    this.host = "https://catbackend.tj15982183241.workers.dev";
-    this.currentLanguage = localStorage.getItem('language') || 'zh';
+    this.host = APP_CONFIG.API.HOST;
+    this.currentLanguage = localStorage.getItem('language') || APP_CONFIG.APP.DEFAULT_LANGUAGE;
     this.uploadedImage = null; // { mime_type, data }
-    this.maxFileSize = 4 * 1024 * 1024; // 4MB
-    this.allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    this.maxFileSize = APP_CONFIG.APP.MAX_FILE_SIZE;
+    this.allowedTypes = APP_CONFIG.APP.ALLOWED_IMAGE_TYPES;
     this.initializeElements();
     this.setupEventListeners();
     this.updateUI();
@@ -330,7 +330,7 @@ class AnimalStoryApp {
     }
 
     try {
-      const res = await fetch(`${this.host}/api/generate-story`, {
+      const res = await fetch(`${this.host}${APP_CONFIG.API.GENERATE_STORY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)

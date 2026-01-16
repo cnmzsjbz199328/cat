@@ -2,7 +2,7 @@
 class APIManager {
   constructor(app) {
     this.app = app;
-    this.host = "https://animalapi.badtom.xyz";
+    this.host = APP_CONFIG.API.HOST;
   }
 
   // 提交请求
@@ -47,7 +47,7 @@ class APIManager {
     }
 
     try {
-      const res = await fetch(`${this.host}/api/generate-story`, {
+      const res = await fetch(`${this.host}${APP_CONFIG.API.GENERATE_STORY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)

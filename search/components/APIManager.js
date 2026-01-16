@@ -1,7 +1,7 @@
 class APIManager {
   constructor(app) {
     this.app = app;
-    this.host = "https://searchapi.badtom.xyz";
+    this.host = APP_CONFIG.SEARCH_API.HOST;
   }
 
   async analyzeContent(prompt, imageData = null, sessionId = null) {
@@ -35,7 +35,7 @@ class APIManager {
     try {
       // 使用generate-text端点进行纯文本内容生成
       console.log('[API调用] /generate-text 请求参数:', body);
-      const res = await fetch(`${this.host}/api/generate-text`, {
+      const res = await fetch(`${this.host}${APP_CONFIG.SEARCH_API.GENERATE_TEXT}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -87,7 +87,7 @@ class APIManager {
 
     try {
       console.log('[API调用] /generate-picture 请求参数:', body);
-      const res = await fetch(`${this.host}/api/generate-picture`, {
+      const res = await fetch(`${this.host}${APP_CONFIG.SEARCH_API.GENERATE_PICTURE}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
