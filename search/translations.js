@@ -37,7 +37,30 @@ const translations = {
       fileTooLarge: "图片过大，最大支持 4MB",
       imageProcessFailed: "图片处理失败，请重试",
       noInput: "请输入文本或上传图片"
-    }
+    },
+    apiErrors: {
+      apiKey: "API密钥错误，请检查配置",
+      rateLimit: "请求频率过高，请稍后再试",
+      network: "网络连接错误，请检查网络",
+      prefix: "API错误",
+      unknown: "发生未知错误，请重试"
+    },
+    imageLoadFailed: "图片加载失败",
+    imageExpiredHint: "图片链接可能已过期",
+    errorTitle: "出现错误",
+    retryButton: "重试",
+    uploadedImageAlt: "用户上传的图片",
+    storyImageAlt: "故事配图",
+    emptyHint: "点击 ➕ 创建新会话",
+    renameTooltip: "重命名",
+    exportTooltip: "导出",
+    deleteTooltip: "删除",
+    expandSidebarTooltip: "展开侧边栏",
+    renamePrompt: "请输入新的会话名称:",
+    deleteConfirm: "确定要删除会话 \"{title}\" 吗？此操作不可恢复。",
+    clearAllConfirm: "确定要清空所有会话吗？\n\n当前有 {sessions} 个会话，共 {messages} 条消息。\n\n此操作不可恢复！",
+    processingTooltip: "处理中...",
+    sendTooltip: "发送消息"
   },
   
   en: {
@@ -78,7 +101,30 @@ const translations = {
       fileTooLarge: "Image too large, maximum 4MB supported",
       imageProcessFailed: "Image processing failed, please try again",
       noInput: "Please enter text or upload an image"
-    }
+    },
+    apiErrors: {
+      apiKey: "API key error, please check configuration",
+      rateLimit: "Too many requests, please try again later",
+      network: "Network error, please check your connection",
+      prefix: "API error",
+      unknown: "An unknown error occurred, please retry"
+    },
+    imageLoadFailed: "Failed to load image",
+    imageExpiredHint: "The image link may have expired",
+    errorTitle: "Something went wrong",
+    retryButton: "Retry",
+    uploadedImageAlt: "Image uploaded by user",
+    storyImageAlt: "Story illustration",
+    emptyHint: "Click ➕ to create a new session",
+    renameTooltip: "Rename",
+    exportTooltip: "Export",
+    deleteTooltip: "Delete",
+    expandSidebarTooltip: "Expand Sidebar",
+    renamePrompt: "Enter a new session name:",
+    deleteConfirm: "Delete session \"{title}\"? This cannot be undone.",
+    clearAllConfirm: "Clear all sessions?\n\nYou currently have {sessions} sessions with {messages} messages.\n\nThis cannot be undone!",
+    processingTooltip: "Processing...",
+    sendTooltip: "Send message"
   },
   
   ja: {
@@ -119,7 +165,30 @@ const translations = {
       fileTooLarge: "画像が大きすぎます。最大4MBまでサポートされています",
       imageProcessFailed: "画像処理に失敗しました。もう一度お試しください",
       noInput: "テキストを入力するか画像をアップロードしてください"
-    }
+    },
+    apiErrors: {
+      apiKey: "APIキーエラー。設定を確認してください",
+      rateLimit: "リクエストが多すぎます。しばらくしてからお試しください",
+      network: "ネットワークエラー。接続を確認してください",
+      prefix: "APIエラー",
+      unknown: "不明なエラーが発生しました。再試行してください"
+    },
+    imageLoadFailed: "画像の読み込みに失敗しました",
+    imageExpiredHint: "画像リンクの有効期限が切れている可能性があります",
+    errorTitle: "エラーが発生しました",
+    retryButton: "再試行",
+    uploadedImageAlt: "ユーザーがアップロードした画像",
+    storyImageAlt: "ストーリーの挿絵",
+    emptyHint: "➕ をクリックして新しいセッションを作成",
+    renameTooltip: "名前を変更",
+    exportTooltip: "エクスポート",
+    deleteTooltip: "削除",
+    expandSidebarTooltip: "サイドバーを展開",
+    renamePrompt: "新しいセッション名を入力してください:",
+    deleteConfirm: "セッション「{title}」を削除しますか？この操作は元に戻せません。",
+    clearAllConfirm: "すべてのセッションを削除しますか？\n\n現在 {sessions} 個のセッション、{messages} 件のメッセージがあります。\n\nこの操作は元に戻せません！",
+    processingTooltip: "処理中...",
+    sendTooltip: "メッセージを送信"
   },
   
   ko: {
@@ -160,6 +229,29 @@ const translations = {
       fileTooLarge: "이미지가 너무 큽니다. 최대 4MB까지 지원됩니다",
       imageProcessFailed: "이미지 처리에 실패했습니다. 다시 시도해주세요",
       noInput: "텍스트를 입력하거나 이미지를 업로드해주세요"
-    }
+    },
+    apiErrors: {
+      apiKey: "API 키 오류입니다. 설정을 확인해주세요",
+      rateLimit: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요",
+      network: "네트워크 오류입니다. 연결을 확인해주세요",
+      prefix: "API 오류",
+      unknown: "알 수 없는 오류가 발생했습니다. 다시 시도해주세요"
+    },
+    imageLoadFailed: "이미지를 불러오지 못했습니다",
+    imageExpiredHint: "이미지 링크가 만료되었을 수 있습니다",
+    errorTitle: "오류가 발생했습니다",
+    retryButton: "다시 시도",
+    uploadedImageAlt: "사용자가 업로드한 이미지",
+    storyImageAlt: "스토리 삽화",
+    emptyHint: "➕ 를 클릭하여 새 세션을 만드세요",
+    renameTooltip: "이름 바꾸기",
+    exportTooltip: "내보내기",
+    deleteTooltip: "삭제",
+    expandSidebarTooltip: "사이드바 펼치기",
+    renamePrompt: "새 세션 이름을 입력하세요:",
+    deleteConfirm: "세션 \"{title}\"을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+    clearAllConfirm: "모든 세션을 삭제하시겠습니까?\n\n현재 세션 {sessions}개, 메시지 {messages}개가 있습니다.\n\n이 작업은 되돌릴 수 없습니다!",
+    processingTooltip: "처리 중...",
+    sendTooltip: "메시지 보내기"
   }
 };

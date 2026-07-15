@@ -9,14 +9,6 @@
         href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Kalam:wght@300;400;700&family=Caveat:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=ZCOOL+XiaoWei&family=Long+Cang&family=Ma+Shan+Zheng&family=Nanum+Pen+Script&family=Gaegu&family=Noto+Sans+JP:wght@400;700&family=Kosugi+Maru&family=Zen+Kurenaido&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@300;400&display=swap">
     <link rel="stylesheet" href="styles/main.css">
     <script src="../config.js"></script>
-    <script type="importmap">
-    {
-      "imports": {
-        "@google/genai": "https://esm.sh/@google/genai@^0.14.0",
-        "marked": "https://esm.sh/marked@^15.0.7"
-      }
-    }
-  </script>
 </head>
 
 <body>
@@ -65,7 +57,7 @@
                             <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
                         </svg>
                     </label>
-                    <input id="file-upload" type="file" accept="image/*" hidden />
+                    <input id="file-upload" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" hidden />
                     <div id="image-preview" hidden>
                         <img id="preview-img" src="#" alt="Image preview" />
                         <button id="remove-image">&times;</button>
@@ -102,20 +94,20 @@
 
     </div>
 
-    <script src="translations.js?v=20250728"></script>
+    <script src="translations.js?v=20260714"></script>
     <!-- 组件文件 -->
-    <script src="components/SessionManager.js?t=<?=Date.now()?>"></script>
-    <script src="components/SidebarManager.js?t=<?=Date.now()?>"></script>
-    <script src="components/ContentRenderer.js?t=<?=Date.now()?>"></script>
-    <script src="components/DataExportManager.js?t=<?=Date.now()?>"></script>
-    <script src="components/LanguageManager.js?t=<?=Date.now()?>"></script>
-    <script src="components/ErrorHandler.js?t=<?=Date.now()?>"></script>
-    <script src="components/ImageUploadManager.js?t=<?=Date.now()?>"></script>
-    <script src="components/SlideRenderer.js?t=<?=Date.now()?>"></script>
-    <script src="components/APIManager.js?t=<?=Date.now()?>"></script>
-    <script src="components/UIManager.js?t=<?=Date.now()?>"></script>
+    <script src="components/SessionManager.js?v=20260714"></script>
+    <script src="components/SidebarManager.js?v=20260714"></script>
+    <script src="components/ContentRenderer.js?v=20260714"></script>
+    <script src="components/DataExportManager.js?v=20260714"></script>
+    <script src="components/LanguageManager.js?v=20260714"></script>
+    <script src="components/ErrorHandler.js?v=20260714"></script>
+    <script src="components/ImageUploadManager.js?v=20260714"></script>
+    <script src="components/SlideRenderer.js?v=20260714"></script>
+    <script src="components/APIManager.js?v=20260714"></script>
+    <script src="components/UIManager.js?v=20260714"></script>
     <!-- 重构后的主文件 -->
-    <script src="script-refactored.js?t=<?=Date.now()?>"></script>
+    <script src="script-refactored.js?v=20260714"></script>
 
     
 </body>

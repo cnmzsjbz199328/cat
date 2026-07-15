@@ -1,17 +1,17 @@
 class SidebarManager {
   constructor(app) {
-    console.log('[SidebarManager] 构造函数开始', { app: !!app });
+    debugLog('[SidebarManager] 构造函数开始', { app: !!app });
     this.app = app;
     this.isCollapsed = false;
     this.eventsbound = false;
-    console.log('[SidebarManager] 开始调用 initializeSidebar');
+    debugLog('[SidebarManager] 开始调用 initializeSidebar');
     this.initializeSidebar();
-    console.log('[SidebarManager] 构造函数完成');
+    debugLog('[SidebarManager] 构造函数完成');
     // bindEvents已在initializeSidebar中调用，不需要重复
   }
 
   initializeSidebar() {
-    console.log('[SidebarManager] initializeSidebar 开始');
+    debugLog('[SidebarManager] initializeSidebar 开始');
     this.createSidebarHTML();
     this.bindEvents();
 
@@ -24,7 +24,7 @@ class SidebarManager {
     });
 
     this.updateSessionList();
-    console.log('[SidebarManager] initializeSidebar 完成');
+    debugLog('[SidebarManager] initializeSidebar 完成');
   }
 
   updateLanguage(lang) {
@@ -60,10 +60,10 @@ class SidebarManager {
 
   checkScreenSize() {
     if (window.innerWidth <= 768) {
-      console.log('[SidebarManager] 检测到移动端屏幕，设置移动端侧边栏');
+      debugLog('[SidebarManager] 检测到移动端屏幕，设置移动端侧边栏');
       this.setupMobileSidebar();
     } else {
-      console.log('[SidebarManager] 检测到桌面端屏幕，设置桌面端侧边栏');
+      debugLog('[SidebarManager] 检测到桌面端屏幕，设置桌面端侧边栏');
       this.removeMobileElements();
       const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
       if (isCollapsed) {
@@ -79,12 +79,12 @@ class SidebarManager {
     
     if (mobileToggle) {
       mobileToggle.remove();
-      console.log('[SidebarManager] 移动端切换按钮已移除');
+      debugLog('[SidebarManager] 移动端切换按钮已移除');
     }
     
     if (mobileOverlay) {
       mobileOverlay.remove();
-      console.log('[SidebarManager] 移动端遮罩层已移除');
+      debugLog('[SidebarManager] 移动端遮罩层已移除');
     }
     
     // 重置侧边栏状态
@@ -95,7 +95,7 @@ class SidebarManager {
   }
 
   createSidebarHTML() {
-    console.log('[SidebarManager] createSidebarHTML 开始');
+    debugLog('[SidebarManager] createSidebarHTML 开始');
     const container = document.querySelector('.container');
     if (!container) {
       console.error('[SidebarManager] 找不到 .container 元素');
@@ -105,11 +105,11 @@ class SidebarManager {
     // 防止重复创建：如果已存在sidebar，直接返回
     const existingSidebar = document.getElementById('sidebar');
     if (existingSidebar) {
-      console.log('[SidebarManager] Sidebar 已存在，跳过创建');
+      debugLog('[SidebarManager] Sidebar 已存在，跳过创建');
       return;
     }
 
-    console.log('[SidebarManager] 开始创建新的 sidebar 元素');
+    debugLog('[SidebarManager] 开始创建新的 sidebar 元素');
     // 创建侧边栏元素
     const sidebar = document.createElement('div');
     sidebar.id = 'sidebar';
@@ -152,14 +152,14 @@ class SidebarManager {
       mainContent.style.gridArea = 'main';
     }
 
-    console.log('[SidebarManager] Sidebar 创建并插入成功');
+    debugLog('[SidebarManager] Sidebar 创建并插入成功');
   }
 
   bindEvents() {
-    console.log('[SidebarManager] bindEvents 开始', { eventsbound: this.eventsbound });
+    debugLog('[SidebarManager] bindEvents 开始', { eventsbound: this.eventsbound });
     // 防止重复绑定事件
     if (this.eventsbound) {
-      console.log('[SidebarManager] 事件已绑定，跳过');
+      debugLog('[SidebarManager] 事件已绑定，跳过');
       return;
     }
 
@@ -167,10 +167,10 @@ class SidebarManager {
     const newSessionBtn = document.getElementById('new-session-btn');
     if (newSessionBtn) {
       newSessionBtn.addEventListener('click', () => {
-        console.log('[SidebarManager] 新建会话按钮点击');
+        debugLog('[SidebarManager] 新建会话按钮点击');
         this.createNewSession();
       });
-      console.log('[SidebarManager] 新建会话按钮事件绑定成功');
+      debugLog('[SidebarManager] 新建会话按钮事件绑定成功');
     } else {
       console.warn('[SidebarManager] 找不到新建会话按钮');
     }
@@ -179,10 +179,10 @@ class SidebarManager {
     const toggleBtn = document.getElementById('toggle-sidebar-btn');
     if (toggleBtn) {
       toggleBtn.addEventListener('click', () => {
-        console.log('[SidebarManager] 切换侧边栏按钮点击');
+        debugLog('[SidebarManager] 切换侧边栏按钮点击');
         this.toggleSidebar();
       });
-      console.log('[SidebarManager] 切换侧边栏按钮事件绑定成功');
+      debugLog('[SidebarManager] 切换侧边栏按钮事件绑定成功');
     } else {
       console.warn('[SidebarManager] 找不到切换侧边栏按钮');
     }
@@ -191,10 +191,10 @@ class SidebarManager {
     const searchInput = document.getElementById('session-search');
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
-        console.log('[SidebarManager] 搜索输入:', e.target.value);
+        debugLog('[SidebarManager] 搜索输入:', e.target.value);
         this.filterSessions(e.target.value);
       });
-      console.log('[SidebarManager] 搜索输入框事件绑定成功');
+      debugLog('[SidebarManager] 搜索输入框事件绑定成功');
     } else {
       console.warn('[SidebarManager] 找不到搜索输入框');
     }
@@ -203,10 +203,10 @@ class SidebarManager {
     const exportBtn = document.getElementById('export-all-btn');
     if (exportBtn) {
       exportBtn.addEventListener('click', () => {
-        console.log('[SidebarManager] 导出全部按钮点击');
+        debugLog('[SidebarManager] 导出全部按钮点击');
         this.exportAllSessions();
       });
-      console.log('[SidebarManager] 导出全部按钮事件绑定成功');
+      debugLog('[SidebarManager] 导出全部按钮事件绑定成功');
     } else {
       console.warn('[SidebarManager] 找不到导出全部按钮');
     }
@@ -215,10 +215,10 @@ class SidebarManager {
     const clearBtn = document.getElementById('clear-sessions-btn');
     if (clearBtn) {
       clearBtn.addEventListener('click', () => {
-        console.log('[SidebarManager] 清理存储按钮点击');
+        debugLog('[SidebarManager] 清理存储按钮点击');
         this.clearAllSessions();
       });
-      console.log('[SidebarManager] 清理存储按钮事件绑定成功');
+      debugLog('[SidebarManager] 清理存储按钮事件绑定成功');
     } else {
       console.warn('[SidebarManager] 找不到清理存储按钮');
     }
@@ -227,16 +227,16 @@ class SidebarManager {
     const sessionList = document.getElementById('session-list');
     if (sessionList) {
       sessionList.addEventListener('click', (e) => {
-        console.log('[SidebarManager] 会话列表点击事件');
+        debugLog('[SidebarManager] 会话列表点击事件');
         this.handleSessionListClick(e);
       });
-      console.log('[SidebarManager] 会话列表事件绑定成功');
+      debugLog('[SidebarManager] 会话列表事件绑定成功');
     } else {
       console.warn('[SidebarManager] 找不到会话列表');
     }
 
     this.eventsbound = true;
-    console.log('[SidebarManager] 所有事件绑定完成');
+    debugLog('[SidebarManager] 所有事件绑定完成');
   }
 
   createNewSession() {
@@ -252,7 +252,7 @@ class SidebarManager {
     // 手动更新侧边栏UI（因为createSession不再自动更新）
     this.updateSessionList();
     
-    console.log('Created new session:', session.id);
+    debugLog('Created new session:', session.id);
   }
 
   toggleSidebar() {
@@ -270,28 +270,29 @@ class SidebarManager {
     const container = document.querySelector('.container');
     const toggleBtn = document.getElementById('toggle-sidebar-btn');
 
+    const t = this.app.languageManager.getTranslations();
     if (isCollapsed) {
         sidebar.classList.add('collapsed');
         container.style.gridTemplateColumns = '60px 1fr';
         toggleBtn.innerHTML = '▶';
-        toggleBtn.title = '展开侧边栏';
+        toggleBtn.title = t.expandSidebarTooltip;
     } else {
         sidebar.classList.remove('collapsed');
         container.style.gridTemplateColumns = '280px 1fr';
         toggleBtn.innerHTML = '◀';
-        toggleBtn.title = '收起侧边栏';
+        toggleBtn.title = t.collapseSidebarTooltip;
     }
   }
 
   setupMobileSidebar() {
-    console.log('[SidebarManager] setupMobileSidebar 开始');
+    debugLog('[SidebarManager] setupMobileSidebar 开始');
     
     // 检查是否已经存在移动端按钮，防止重复创建
     const existingToggle = document.querySelector('.mobile-sidebar-toggle');
     const existingOverlay = document.querySelector('.mobile-sidebar-overlay');
     
     if (existingToggle && existingOverlay) {
-      console.log('[SidebarManager] 移动端元素已存在，跳过创建');
+      debugLog('[SidebarManager] 移动端元素已存在，跳过创建');
       return;
     }
 
@@ -316,10 +317,10 @@ class SidebarManager {
         box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
       `;
       document.body.appendChild(mobileToggle);
-      console.log('[SidebarManager] 移动端切换按钮已创建');
+      debugLog('[SidebarManager] 移动端切换按钮已创建');
       
       mobileToggle.addEventListener('click', () => {
-        console.log('[SidebarManager] 移动端切换按钮被点击');
+        debugLog('[SidebarManager] 移动端切换按钮被点击');
         this.toggleMobileSidebar(true);
       });
     }
@@ -329,21 +330,21 @@ class SidebarManager {
       const overlay = document.createElement('div');
       overlay.className = 'mobile-sidebar-overlay';
       document.body.appendChild(overlay);
-      console.log('[SidebarManager] 移动端遮罩层已创建');
+      debugLog('[SidebarManager] 移动端遮罩层已创建');
       
       overlay.addEventListener('click', () => {
-        console.log('[SidebarManager] 遮罩层被点击，关闭侧边栏');
+        debugLog('[SidebarManager] 遮罩层被点击，关闭侧边栏');
         this.toggleMobileSidebar(false);
       });
     }
     
-    console.log('[SidebarManager] setupMobileSidebar 完成');
+    debugLog('[SidebarManager] setupMobileSidebar 完成');
     
     // 调试信息：检查元素是否正确创建
     setTimeout(() => {
       const toggleBtn = document.querySelector('.mobile-sidebar-toggle');
       const overlay = document.querySelector('.mobile-sidebar-overlay');
-      console.log('[SidebarManager] 移动端元素检查:', {
+      debugLog('[SidebarManager] 移动端元素检查:', {
         toggleButton: toggleBtn ? '已创建' : '未找到',
         overlay: overlay ? '已创建' : '未找到',
         screenWidth: window.innerWidth,
@@ -353,7 +354,7 @@ class SidebarManager {
   }
 
   toggleMobileSidebar(isOpen) {
-    console.log('[SidebarManager] toggleMobileSidebar', { isOpen });
+    debugLog('[SidebarManager] toggleMobileSidebar', { isOpen });
     
     const sidebar = document.getElementById('sidebar');
     const overlay = document.querySelector('.mobile-sidebar-overlay');
@@ -372,17 +373,17 @@ class SidebarManager {
         sidebar.classList.add('mobile-open');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden'; // 防止背景滚动
-        console.log('[SidebarManager] 侧边栏已打开');
+        debugLog('[SidebarManager] 侧边栏已打开');
     } else {
         sidebar.classList.remove('mobile-open');
         overlay.classList.remove('active');
         document.body.style.overflow = ''; // 恢复背景滚动
-        console.log('[SidebarManager] 侧边栏已关闭');
+        debugLog('[SidebarManager] 侧边栏已关闭');
     }
   }
 
   updateSessionList() {
-    console.log('[SidebarManager] updateSessionList 开始');
+    debugLog('[SidebarManager] updateSessionList 开始');
     const sessionListElement = document.getElementById('session-list');
     if (!sessionListElement) {
       console.error('[SidebarManager] 找不到 session-list 元素');
@@ -390,38 +391,51 @@ class SidebarManager {
     }
 
     const sessions = this.app.sessionManager.getSessions();
-    console.log('[SidebarManager] 获取到会话数据:', { sessionCount: sessions.length });
+    debugLog('[SidebarManager] 获取到会话数据:', { sessionCount: sessions.length });
     const sortedSessions = this.sortSessionsByDate(sessions);
     
     if (sortedSessions.length === 0) {
+      const t = this.app.languageManager.getTranslations();
       sessionListElement.innerHTML = `
         <div class="empty-sessions">
-          <p>暂无会话</p>
-          <p class="empty-hint">点击 ➕ 创建新会话</p>
+          <p>${t.sessionEmpty}</p>
+          <p class="empty-hint">${t.emptyHint}</p>
         </div>
       `;
-      console.log('[SidebarManager] 显示空会话状态');
+      debugLog('[SidebarManager] 显示空会话状态');
       return;
     }
 
     sessionListElement.innerHTML = sortedSessions
       .map(session => this.renderSessionItem(session))
       .join('');
-    console.log('[SidebarManager] 会话列表渲染完成，共', sortedSessions.length, '个会话');
+    debugLog('[SidebarManager] 会话列表渲染完成，共', sortedSessions.length, '个会话');
+  }
+
+  // HTML转义：会话标题/预览来自用户输入与模型输出，插入 innerHTML 前必须转义
+  escapeHtml(text) {
+    if (typeof text !== 'string') return '';
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   renderSessionItem(session) {
     const icons = this.getSessionIcons(session);
     const lastMessage = session.messages[session.messages.length - 1];
-    const preview = this.generatePreview(lastMessage);
+    const preview = this.escapeHtml(this.generatePreview(lastMessage));
+    const title = this.escapeHtml(session.title);
     const isActive = session.id === this.app.sessionManager.getCurrentSessionId();
     const t = this.app.languageManager.getTranslations();
-    
+
     return `
-      <div class="session-item ${isActive ? 'active' : ''}" 
+      <div class="session-item ${isActive ? 'active' : ''}"
            data-session-id="${session.id}">
         <div class="session-header">
-          <span class="session-title" title="${session.title}">${session.title}</span>
+          <span class="session-title" title="${title}">${title}</span>
           <div class="session-icons">${icons}</div>
         </div>
         <div class="session-preview">${preview}</div>
@@ -430,9 +444,9 @@ class SidebarManager {
           <span class="last-updated">${this.formatDate(session.updatedAt)}</span>
         </div>
         <div class="session-actions">
-          <button class="action-btn rename" data-action="rename" title="重命名">✏️</button>
-          <button class="action-btn export" data-action="export" title="导出">📤</button>
-          <button class="action-btn delete" data-action="delete" title="删除">🗑️</button>
+          <button class="action-btn rename" data-action="rename" title="${t.renameTooltip}">✏️</button>
+          <button class="action-btn export" data-action="export" title="${t.exportTooltip}">📤</button>
+          <button class="action-btn delete" data-action="delete" title="${t.deleteTooltip}">🗑️</button>
         </div>
       </div>
     `;
@@ -564,7 +578,8 @@ class SidebarManager {
     const session = this.app.sessionManager.getSession(sessionId);
     if (!session) return;
 
-    const newTitle = prompt('请输入新的会话名称:', session.title);
+    const t = this.app.languageManager.getTranslations();
+    const newTitle = prompt(t.renamePrompt, session.title);
     if (newTitle && newTitle.trim() && newTitle.trim() !== session.title) {
       this.app.sessionManager.renameSession(sessionId, newTitle.trim());
     }
@@ -582,7 +597,8 @@ class SidebarManager {
     const session = this.app.sessionManager.getSession(sessionId);
     if (!session) return;
 
-    const confirmMessage = `确定要删除会话 "${session.title}" 吗？此操作不可恢复。`;
+    const t = this.app.languageManager.getTranslations();
+    const confirmMessage = t.deleteConfirm.replace('{title}', session.title);
     if (confirm(confirmMessage)) {
       this.app.sessionManager.deleteSession(sessionId);
     }
@@ -614,7 +630,10 @@ class SidebarManager {
 
   clearAllSessions() {
     const stats = this.app.sessionManager.getSessionStats();
-    const confirmMessage = `确定要清空所有会话吗？\n\n当前有 ${stats.totalSessions} 个会话，共 ${stats.totalMessages} 条消息。\n\n此操作不可恢复！`;
+    const t = this.app.languageManager.getTranslations();
+    const confirmMessage = t.clearAllConfirm
+      .replace('{sessions}', stats.totalSessions)
+      .replace('{messages}', stats.totalMessages);
     
     if (confirm(confirmMessage)) {
       // 清空所有会话
@@ -626,7 +645,7 @@ class SidebarManager {
       this.app.uiManager.clearOutput();
       this.updateSessionList();
       
-      console.log('All sessions cleared');
+      debugLog('All sessions cleared');
     }
   }
 }

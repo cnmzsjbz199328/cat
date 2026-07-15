@@ -2,14 +2,18 @@ class ErrorHandler {
   constructor(app) {
     this.app = app;
     this.errorElement = document.getElementById('error');
+    this.hideTimer = null;
   }
 
   showError(message) {
     this.errorElement.textContent = message;
     this.errorElement.hidden = false;
-    
-    // 自动隐藏错误消息
-    setTimeout(() => {
+
+    // 自动隐藏错误消息（先清除上一个定时器，避免新错误被提前隐藏）
+    if (this.hideTimer) {
+      clearTimeout(this.hideTimer);
+    }
+    this.hideTimer = setTimeout(() => {
       this.hideError();
     }, 5000);
   }
@@ -20,22 +24,22 @@ class ErrorHandler {
 
   handleAPIError(error) {
     console.error('API Error:', error);
-    
+
     const t = this.app.languageManager.getTranslations();
     let errorMessage;
 
     if (error.message) {
       if (error.message.includes('API key')) {
-        errorMessage = 'API密钥错误，请检查配置';
+        errorMessage = t.apiErrors.apiKey;
       } else if (error.message.includes('rate limit')) {
-        errorMessage = '请求频率过高，请稍后再试';
+        errorMessage = t.apiErrors.rateLimit;
       } else if (error.message.includes('network')) {
-        errorMessage = '网络连接错误，请检查网络';
+        errorMessage = t.apiErrors.network;
       } else {
-        errorMessage = `API错误: ${error.message}`;
+        errorMessage = `${t.apiErrors.prefix}: ${error.message}`;
       }
     } else {
-      errorMessage = '发生未知错误，请重试';
+      errorMessage = t.apiErrors.unknown;
     }
 
     this.showError(errorMessage);

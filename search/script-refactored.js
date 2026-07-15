@@ -66,7 +66,12 @@ class SearchApp {
       this.sidebarManager.updateSessionList();
     }
 
-    const userMessage = this.sessionManager.addMessage(sessionKey, 'user', textInput, imageData);
+    // 会话历史里只保存小尺寸缩略图，完整 base64 原图仅用于本次 API 请求，
+    // 避免超出 localStorage 配额（原图最大 4MB）
+    const persistedImageData = imageData && imageData.preview
+      ? { preview: imageData.preview }
+      : null;
+    const userMessage = this.sessionManager.addMessage(sessionKey, 'user', textInput, persistedImageData);
     
     // 隐藏欢迎消息（如果存在）
     this.uiManager.hideWelcomeMessage();
@@ -92,27 +97,19 @@ class SearchApp {
         sessionKey = result.sessionId;
       }
 
-      // 兼容 story_markdown/image_url 结构，保证图片和内容都能渲染
+      // 图文模式时把 content 与 imageUrl 打包成对象，保证渲染层拿到统一结构
       let assistantContent = result.content;
-      let assistantImageUrl = result.imageUrl;
-      if (result.story_markdown && result.image_url) {
-        assistantContent = {
-          content: result.story_markdown,
-          imageUrl: result.image_url
-        };
-        assistantImageUrl = undefined;
-      } else if (typeof result.content === 'string' && result.imageUrl) {
+      if (typeof result.content === 'string' && result.imageUrl) {
         assistantContent = {
           content: result.content,
           imageUrl: result.imageUrl
         };
-        assistantImageUrl = undefined;
       }
       const assistantMessage = this.sessionManager.addMessage(
         sessionKey,
         'assistant',
         assistantContent,
-        assistantImageUrl,
+        null,
         shouldGenerateImages ? 'story' : 'analysis'
       );
       this.contentRenderer.removeAssistantLoadingPlaceholder();
@@ -124,29 +121,6 @@ class SearchApp {
     } finally {
       this.uiManager.toggleSendButton(false);
       this.sidebarManager.updateSessionList(); // Update sidebar to reflect new message
-    }
-  }
-
-  // 支持图文解释模式（备用功能）
-  async generateImageStory(prompt, animalType, numImages) {
-    try {
-      this.uiManager.showLoading();
-      this.uiManager.toggleSendButton(true);
-
-      const slides = await this.apiManager.generateImageStory(
-        prompt, 
-        animalType, 
-        numImages, 
-        this.languageManager.getCurrentLanguage()
-      );
-
-      this.slideRenderer.renderSlides(slides);
-
-    } catch (error) {
-      this.errorHandler.handleAPIError(error);
-    } finally {
-      this.uiManager.toggleSendButton(false);
-      this.uiManager.hideLoading();
     }
   }
 
@@ -171,12 +145,12 @@ class SearchApp {
       this.checkMobileSetup();
     }, 500);
 
-    console.log('Search App initialized successfully');
+    debugLog('Search App initialized successfully');
   }
 
   checkMobileSetup() {
     const isMobile = window.innerWidth <= 768;
-    console.log('[SearchApp] 移动端检查:', {
+    debugLog('[SearchApp] 移动端检查:', {
       screenWidth: window.innerWidth,
       isMobile: isMobile
     });
@@ -185,13 +159,13 @@ class SearchApp {
       const mobileToggle = document.querySelector('.mobile-sidebar-toggle');
       const sidebar = document.getElementById('sidebar');
       
-      console.log('[SearchApp] 移动端元素检查:', {
+      debugLog('[SearchApp] 移动端元素检查:', {
         mobileToggle: mobileToggle ? '已找到' : '未找到',
         sidebar: sidebar ? '已找到' : '未找到'
       });
 
       if (!mobileToggle && this.sidebarManager) {
-        console.log('[SearchApp] 强制重新设置移动端侧边栏');
+        debugLog('[SearchApp] 强制重新设置移动端侧边栏');
         this.sidebarManager.setupMobileSidebar();
       }
     }

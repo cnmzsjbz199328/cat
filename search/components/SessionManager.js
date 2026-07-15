@@ -74,13 +74,13 @@ class SessionManager {
     // 统一使用 saveSessions 保存整个会话对象
     this.saveSessions();
     
-    console.log('[SessionManager] 会话已创建，tempKey:', tempKey);
+    debugLog('[SessionManager] 会话已创建，tempKey:', tempKey);
     return session;
   }
 
   // 添加消息到会话
   addMessage(sessionId, type, content, imageData = null, apiType = 'gemini') {
-    console.log('[SessionManager] addMessage 开始', { sessionId, type, contentLength: content?.length });
+    debugLog('[SessionManager] addMessage 开始', { sessionId, type, contentLength: content?.length });
     
     // 获取会话
     let session = this.sessions[sessionId];
@@ -121,14 +121,14 @@ class SessionManager {
     // 统一使用 saveSessions 保存整个会话对象
     this.saveSessions();
 
-    console.log('[SessionManager] 消息已保存，准备更新侧边栏');
+    debugLog('[SessionManager] 消息已保存，准备更新侧边栏');
 
     // 更新侧边栏显示（统一调用一次）
     if (this.app.sidebarManager) {
       this.app.sidebarManager.updateSessionList();
     }
 
-    console.log('[SessionManager] addMessage 完成');
+    debugLog('[SessionManager] addMessage 完成');
     return message;
   }
 
@@ -139,7 +139,7 @@ class SessionManager {
 
   // 设置当前会话ID
   setCurrentSessionId(sessionId) {
-    console.log('[SessionManager] setCurrentSessionId 开始', { 
+    debugLog('[SessionManager] setCurrentSessionId 开始', { 
       sessionId, 
       sessionExists: !!this.sessions[sessionId],
       currentSessionId: this.currentSessionId
@@ -154,7 +154,7 @@ class SessionManager {
         this.app.sidebarManager.updateActiveSession(sessionId);
       }
       this.restoreSessionContent(sessionId);
-      console.log('[SessionManager] 会话切换成功:', sessionId);
+      debugLog('[SessionManager] 会话切换成功:', sessionId);
     } else {
       console.warn('[SessionManager] 会话不存在:', sessionId);
     }
@@ -177,7 +177,7 @@ class SessionManager {
     });
     
     if (sessionsToDelete.length > 0) {
-      console.log('[SessionManager] 清理空的临时会话:', sessionsToDelete);
+      debugLog('[SessionManager] 清理空的临时会话:', sessionsToDelete);
       
       sessionsToDelete.forEach(sessionId => {
         delete this.sessions[sessionId];
@@ -194,7 +194,7 @@ class SessionManager {
 
   // 更新会话ID（首次API返回后调用）
   updateSessionId(oldKey, newSessionId) {
-    console.log('[SessionManager] updateSessionId 开始', { oldKey, newSessionId });
+    debugLog('[SessionManager] updateSessionId 开始', { oldKey, newSessionId });
     
     if (this.sessions[oldKey]) {
       this.sessions[newSessionId] = this.sessions[oldKey];
@@ -206,7 +206,7 @@ class SessionManager {
       }
       
       this.saveSessions();
-      console.log('[SessionManager] 会话ID已更新并保存');
+      debugLog('[SessionManager] 会话ID已更新并保存');
       
       // 只更新一次侧边栏
       if (this.app.sidebarManager) {
@@ -350,7 +350,7 @@ class SessionManager {
 
     this.sessions = newSessions;
     
-    console.log(`Cleaned up old sessions, kept ${sessionsToKeep.length} sessions`);
+    debugLog(`Cleaned up old sessions, kept ${sessionsToKeep.length} sessions`);
   }
 
   // 获取会话统计信息

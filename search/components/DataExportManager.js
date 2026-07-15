@@ -32,8 +32,8 @@ class DataExportManager {
         content: msg.content,
         timestamp: msg.timestamp,
         model: msg.model || 'unknown',
-        hasImage: !!msg.image,
-        imageData: msg.image || null
+        hasImage: !!msg.imageData,
+        imageData: msg.imageData || null
       })),
       exportInfo: {
         exportedAt: new Date().toISOString(),
@@ -50,7 +50,7 @@ class DataExportManager {
     );
 
     this.showToast(`会话 "${session.title}" 已导出`);
-    console.log('Single session exported:', sessionId);
+    debugLog('Single session exported:', sessionId);
   }
 
   // 导出所有会话为JSON格式
@@ -89,8 +89,8 @@ class DataExportManager {
           content: msg.content,
           timestamp: msg.timestamp,
           model: msg.model || 'unknown',
-          hasImage: !!msg.image,
-          imageData: msg.image || null
+          hasImage: !!msg.imageData,
+          imageData: msg.imageData || null
         }))
       }))
     };
@@ -102,7 +102,7 @@ class DataExportManager {
     );
 
     this.showToast(`已导出 ${sessions.length} 个会话`);
-    console.log('All sessions exported:', sessions.length);
+    debugLog('All sessions exported:', sessions.length);
   }
 
   // 通用下载文件方法
@@ -123,7 +123,7 @@ class DataExportManager {
       // 清理URL对象
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       
-      console.log(`文件已导出: ${filename}`);
+      debugLog(`文件已导出: ${filename}`);
       return true;
     } catch (error) {
       console.error('导出文件失败:', error);

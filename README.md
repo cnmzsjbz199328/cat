@@ -34,36 +34,34 @@ cat/
 ├── 📁 Main Application (Animal Story Generator)
 │   ├── index.html                           # Main HTML file
 │   ├── style.css                            # Main stylesheet
-│   ├── script.js                            # Core JavaScript logic
+│   ├── config.js                            # Centralized configuration
+│   ├── script-refactored.js                 # Application entry point
 │   ├── translations.js                      # Multilingual translations
 │   └── components/                          # Modular components
 │       ├── APIManager.js                    # API communication
+│       ├── ErrorHandler.js                  # Error management
 │       ├── ImageUploadManager.js            # Image handling
 │       ├── LanguageManager.js               # Language switching
+│       ├── SlideRenderer.js                 # Slide rendering
 │       └── UIManager.js                     # UI state management
 ├── 📁 search/ (Content Analysis Tool)
 │   ├── index.html                           # Analysis tool interface
-│   ├── style.css                            # Analysis tool styles
-│   ├── script-refactored.js                # Analysis logic
-│   ├── translations.js                     # Analysis tool translations
+│   ├── styles/                              # Modular stylesheets
+│   ├── script-refactored.js                 # Analysis logic
+│   ├── translations.js                      # Analysis tool translations
 │   └── components/                          # Analysis components
 │       ├── APIManager.js                    # Analysis API calls
-│       ├── ErrorHandler.js                 # Error management
-│       ├── SlideRenderer.js                # Content rendering
+│       ├── ContentRenderer.js               # Content rendering
+│       ├── SessionManager.js                # Session persistence
+│       ├── SidebarManager.js                # Session sidebar UI
+│       ├── DataExportManager.js             # Session export
 │       └── ... (other components)
-├── 📄 Documentation
-│   ├── README.md                            # This file
-│   ├── README_ZH.md                         # Chinese documentation
-│   ├── PROJECT_DOCUMENTATION.md             # Technical documentation
-│   ├── DEPLOYMENT.md                        # Deployment guide
-│   └── search/
-│       ├── API_DOCUMENTATION.md             # API reference
-│       ├── ARCHITECTURE.md                  # Architecture guide
-│       └── PROJECT_COMPARISON.md            # Tool comparison
-└── 🧪 Testing & Development
-    ├── layout-preview.html                  # Layout testing
-    ├── modern-design-preview.html           # Design preview
-    └── TESTING_SUMMARY.md                   # Test results
+└── 📄 Documentation
+    ├── README.md                            # This file
+    ├── README_ZH.md                         # Chinese documentation
+    ├── PROJECT_DOCUMENTATION.md             # Technical documentation
+    ├── CONFIG_MANAGEMENT.md                 # Configuration guide
+    └── PROJECT_REVIEW.md                    # Code review report
 ```
 
 ## 🚀 Quick Start
@@ -219,8 +217,7 @@ npx serve .
 
 For detailed API documentation, see:
 - [Main API Documentation](PROJECT_DOCUMENTATION.md)
-- [Search Tool API](search/API_DOCUMENTATION.md)
-- [Architecture Guide](search/ARCHITECTURE.md)
+- [Configuration Guide](CONFIG_MANAGEMENT.md)
 
 ## 🐛 Troubleshooting
 
@@ -229,8 +226,6 @@ For detailed API documentation, see:
 - **Language Not Switching**: Clear browser cache and localStorage
 - **Fonts Not Loading**: Check internet connection and Google Fonts availability
 - **API Errors**: Verify API keys and network connectivity
-
-For more troubleshooting, see [TESTING_SUMMARY.md](TESTING_SUMMARY.md)
 
 ## 📄 License
 

@@ -3,8 +3,8 @@ class ImageUploadManager {
   constructor(app) {
     this.app = app;
     this.uploadedImage = null;
-    this.maxFileSize = 4 * 1024 * 1024; // 4MB
-    this.allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    this.maxFileSize = APP_CONFIG.APP.MAX_FILE_SIZE;
+    this.allowedTypes = APP_CONFIG.APP.ALLOWED_IMAGE_TYPES;
   }
 
   // 设置图片上传事件监听器

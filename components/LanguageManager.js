@@ -2,13 +2,18 @@
 class LanguageManager {
   constructor(app) {
     this.app = app;
-    this.currentLanguage = localStorage.getItem('language') || 'zh';
+    const saved = localStorage.getItem('language');
+    // 对未知语言值回退到默认语言，避免 translations 取值报错
+    this.currentLanguage = translations[saved] ? saved : APP_CONFIG.APP.DEFAULT_LANGUAGE;
+    document.documentElement.lang = this.currentLanguage;
   }
 
   // 切换语言
   changeLanguage(lang) {
+    if (!translations[lang]) return;
     this.currentLanguage = lang;
     localStorage.setItem('language', lang);
+    document.documentElement.lang = lang;
     this.app.updateUI();
   }
 

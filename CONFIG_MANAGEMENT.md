@@ -19,12 +19,9 @@
    - `this.host` 改为使用 `APP_CONFIG.API.HOST`
    - 端点改为 `APP_CONFIG.API.GENERATE_STORY`
 
-2. **[script.js](script.js)**
-   - `this.host` 改为使用 `APP_CONFIG.API.HOST`
-   - `this.currentLanguage` 默认值改为 `APP_CONFIG.APP.DEFAULT_LANGUAGE`
+2. **[components/ImageUploadManager.js](components/ImageUploadManager.js)**
    - `this.maxFileSize` 改为 `APP_CONFIG.APP.MAX_FILE_SIZE`
    - `this.allowedTypes` 改为 `APP_CONFIG.APP.ALLOWED_IMAGE_TYPES`
-   - 端点改为 `APP_CONFIG.API.GENERATE_STORY`
 
 3. **[index.html](index.html)**
    - 在 `<head>` 中添加了 `<script src="config.js"></script>`

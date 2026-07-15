@@ -16,9 +16,11 @@ class LanguageManager {
   }
 
   switchLanguage(lang) {
+    if (!translations[lang]) return;
     this.currentLanguage = lang;
     this.saveLanguagePreference(lang);
     this.updateActiveButton(lang);
+    document.documentElement.lang = lang;
     this.updateUI();
   }
 
@@ -79,7 +81,9 @@ class LanguageManager {
   }
 
   loadLanguagePreference() {
-    return localStorage.getItem('search-language') || 'zh';
+    const saved = localStorage.getItem('search-language');
+    // 对未知语言值回退到默认语言
+    return translations[saved] ? saved : 'zh';
   }
 
   saveLanguagePreference(lang) {
@@ -88,8 +92,9 @@ class LanguageManager {
 
   // 初始化
   init() {
-    // 设置初始的data-lang属性
+    // 设置初始的data-lang属性和文档语言
     document.body.setAttribute('data-lang', this.currentLanguage);
+    document.documentElement.lang = this.currentLanguage;
     this.updateActiveButton(this.currentLanguage);
     this.updateUI();
   }

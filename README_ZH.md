@@ -34,7 +34,7 @@ cat/
 ├── 📁 主应用 (动物故事生成器)
 │   ├── index.html                           # 主HTML文件
 │   ├── style.css                            # 主样式表
-│   ├── script.js                            # 核心JavaScript逻辑
+│   ├── script-refactored.js                 # 核心JavaScript逻辑（应用入口）
 │   ├── translations.js                      # 多语言翻译
 │   └── components/                          # 模块化组件
 │       ├── APIManager.js                    # API通信

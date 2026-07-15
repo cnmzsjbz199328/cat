@@ -41,29 +41,20 @@ class ImageUploadManager {
   handleFileSelect(file) {
     if (!file) return;
 
-    // 检查文件类型 - 支持Google Gemini推荐的格式
-    const supportedTypes = [
-      'image/jpeg',
-      'image/jpg', 
-      'image/png',
-      'image/webp',
-      'image/heic',
-      'image/heif'
-    ];
-    
-    if (!supportedTypes.includes(file.type)) {
-      this.app.errorHandler.handleImageError('invalidFileType');
-      return;
-    }
-
-    // 特别检查GIF格式并给出警告
+    // 特别检查GIF格式并给出针对性提示（需在通用类型检查之前）
     if (file.type === 'image/gif') {
       this.app.errorHandler.handleImageError('gifNotSupported');
       return;
     }
 
-    // 检查文件大小 (4MB)
-    if (file.size > 4 * 1024 * 1024) {
+    // 检查文件类型 - 支持Google Gemini推荐的格式（统一配置见 config.js）
+    if (!APP_CONFIG.APP.SEARCH_ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      this.app.errorHandler.handleImageError('invalidFileType');
+      return;
+    }
+
+    // 检查文件大小
+    if (file.size > APP_CONFIG.APP.MAX_FILE_SIZE) {
       this.app.errorHandler.handleImageError('fileTooLarge');
       return;
     }
@@ -73,7 +64,7 @@ class ImageUploadManager {
 
   processImage(file) {
     const reader = new FileReader();
-    
+
     reader.onload = (e) => {
       try {
         const dataUrl = e.target.result;
@@ -82,11 +73,17 @@ class ImageUploadManager {
         if (!base64Data) {
           throw new Error('Invalid Base64 data');
         }
-        // 只保留API需要的图片对象格式
+        // mime_type/data 供 API 使用；preview 为小尺寸缩略图，供会话历史持久化
         this.uploadedImage = {
           mime_type: file.type,
-          data: base64Data
+          data: base64Data,
+          preview: null
         };
+        this.createThumbnail(dataUrl, (thumbnail) => {
+          if (this.uploadedImage) {
+            this.uploadedImage.preview = thumbnail;
+          }
+        });
         this.showPreview(dataUrl);
       } catch (error) {
         console.error('Image processing error:', error);
@@ -99,6 +96,28 @@ class ImageUploadManager {
     };
 
     reader.readAsDataURL(file);
+  }
+
+  // 生成小尺寸缩略图（最长边 160px，JPEG 压缩）。
+  // 会话历史只持久化缩略图，避免 4MB 原图的 base64 撑爆 localStorage。
+  createThumbnail(dataUrl, callback) {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const maxSize = 160;
+        const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        callback(canvas.toDataURL('image/jpeg', 0.7));
+      } catch (error) {
+        // 缩略图失败不影响主流程，历史中不显示图片即可
+        callback(null);
+      }
+    };
+    img.onerror = () => callback(null);
+    img.src = dataUrl;
   }
 
   // 安全提取Base64数据，移除data URI前缀

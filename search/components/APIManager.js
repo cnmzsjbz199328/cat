@@ -33,19 +33,19 @@ class APIManager {
     }
 
     try {
-      // 使用generate-text端点进行纯文本内容生成
-      console.log('[API调用] /generate-text 请求参数:', body);
+      // 使用generate-text端点进行纯文本内容生成（日志不输出 base64 图片数据）
+      debugLog('[API调用] /generate-text 请求参数:', { ...body, image: body.image ? `<${body.image.mime_type}>` : undefined });
       const res = await fetch(`${this.host}${APP_CONFIG.SEARCH_API.GENERATE_TEXT}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
-      console.log('[API调用] /generate-text 响应状态:', res.status, res.statusText);
+      debugLog('[API调用] /generate-text 响应状态:', res.status, res.statusText);
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
       const data = await res.json();
-      console.log('[API调用] /generate-text 响应数据:', data);
+      debugLog('[API调用] /generate-text 响应数据:', data);
       if (!data.success) {
         throw new Error(data.error || 'Analysis failed');
       }
@@ -86,18 +86,18 @@ class APIManager {
     }
 
     try {
-      console.log('[API调用] /generate-picture 请求参数:', body);
+      debugLog('[API调用] /generate-picture 请求参数:', { ...body, image: body.image ? `<${body.image.mime_type}>` : undefined });
       const res = await fetch(`${this.host}${APP_CONFIG.SEARCH_API.GENERATE_PICTURE}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
-      console.log('[API调用] /generate-picture 响应状态:', res.status, res.statusText);
+      debugLog('[API调用] /generate-picture 响应状态:', res.status, res.statusText);
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
       const data = await res.json();
-      console.log('[API调用] /generate-picture 响应数据:', data);
+      debugLog('[API调用] /generate-picture 响应数据:', data);
       if (!data.success) {
         throw new Error(data.error || 'Story generation failed');
       }
