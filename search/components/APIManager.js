@@ -56,7 +56,7 @@ class APIManager {
       };
     } catch (error) {
       console.error('[API调用] /generate-text 错误:', error);
-      throw new Error(`Text generation failed: ${error.message}`);
+      throw new Error(`Text generation failed: ${error.message}`, { cause: error });
     }
   }
 
@@ -109,7 +109,7 @@ class APIManager {
       };
       
     } catch (error) {
-      throw new Error(`Story generation failed: ${error.message}`);
+      throw new Error(`Story generation failed: ${error.message}`, { cause: error });
     }
   }
 }

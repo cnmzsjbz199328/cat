@@ -83,7 +83,7 @@ class ContentRenderer {
         </div>
       `;
     } else {
-      let assistantContent = '';
+      let assistantContent;
       if (message.content && typeof message.content === 'object' && message.content.imageUrl) {
         assistantContent = this.renderStoryWithImage(message.content.content, message.content.imageUrl);
       } else {

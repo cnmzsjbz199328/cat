@@ -61,7 +61,7 @@ class SearchApp {
     let sessionKey = this.sessionManager.getCurrentSessionId();
 
     if (!sessionKey || !this.sessionManager.getSession(sessionKey)) {
-      const newSession = this.sessionManager.createSession();
+      this.sessionManager.createSession();
       sessionKey = this.sessionManager.getCurrentSessionId();
       this.sidebarManager.updateSessionList();
     }

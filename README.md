@@ -212,6 +212,7 @@ npx serve .
 - Maintain multilingual support
 - Test across different browsers
 - Document new features
+- Run `npm install` once, then `npm run lint` before committing (CI enforces this on every push/PR)
 
 ## 📝 API Documentation
 

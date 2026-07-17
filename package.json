@@ -1,0 +1,19 @@
+{
+  "name": "cat",
+  "version": "1.0.0",
+  "description": "Explain anything using cute tiny animals as metaphors",
+  "private": true,
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cnmzsjbz199328/cat.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.7.0",
+    "globals": "^17.7.0"
+  }
+}
